@@ -1,6 +1,5 @@
 package knight.arkham.helpers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -11,11 +10,11 @@ import com.badlogic.gdx.math.Rectangle;
 import knight.arkham.screens.GameScreen;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
-public class TileMapHelper {
+public class TileMapCreator {
 
     private final GameScreen gameScreen;
 
-    public TileMapHelper(GameScreen gameScreen) {
+    public TileMapCreator(GameScreen gameScreen) {
 
         this.gameScreen = gameScreen;
     }
@@ -35,11 +34,9 @@ public class TileMapHelper {
 
         for (MapObject mapObject : mapObjects) {
 
-            Gdx.app.log("enter","test");
-
             Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 
-            BodyHelper.createStaticBody(
+            Box2DBodyCreator.createStaticBody(
 
                     new Box2DBody(
 
@@ -48,8 +45,6 @@ public class TileMapHelper {
                                     rectangle.height), gameScreen.getWorld()
                     )
             );
-
-            break;
         }
     }
 
