@@ -58,6 +58,8 @@ public class Box2DBodyCreator {
         bodyDefinition.type = BodyDef.BodyType.StaticBody;
         bodyDefinition.position.set(box2DBody.rectangle.x / PIXELS_PER_METER, box2DBody.rectangle.y / PIXELS_PER_METER);
 
+        Body body = box2DBody.world.createBody(bodyDefinition);
+
         PolygonShape shape = new PolygonShape();
 
         shape.setAsBox(box2DBody.rectangle.width / 2 /PIXELS_PER_METER,
@@ -66,8 +68,6 @@ public class Box2DBodyCreator {
         FixtureDef fixtureDef = new FixtureDef();
 
         fixtureDef.shape = shape;
-
-        Body body = box2DBody.world.createBody(bodyDefinition);
 
         body.createFixture(fixtureDef);
 

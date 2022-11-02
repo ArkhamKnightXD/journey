@@ -31,6 +31,8 @@ public class GameScreen extends ScreenAdapter {
 
 		world = new World(new Vector2(0, 0), true);
 
+		debugRenderer = new Box2DDebugRenderer();
+
 		batch = new SpriteBatch();
 
 		camera = new OrthographicCamera();
@@ -42,9 +44,7 @@ public class GameScreen extends ScreenAdapter {
 
 		mapRenderer = new TileMapCreator(this).setupMap();
 
-		debugRenderer = new Box2DDebugRenderer();
 	}
-
 
 
 	private void update(){
@@ -60,9 +60,9 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 
-		update();
+		ScreenUtils.clear(0, 0, 0, 0);
 
-		ScreenUtils.clear(0, 1, 1, 0);
+		update();
 
 		mapRenderer.render();
 

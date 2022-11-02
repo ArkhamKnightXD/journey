@@ -5,7 +5,6 @@ import knight.arkham.screens.GameScreen;
 
 public class Journey extends Game {
 
-
 	@Override
 	public void create() {
 
