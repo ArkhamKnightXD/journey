@@ -52,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
 
         TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
 
-        player = new Player(new Rectangle(100, 75, 32, 32), world, playerRegion);
+        player = new Player(new Rectangle(100, 200, 32, 32), world, playerRegion);
 
         mapRenderer = new TileMapHelper(this).setupMap();
     }

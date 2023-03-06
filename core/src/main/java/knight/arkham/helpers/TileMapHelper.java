@@ -1,5 +1,6 @@
 package knight.arkham.helpers;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -20,19 +21,22 @@ public class TileMapHelper {
 
     private final Array<Enemy> enemies;
 
+    private final TextureRegion enemyRegion;
+
 
     public TileMapHelper(GameScreen gameScreen) {
 
         this.gameScreen = gameScreen;
         enemies = new Array<>();
+        enemyRegion = gameScreen.getTextureAtlas().findRegion("goomba");
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
 
-        TiledMap tiledMap = new TmxMapLoader().load("maps/test.tmx");
+        TiledMap tiledMap = new TmxMapLoader().load("maps/test2.tmx");
 
-        parseMapObjectsToBox2DBodies(tiledMap, "collisions");
-        parseMapObjectsToBox2DBodies(tiledMap, "enemies");
+        parseMapObjectsToBox2DBodies(tiledMap, "Collisions");
+        parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
@@ -45,7 +49,7 @@ public class TileMapHelper {
 
             Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 
-            if (objectsName.equals("enemies")) {
+            if (objectsName.equals("Enemies")) {
 
                 Enemy actualEnemy = new Enemy(
                         new Rectangle(
@@ -53,7 +57,7 @@ public class TileMapHelper {
                                 rectangle.y + rectangle.height / 2,
                                 rectangle.width, rectangle.height
                         ),
-                        gameScreen.getWorld(), gameScreen.getTextureAtlas().findRegion("goomba"));
+                        gameScreen.getWorld(), enemyRegion);
 
                 enemies.add(actualEnemy);
             }
