@@ -36,7 +36,7 @@ public class TileMapHelper {
         TiledMap tiledMap = new TmxMapLoader().load("maps/test2.tmx");
 
         parseMapObjectsToBox2DBodies(tiledMap, "Collisions");
-        parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
+//        parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }

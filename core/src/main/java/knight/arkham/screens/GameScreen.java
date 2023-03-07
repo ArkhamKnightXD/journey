@@ -76,7 +76,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().getPosition(), 0);
+        camera.position.set(player.getBody().getPosition().x,player.getBody().getPosition().y + 5, 0);
 
         camera.update();
 
