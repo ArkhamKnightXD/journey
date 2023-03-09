@@ -6,61 +6,52 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Journey;
+import knight.arkham.helpers.GameContactListener;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
-
-import static knight.arkham.helpers.Constants.BOX2D_FULL_SCREEN_HEIGHT;
-import static knight.arkham.helpers.Constants.BOX2D_FULL_SCREEN_WIDTH;
 
 public class GameScreen extends ScreenAdapter {
     private final Journey game;
 
     private final OrthographicCamera camera;
-
-    private final Viewport viewport;
-    private final Box2DDebugRenderer debugRenderer;
     private final World world;
-
     private final OrthogonalTiledMapRenderer mapRenderer;
-
     private final Player player;
-    private Array<Enemy> enemies;
-
-    private final TextureAtlas textureAtlas;
-
+    private final Array<Enemy> enemies;
 
     public GameScreen() {
         game = Journey.INSTANCE;
 
-        world = new World(new Vector2(0, -10), true);
+        camera = game.globalCamera;
 
-        debugRenderer = new Box2DDebugRenderer();
+        world = game.globalWorld;
 
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, camera);
+        GameContactListener contactListener = new GameContactListener(this);
 
-        textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
+        world.setContactListener(contactListener);
+
+        TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
         TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
 
         player = new Player(new Rectangle(100, 200, 32, 32), world, playerRegion);
 
-        mapRenderer = new TileMapHelper(this).setupMap();
+        TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
+
+        enemies = new Array<>();
+
+        mapRenderer = new TileMapHelper(world,enemyRegion,enemies).setupMap("maps/test2.tmx");
     }
 
     @Override
     public void resize(int width, int height) {
 
-        viewport.update(width, height);
+        game.viewport.update(width, height);
     }
 
     private void update(float deltaTime){
@@ -104,7 +95,7 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+       game.debugRenderer.render(world, camera.combined);
     }
 
     @Override
@@ -121,10 +112,4 @@ public class GameScreen extends ScreenAdapter {
         for (Enemy enemy : new Array.ArrayIterator<>(enemies))
             enemy.getSprite().dispose();
     }
-
-    public World getWorld() {return world;}
-
-    public void setEnemies(Array<Enemy> enemies) {this.enemies = enemies;}
-
-    public TextureAtlas getTextureAtlas() {return textureAtlas;}
 }

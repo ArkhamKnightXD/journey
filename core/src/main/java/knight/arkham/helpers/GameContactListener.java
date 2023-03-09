@@ -1,10 +1,14 @@
 package knight.arkham.helpers;
 
 import com.badlogic.gdx.physics.box2d.*;
+import knight.arkham.screens.GameScreen;
 
 public class GameContactListener implements ContactListener {
+    private final GameScreen gameScreen;
 
-
+    public GameContactListener(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
+    }
 
     @Override
     public void beginContact(Contact contact) {

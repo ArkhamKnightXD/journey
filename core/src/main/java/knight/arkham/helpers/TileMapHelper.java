@@ -8,35 +8,31 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import knight.arkham.screens.GameScreen;
 import knight.arkham.objects.Enemy;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class TileMapHelper {
 
-    private final GameScreen gameScreen;
-
+    private final World world;
+    private final TextureRegion enemyRegion;
     private final Array<Enemy> enemies;
 
-    private final TextureRegion enemyRegion;
+    public TileMapHelper(World world, TextureRegion enemyRegion, Array<Enemy> enemies) {
 
-
-    public TileMapHelper(GameScreen gameScreen) {
-
-        this.gameScreen = gameScreen;
-        enemies = new Array<>();
-        enemyRegion = gameScreen.getTextureAtlas().findRegion("goomba");
+        this.world = world;
+        this.enemyRegion = enemyRegion;
+        this.enemies = enemies;
     }
 
-    public OrthogonalTiledMapRenderer setupMap() {
+    public OrthogonalTiledMapRenderer setupMap(String mapFilePath) {
 
-        TiledMap tiledMap = new TmxMapLoader().load("maps/test2.tmx");
+        TiledMap tiledMap = new TmxMapLoader().load(mapFilePath);
 
         parseMapObjectsToBox2DBodies(tiledMap, "Collisions");
-//        parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
+        parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
@@ -49,36 +45,25 @@ public class TileMapHelper {
 
             Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 
-            if (objectsName.equals("Enemies")) {
+            if (objectsName.equals("Enemies"))
+                createEnemyBody(rectangle);
 
-                Enemy actualEnemy = new Enemy(
-                        new Rectangle(
-                                rectangle.x + rectangle.width / 2,
-                                rectangle.y + rectangle.height / 2,
-                                rectangle.width, rectangle.height
-                        ),
-                        gameScreen.getWorld(), enemyRegion);
-
-                enemies.add(actualEnemy);
-            }
-
-            else {
-                Box2DHelper.createBody(
-
-                        new Box2DBody(
-
-                                new Rectangle(
-                                        rectangle.x + rectangle.width / 2,
-                                        rectangle.y + rectangle.height / 2,
-                                        rectangle.width, rectangle.height
-                                ),
-                                BodyDef.BodyType.StaticBody, 0,
-                                gameScreen.getWorld(), ContactType.FLOOR
-                        )
-                );
-            }
+            else
+                Box2DHelper.createCollisionBody(rectangle, world);
         }
+    }
 
-        gameScreen.setEnemies(enemies);
+    private void createEnemyBody(Rectangle rectangle) {
+
+        Enemy actualEnemy = new Enemy(
+            new Rectangle(
+                rectangle.x + rectangle.width / 2,
+                rectangle.y + rectangle.height / 2,
+                rectangle.width, rectangle.height
+            ),
+            world, enemyRegion
+        );
+
+        enemies.add(actualEnemy);
     }
 }
