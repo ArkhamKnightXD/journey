@@ -67,7 +67,10 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().getPosition().x,9.5f, 0);
+        boolean isPlayerInsideMapBounds = player.getActualPixelPosition().x > 395 && player.getActualPixelPosition().x < 1200;
+
+        if (isPlayerInsideMapBounds)
+            camera.position.set(player.getBody().getPosition().x,9.5f, 0);
 
         camera.update();
 
@@ -107,6 +110,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
+        mapRenderer.dispose();
         player.getSprite().dispose();
 
         for (Enemy enemy : new Array.ArrayIterator<>(enemies))
