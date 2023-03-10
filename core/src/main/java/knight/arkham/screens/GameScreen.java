@@ -39,13 +39,13 @@ public class GameScreen extends ScreenAdapter {
 
         TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
 
-        player = new Player(new Rectangle(100, 200, 32, 32), world, playerRegion);
+        player = new Player(new Rectangle(500, 200, 32, 32), world, playerRegion);
 
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
         enemies = new Array<>();
 
-        mapRenderer = new TileMapHelper(world,enemyRegion,enemies).setupMap("maps/test2.tmx");
+        mapRenderer = new TileMapHelper(world,enemyRegion,enemies).setupMap("maps/test.tmx");
     }
 
     @Override
@@ -67,7 +67,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().getPosition().x,player.getBody().getPosition().y + 5, 0);
+        camera.position.set(player.getBody().getPosition().x,9.5f, 0);
 
         camera.update();
 
@@ -95,7 +95,7 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.end();
 
-       game.debugRenderer.render(world, camera.combined);
+//       game.debugRenderer.render(world, camera.combined);
     }
 
     @Override
