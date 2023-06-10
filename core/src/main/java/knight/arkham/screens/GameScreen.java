@@ -1,11 +1,9 @@
 package knight.arkham.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
@@ -25,6 +23,9 @@ public class GameScreen extends ScreenAdapter {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Player player;
     private final Array<Enemy> enemies;
+
+    private final TileMapHelper tileMap;
+
 
     public GameScreen() {
         game = Journey.INSTANCE;
@@ -47,7 +48,9 @@ public class GameScreen extends ScreenAdapter {
 
         enemies = new Array<>();
 
-        mapRenderer = new TileMapHelper(world,enemyRegion,enemies).setupMap("maps/test.tmx");
+        tileMap = new TileMapHelper(world, enemyRegion, enemies, "maps/test.tmx");
+
+        mapRenderer = tileMap.setupMap();
     }
 
     @Override
@@ -69,23 +72,10 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        MapProperties prop = mapRenderer.getMap().getProperties();
-
-        int mapWidth = prop.get("width", Integer.class);
-        int mapHeight = prop.get("height", Integer.class);
-        int tilePixelWidth = prop.get("tilewidth", Integer.class);
-        int tilePixelHeight = prop.get("tileheight", Integer.class);
-
-        int mapPixelWidth = mapWidth * tilePixelWidth;
-        int mapPixelHeight = mapHeight * tilePixelHeight;
-
-        Gdx.app.log("map width", String.valueOf(mapPixelWidth));
-        Gdx.app.log("map height", String.valueOf(mapPixelHeight));
-
-        boolean isPlayerInsideMapBounds = player.getActualPixelPosition().x > 395 && player.getActualPixelPosition().x < mapPixelWidth - 400;
+        boolean isPlayerInsideMapBounds = tileMap.isPlayerIsInsideMapBounds(player.getPixelPosition());
 
         if (isPlayerInsideMapBounds)
-            camera.position.set(player.getBody().getPosition().x,9.5f, 0);
+            camera.position.set(player.getWorldPosition().x,9.5f, 0);
 
         camera.update();
 

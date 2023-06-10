@@ -57,10 +57,17 @@ public abstract class GameObject {
 
     public Body getBody() {return body;}
 
-    public Vector2 getActualPixelPosition() {
+    public void setActualPosition(float positionX, float positionY) {
+        body.setTransform(positionX / PIXELS_PER_METER, positionY / PIXELS_PER_METER, 0);
+    }
+
+    public Vector2 getPixelPosition() {
 
         return new Vector2(body.getPosition().x * PIXELS_PER_METER, body.getPosition().y * PIXELS_PER_METER);
     }
+
+    public Vector2 getWorldPosition() {return body.getPosition();}
+
 
     public Texture getSprite() {return actualRegion.getTexture();}
 

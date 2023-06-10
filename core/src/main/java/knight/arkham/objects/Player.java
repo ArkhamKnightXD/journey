@@ -63,6 +63,8 @@ public class Player extends GameObject {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
+
+        playerFallToDead();
     }
 
     private PlayerAnimationState getPlayerCurrentState() {
@@ -78,6 +80,16 @@ public class Player extends GameObject {
 
         else
             return PlayerAnimationState.STANDING;
+    }
+
+    private void playerFallToDead(){
+
+        if (getPixelPosition().y < -100){
+
+            setActualPosition(500, 200);
+
+            body.setLinearVelocity(0,0);
+        }
     }
 
 
