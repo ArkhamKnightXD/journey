@@ -8,25 +8,30 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import knight.arkham.helpers.Box2DBody;
-import knight.arkham.helpers.Box2DHelper;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
 
+    protected final World world;
     protected final Body body;
-    protected final Fixture fixture;
-    private final Rectangle bounds;
+    protected Fixture fixture;
+    protected final Rectangle bounds;
     private TextureRegion actualRegion;
 
-    protected GameObject(Box2DBody gameObjectStructure, TextureRegion region) {
-        fixture =  Box2DHelper.createBody(gameObjectStructure);
-        body = fixture.getBody();
-        bounds = gameObjectStructure.bounds;
+    protected GameObject(Rectangle rectangle, World globalWorld, TextureRegion region) {
+
+        world = globalWorld;
+        bounds = rectangle;
         actualRegion = region;
+
+        fixture = createFixture();
+        body = fixture.getBody();
     }
+
+    protected abstract Fixture createFixture();
 
     private Rectangle getBoundsWithPPMCalculation(){
 
@@ -57,7 +62,7 @@ public abstract class GameObject {
 
     public Body getBody() {return body;}
 
-    public void setActualPosition(float positionX, float positionY) {
+    public void setPosition(float positionX, float positionY) {
         body.setTransform(positionX / PIXELS_PER_METER, positionY / PIXELS_PER_METER, 0);
     }
 

@@ -103,7 +103,7 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.end();
 
-//       game.debugRenderer.render(world, camera.combined);
+       game.debugRenderer.render(world, camera.combined);
     }
 
     @Override

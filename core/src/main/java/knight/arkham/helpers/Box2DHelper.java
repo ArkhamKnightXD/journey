@@ -1,7 +1,9 @@
 package knight.arkham.helpers;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import knight.arkham.objects.Player;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
@@ -40,10 +42,37 @@ public class Box2DHelper {
 
         fixture.setUserData(box2DBody.contactType);
 
+        if (box2DBody.userData instanceof Player){
+            EdgeShape headCollider = makePlayerHeadCollider(fixtureDef);
+
+            fixture = body.createFixture(fixtureDef);
+
+            fixture.setUserData(box2DBody.contactType);
+
+            headCollider.dispose();
+        }
+
         shape.dispose();
 
         return fixture;
     }
+
+    private static EdgeShape makePlayerHeadCollider(FixtureDef fixtureDefinition) {
+
+        EdgeShape headCollider = new EdgeShape();
+
+        headCollider.set(new Vector2(-8 / PIXELS_PER_METER, 19 / PIXELS_PER_METER),
+            new Vector2(8 / PIXELS_PER_METER, 19 / PIXELS_PER_METER));
+
+        fixtureDefinition.shape = headCollider;
+
+        fixtureDefinition.isSensor = true;
+
+//        fixtureDefinition.filter.categoryBits = MARIO_HEAD_BIT;
+
+        return headCollider;
+    }
+
 
     private static Body createBox2DBodyByType(Box2DBody box2DBody) {
 

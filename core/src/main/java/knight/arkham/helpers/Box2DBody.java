@@ -12,6 +12,8 @@ public class Box2DBody {
     public World world;
     public ContactType contactType;
 
+    public Object userData;
+
     public Box2DBody(Rectangle bounds, BodyDef.BodyType bodyType, float density, World world, ContactType contactType) {
 
         this.bounds = bounds;
@@ -19,5 +21,13 @@ public class Box2DBody {
         this.density = density;
         this.world = world;
         this.contactType = contactType;
+    }
+
+    public Box2DBody(Rectangle bounds, BodyDef.BodyType bodyType, float density, World world, Object userData) {
+        this.bounds = bounds;
+        this.bodyType = bodyType;
+        this.density = density;
+        this.world = world;
+        this.userData = userData;
     }
 }

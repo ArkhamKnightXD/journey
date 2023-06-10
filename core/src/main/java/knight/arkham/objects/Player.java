@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
-import knight.arkham.helpers.ContactType;
+import knight.arkham.helpers.Box2DHelper;
 
 public class Player extends GameObject {
 
@@ -27,7 +28,7 @@ public class Player extends GameObject {
 
     public Player(Rectangle rectangle, World world, TextureRegion actualRegion) {
         super(
-                new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, ContactType.PLAYER),
+                rectangle, world,
                 new TextureRegion(actualRegion ,0, 0, 16, 16)
         );
 
@@ -42,6 +43,14 @@ public class Player extends GameObject {
         runningAnimation = makeAnimationByFrameRange(actualRegion, 1, 3, 0.1f);
     }
 
+    @Override
+    protected Fixture createFixture() {
+
+        return Box2DHelper.createBody(
+
+            new Box2DBody(bounds, BodyDef.BodyType.DynamicBody,10, world, this)
+        );
+    }
 
     public void update(float deltaTime) {
 
@@ -86,7 +95,7 @@ public class Player extends GameObject {
 
         if (getPixelPosition().y < -100){
 
-            setActualPosition(500, 200);
+            setPosition(500, 200);
 
             body.setLinearVelocity(0,0);
         }

@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
-import knight.arkham.helpers.ContactType;
+import knight.arkham.helpers.Box2DHelper;
 
 public class Enemy extends GameObject {
 
@@ -17,7 +18,7 @@ public class Enemy extends GameObject {
 
     public Enemy(Rectangle rectangle, World world, TextureRegion actualRegion) {
         super(
-                new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, ContactType.ENEMY),
+                rectangle, world,
                 new TextureRegion(actualRegion ,0, 0, 16, 16)
         );
 
@@ -26,6 +27,15 @@ public class Enemy extends GameObject {
         animationTimer = 0;
 
         runningAnimation = makeAnimationByFrameRange(actualRegion, 0, 1, 0.4f);
+    }
+
+    @Override
+    protected Fixture createFixture() {
+
+        return Box2DHelper.createBody(
+
+            new Box2DBody(bounds, BodyDef.BodyType.DynamicBody,10, world, this)
+        );
     }
 
     public void update(float deltaTime) {
