@@ -26,9 +26,9 @@ public class Player extends GameObject {
     private boolean isPlayerRunningRight;
 
 
-    public Player(Rectangle rectangle, World world, TextureRegion actualRegion) {
+    public Player(Rectangle bounds, World world, TextureRegion actualRegion) {
         super(
-                rectangle, world,
+                bounds, world,
                 new TextureRegion(actualRegion ,0, 0, 16, 16)
         );
 
@@ -48,7 +48,7 @@ public class Player extends GameObject {
 
         return Box2DHelper.createBody(
 
-            new Box2DBody(bounds, BodyDef.BodyType.DynamicBody,10, world, this)
+            new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody,10, world, this)
         );
     }
 

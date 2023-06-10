@@ -18,13 +18,13 @@ public abstract class GameObject {
     protected final World world;
     protected final Body body;
     protected Fixture fixture;
-    protected final Rectangle bounds;
+    protected final Rectangle actualBounds;
     private TextureRegion actualRegion;
 
-    protected GameObject(Rectangle rectangle, World globalWorld, TextureRegion region) {
+    protected GameObject(Rectangle bounds, World globalWorld, TextureRegion region) {
 
         world = globalWorld;
-        bounds = rectangle;
+        actualBounds = bounds;
         actualRegion = region;
 
         fixture = createFixture();
@@ -36,10 +36,10 @@ public abstract class GameObject {
     private Rectangle getBoundsWithPPMCalculation(){
 
         return new Rectangle(
-                body.getPosition().x - (bounds.width / 2 / PIXELS_PER_METER),
-                body.getPosition().y - (bounds.height / 2 / PIXELS_PER_METER),
-                bounds.width / PIXELS_PER_METER,
-                bounds.height / PIXELS_PER_METER
+                body.getPosition().x - (actualBounds.width / 2 / PIXELS_PER_METER),
+                body.getPosition().y - (actualBounds.height / 2 / PIXELS_PER_METER),
+                actualBounds.width / PIXELS_PER_METER,
+                actualBounds.height / PIXELS_PER_METER
         );
     }
 

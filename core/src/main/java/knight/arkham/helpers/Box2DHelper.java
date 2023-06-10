@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.Player;
 
-import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
+import static knight.arkham.helpers.Constants.*;
 
 public class Box2DHelper {
 
@@ -45,6 +45,10 @@ public class Box2DHelper {
         if (box2DBody.userData instanceof Player){
             EdgeShape headCollider = makePlayerHeadCollider(fixtureDef);
 
+            fixtureDef.filter.categoryBits = MARIO_BIT;
+
+            fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
+
             fixture = body.createFixture(fixtureDef);
 
             fixture.setUserData(box2DBody.contactType);
@@ -68,7 +72,7 @@ public class Box2DHelper {
 
         fixtureDefinition.isSensor = true;
 
-//        fixtureDefinition.filter.categoryBits = MARIO_HEAD_BIT;
+        fixtureDefinition.filter.categoryBits = MARIO_HEAD_BIT;
 
         return headCollider;
     }

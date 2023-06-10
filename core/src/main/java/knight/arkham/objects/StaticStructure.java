@@ -22,7 +22,7 @@ public class StaticStructure extends GameObject {
 
         return Box2DHelper.createBody(
 
-            new Box2DBody(bounds, BodyDef.BodyType.StaticBody,0, world, this)
+            new Box2DBody(actualBounds, BodyDef.BodyType.StaticBody,0, world, this)
         );
     }
 }
