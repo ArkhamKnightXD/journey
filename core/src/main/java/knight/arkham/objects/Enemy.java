@@ -1,7 +1,7 @@
 package knight.arkham.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -17,7 +17,7 @@ public class Enemy extends GameObject {
     public boolean isMovingRight;
 
     private boolean setToDestroy;
-    private boolean destroyed;
+    private boolean isDestroyed;
 
     public Enemy(Rectangle rectangle, World world, TextureRegion actualRegion) {
         super(
@@ -26,7 +26,7 @@ public class Enemy extends GameObject {
         );
 
         setToDestroy = false;
-        destroyed = false;
+        isDestroyed = false;
         isMovingRight = true;
 
         animationTimer = 0;
@@ -47,7 +47,7 @@ public class Enemy extends GameObject {
 
         // Destruyo el body
         globalWorld.destroyBody(body);
-        destroyed = true;
+        isDestroyed = true;
 
 //            Cambio el sprite de mi goomba por el sprite de goomba aplastado.
 //        setRegion(new TextureRegion(gameScreen.getTextureAtlas()
@@ -58,7 +58,7 @@ public class Enemy extends GameObject {
 
     public void update(float deltaTime) {
 
-        if (setToDestroy && !destroyed)
+        if (setToDestroy && !isDestroyed)
             destroyEnemy();
 
         animationTimer += deltaTime;
@@ -72,9 +72,13 @@ public class Enemy extends GameObject {
 //            body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
     }
 
-    public void hitOnHead(Player mario) {
+    @Override
+    public void draw(Batch batch) {
+        if (!isDestroyed)
+            super.draw(batch);
+    }
 
-        Gdx.app.log("enter","");
+    public void hitOnHead(Player mario) {
 
         setToDestroy = true;
 

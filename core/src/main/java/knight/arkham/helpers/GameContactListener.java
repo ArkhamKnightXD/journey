@@ -1,5 +1,6 @@
 package knight.arkham.helpers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
@@ -14,18 +15,25 @@ public class GameContactListener implements ContactListener {
        Fixture fixtureA = contact.getFixtureA();
        Fixture fixtureB = contact.getFixtureB();
 
+        Gdx.app.log("fixtureA",String.valueOf(fixtureA.getFilterData().categoryBits));
+        Gdx.app.log("fixtureB",String.valueOf(fixtureB.getFilterData().categoryBits));
+
+
         int collisionDefinition = fixtureA.getFilterData().categoryBits | fixtureB.getFilterData().categoryBits;
 
         switch (collisionDefinition) {
 
-//            Todo Falla esta collision
             case ENEMY_HEAD_BIT | MARIO_BIT:
+
+                Gdx.app.log("enter","Case");
+
                 if (fixtureA.getFilterData().categoryBits == ENEMY_HEAD_BIT)
                     ((Enemy) fixtureA.getUserData()).hitOnHead((Player) fixtureB.getUserData());
 
                 else
                     ((Enemy) fixtureB.getUserData()).hitOnHead((Player) fixtureA.getUserData());
                 break;
+
         }
 
 

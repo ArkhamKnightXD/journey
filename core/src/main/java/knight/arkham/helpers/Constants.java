@@ -15,6 +15,9 @@ public class Constants {
     public static final int MID_SCREEN_WIDTH = Journey.INSTANCE.getScreenWidth() / 2;
 
     public static final short NOTHING_BIT = 0;
+
+//    Si por defecto no especifico el categoryBits de mi objeto, por defecto este se inicializará en 1,
+//    por lo tanto, será evaluado como un ground
     public static final short GROUND_BIT = 1;
     public static final short MARIO_BIT = 2;
     public static final short BRICK_BIT = 4;

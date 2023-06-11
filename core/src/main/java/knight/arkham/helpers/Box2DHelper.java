@@ -55,10 +55,12 @@ public class Box2DHelper {
     }
 
     private static Fixture createEnemyBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
-        Fixture fixture;
+
         fixtureDef.filter.categoryBits = ENEMY_BIT;
 
         fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | MARIO_BIT);
+
+        Fixture fixture;
 
         fixture = body.createFixture(fixtureDef);
 
@@ -108,18 +110,25 @@ public class Box2DHelper {
 
 
     private static Fixture createPlayerBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
-        Fixture fixture;
-        EdgeShape headCollider = getPlayerHeadCollider(fixtureDef);
 
         fixtureDef.filter.categoryBits = MARIO_BIT;
 
         fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
+
+        //Nota si se van a definir varios category y maskbit a varios cuerpos, tener pendiente, que se debe de crear fixture antes de agregar
+        // los demás mask y category al otro cuerpo
+        body.createFixture(fixtureDef).setUserData(box2DBody.userData);
+
+        EdgeShape headCollider = getPlayerHeadCollider(fixtureDef);
+
+        Fixture fixture;
 
         fixture = body.createFixture(fixtureDef);
 
         fixture.setUserData(box2DBody.userData);
 
         headCollider.dispose();
+
         return fixture;
     }
 
