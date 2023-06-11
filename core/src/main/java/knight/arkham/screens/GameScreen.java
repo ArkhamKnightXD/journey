@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter {
 
         world = game.globalWorld;
 
-        GameContactListener contactListener = new GameContactListener(this);
+        GameContactListener contactListener = new GameContactListener();
 
         world.setContactListener(contactListener);
 
@@ -66,6 +66,9 @@ public class GameScreen extends ScreenAdapter {
         updateCameraPosition();
 
         player.update(deltaTime);
+
+        for (Enemy enemy : new Array.ArrayIterator<>(enemies))
+            enemy.update(deltaTime);
 
         game.manageExitTheGame();
     }

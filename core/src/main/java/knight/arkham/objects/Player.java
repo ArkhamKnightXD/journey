@@ -48,7 +48,7 @@ public class Player extends GameObject {
 
         return Box2DHelper.createBody(
 
-            new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody,10, world, this)
+            new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody,10, globalWorld, this)
         );
     }
 

@@ -15,15 +15,15 @@ import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
 
-    protected final World world;
+    protected final World globalWorld;
     protected final Body body;
     protected Fixture fixture;
     protected final Rectangle actualBounds;
     private TextureRegion actualRegion;
 
-    protected GameObject(Rectangle bounds, World globalWorld, TextureRegion region) {
+    protected GameObject(Rectangle bounds, World world, TextureRegion region) {
 
-        world = globalWorld;
+        globalWorld = world;
         actualBounds = bounds;
         actualRegion = region;
 

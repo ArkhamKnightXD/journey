@@ -10,18 +10,8 @@ public class Box2DBody {
     public BodyDef.BodyType bodyType;
     public float density;
     public World world;
-    public ContactType contactType;
-
     public Object userData;
 
-    public Box2DBody(Rectangle bounds, BodyDef.BodyType bodyType, float density, World world, ContactType contactType) {
-
-        this.bounds = bounds;
-        this.bodyType = bodyType;
-        this.density = density;
-        this.world = world;
-        this.contactType = contactType;
-    }
 
     public Box2DBody(Rectangle bounds, BodyDef.BodyType bodyType, float density, World world, Object userData) {
         this.bounds = bounds;
