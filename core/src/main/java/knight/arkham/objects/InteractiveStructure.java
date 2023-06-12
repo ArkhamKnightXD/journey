@@ -6,14 +6,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
+import knight.arkham.screens.GameScreen;
+
 public class InteractiveStructure extends GameObject {
-    public InteractiveStructure(Rectangle rectangle, World world, String spritePath) {
+    public InteractiveStructure(Rectangle rectangle, GameScreen gameScreen, String spritePath) {
 
         super(
-                rectangle, world,
+                rectangle, gameScreen,
                 new TextureRegion(new Texture(spritePath))
         );
     }
@@ -23,7 +24,7 @@ public class InteractiveStructure extends GameObject {
 
         return Box2DHelper.createBody(
 
-            new Box2DBody(actualBounds, BodyDef.BodyType.StaticBody,0, globalWorld, this)
+            new Box2DBody(actualBounds, BodyDef.BodyType.StaticBody,0, gameScreen.getWorld(), this)
         );
     }
 

@@ -70,7 +70,7 @@ public class TileMapHelper {
                 rectangle.y + rectangle.height / 2,
                 rectangle.width, rectangle.height
             ),
-            gameScreen.getWorld(), "images/block.jpg"
+            gameScreen, "images/block.jpg"
         );
     }
 
@@ -83,7 +83,7 @@ public class TileMapHelper {
                 rectangle.y + rectangle.height / 2,
                 rectangle.width, rectangle.height
             ),
-            gameScreen.getWorld(), enemyRegion
+            gameScreen, enemyRegion
         );
 
         enemies.add(actualEnemy);

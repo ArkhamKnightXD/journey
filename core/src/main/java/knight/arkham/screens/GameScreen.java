@@ -22,8 +22,9 @@ public class GameScreen extends ScreenAdapter {
     private final World world;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Player player;
-
     private final TileMapHelper tileMap;
+
+    private final TextureAtlas textureAtlas;
 
 
     public GameScreen() {
@@ -37,11 +38,11 @@ public class GameScreen extends ScreenAdapter {
 
         world.setContactListener(contactListener);
 
-        TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
+        textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
         TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
 
-        player = new Player(new Rectangle(500, 200, 32, 32), world, playerRegion);
+        player = new Player(new Rectangle(500, 200, 32, 32), this, playerRegion);
 
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
@@ -90,16 +91,16 @@ public class GameScreen extends ScreenAdapter {
 
         ScreenUtils.clear(0,0,0,0);
 
-//        mapRenderer.render();
+        mapRenderer.render();
 
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
 
-//        player.draw(game.batch);
-//
-//        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
-//            enemy.draw(game.batch);
+        player.draw(game.batch);
+
+        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
+            enemy.draw(game.batch);
 
         game.batch.end();
 
@@ -123,4 +124,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public World getWorld() {return world;}
+
+    public TextureAtlas getTextureAtlas() {return textureAtlas;}
 }
