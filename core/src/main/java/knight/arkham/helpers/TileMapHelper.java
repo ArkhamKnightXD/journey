@@ -10,33 +10,35 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import knight.arkham.objects.Enemy;
+import knight.arkham.objects.InteractiveStructure;
+import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class TileMapHelper {
 
+    private final GameScreen gameScreen;
     private final TiledMap tiledMap;
-    private final World world;
     private final TextureRegion enemyRegion;
     private final Array<Enemy> enemies;
 
-    public TileMapHelper(World world, TextureRegion enemyRegion, Array<Enemy> enemies, String mapFilePath) {
 
+    public TileMapHelper(GameScreen gameScreen, TextureRegion enemyRegion, String mapFilePath) {
+
+        this.gameScreen = gameScreen;
         tiledMap = new TmxMapLoader().load(mapFilePath);
-
-        this.world = world;
         this.enemyRegion = enemyRegion;
-        this.enemies = enemies;
+        enemies = new Array<>();
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
 
         parseMapObjectsToBox2DBodies(tiledMap, "Collisions");
         parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
+        parseMapObjectsToBox2DBodies(tiledMap, "Blocks");
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
@@ -52,10 +54,26 @@ public class TileMapHelper {
             if (objectsName.equals("Enemies"))
                 createEnemyBody(rectangle);
 
+            else if (objectsName.equals("Blocks"))
+                createInteractiveStructureBody(rectangle);
+
             else
-                Box2DHelper.createCollisionBody(rectangle, world);
+                Box2DHelper.createCollisionBody(rectangle, gameScreen.getWorld());
         }
     }
+
+    private void createInteractiveStructureBody(Rectangle rectangle) {
+
+        new InteractiveStructure(
+            new Rectangle(
+                rectangle.x + rectangle.width / 2,
+                rectangle.y + rectangle.height / 2,
+                rectangle.width, rectangle.height
+            ),
+            gameScreen.getWorld(), "images/block.jpg"
+        );
+    }
+
 
     private void createEnemyBody(Rectangle rectangle) {
 
@@ -65,13 +83,13 @@ public class TileMapHelper {
                 rectangle.y + rectangle.height / 2,
                 rectangle.width, rectangle.height
             ),
-            world, enemyRegion
+            gameScreen.getWorld(), enemyRegion
         );
 
         enemies.add(actualEnemy);
     }
 
-    public boolean isPlayerIsInsideMapBounds(Vector2 playerPixelPosition){
+    public boolean isPlayerIsInsideMapBounds(Vector2 playerPixelPosition) {
 
         MapProperties properties = tiledMap.getProperties();
 
@@ -80,6 +98,10 @@ public class TileMapHelper {
 
         int mapPixelWidth = mapWidth * tilePixelWidth;
 
-        return playerPixelPosition.x > MID_SCREEN_WIDTH && playerPixelPosition.x < mapPixelWidth-MID_SCREEN_WIDTH;
+        return playerPixelPosition.x > MID_SCREEN_WIDTH && playerPixelPosition.x < mapPixelWidth - MID_SCREEN_WIDTH;
+    }
+
+    public Array<Enemy> getEnemies() {
+        return enemies;
     }
 }

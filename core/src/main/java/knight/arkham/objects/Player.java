@@ -144,4 +144,11 @@ public class Player extends GameObject {
             isPlayerRunningRight = true;
         }
     }
+
+    public void getHitByEnemy() {
+
+        Gdx.app.log("enter","Here");
+
+//        setPosition(500, 200);
+    }
 }

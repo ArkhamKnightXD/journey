@@ -22,7 +22,6 @@ public class GameScreen extends ScreenAdapter {
     private final World world;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Player player;
-    private final Array<Enemy> enemies;
 
     private final TileMapHelper tileMap;
 
@@ -46,9 +45,7 @@ public class GameScreen extends ScreenAdapter {
 
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
-        enemies = new Array<>();
-
-        tileMap = new TileMapHelper(world, enemyRegion, enemies, "maps/test.tmx");
+        tileMap = new TileMapHelper(this, enemyRegion, "maps/test.tmx");
 
         mapRenderer = tileMap.setupMap();
     }
@@ -67,7 +64,7 @@ public class GameScreen extends ScreenAdapter {
 
         player.update(deltaTime);
 
-        for (Enemy enemy : new Array.ArrayIterator<>(enemies))
+        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
             enemy.update(deltaTime);
 
         game.manageExitTheGame();
@@ -100,8 +97,8 @@ public class GameScreen extends ScreenAdapter {
         game.batch.begin();
 
 //        player.draw(game.batch);
-
-//        for (Enemy enemy : new Array.ArrayIterator<>(enemies))
+//
+//        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
 //            enemy.draw(game.batch);
 
         game.batch.end();
@@ -121,7 +118,9 @@ public class GameScreen extends ScreenAdapter {
         mapRenderer.dispose();
         player.getSprite().dispose();
 
-        for (Enemy enemy : new Array.ArrayIterator<>(enemies))
+        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
             enemy.getSprite().dispose();
     }
+
+    public World getWorld() {return world;}
 }

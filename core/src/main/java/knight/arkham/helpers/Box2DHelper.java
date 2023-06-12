@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.Enemy;
+import knight.arkham.objects.InteractiveStructure;
 import knight.arkham.objects.Player;
 
 import static knight.arkham.helpers.Constants.*;
@@ -33,6 +34,7 @@ public class Box2DHelper {
         shape.setAsBox(box2DBody.bounds.width / 2 / PIXELS_PER_METER, box2DBody.bounds.height / 2 / PIXELS_PER_METER);
 
         FixtureDef fixtureDef = new FixtureDef();
+
         fixtureDef.shape = shape;
 
         fixtureDef.density = box2DBody.density;
@@ -41,13 +43,22 @@ public class Box2DHelper {
 
         Fixture fixture = body.createFixture(fixtureDef);
 
-        fixture.setUserData(box2DBody.userData);
-
         if (box2DBody.userData instanceof Player)
             fixture = createPlayerBody(box2DBody, fixtureDef, body);
 
         else if (box2DBody.userData instanceof Enemy)
             fixture = createEnemyBody(box2DBody, fixtureDef, body);
+
+        else if (box2DBody.userData instanceof InteractiveStructure) {
+            fixtureDef.filter.categoryBits = COIN_BIT;
+
+            body.createFixture(fixtureDef).setUserData(box2DBody.userData);
+        } else {
+
+            fixtureDef.filter.categoryBits = GROUND_BIT;
+
+            body.createFixture(fixtureDef).setUserData(box2DBody.userData);
+        }
 
         shape.dispose();
 
@@ -81,10 +92,10 @@ public class Box2DHelper {
 
         Vector2[] vertices = new Vector2[4];
 
-        vertices[0] = new Vector2(-15 , 22).scl(1/ PIXELS_PER_METER);
-        vertices[1] = new Vector2(15 , 22).scl(1/ PIXELS_PER_METER);
-        vertices[2] = new Vector2(-13 , 17).scl(1/ PIXELS_PER_METER);
-        vertices[3] = new Vector2(13 , 17).scl(1/ PIXELS_PER_METER);
+        vertices[0] = new Vector2(-15, 22).scl(1 / PIXELS_PER_METER);
+        vertices[1] = new Vector2(15, 22).scl(1 / PIXELS_PER_METER);
+        vertices[2] = new Vector2(-13, 17).scl(1 / PIXELS_PER_METER);
+        vertices[3] = new Vector2(13, 17).scl(1 / PIXELS_PER_METER);
 
         head.set(vertices);
 
@@ -115,7 +126,7 @@ public class Box2DHelper {
 
         fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
 
-        //Nota si se van a definir varios category y maskbit a varios cuerpos, tener pendiente, que se debe de crear fixture antes de agregar
+        //Nota si se van a definir varios category y maskBit a varios cuerpos, tener pendiente, que se debe de crear fixture antes de agregar
         // los demás mask y category al otro cuerpo
         body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
