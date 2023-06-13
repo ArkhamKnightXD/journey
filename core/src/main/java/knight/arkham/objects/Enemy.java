@@ -80,7 +80,7 @@ public class Enemy extends GameObject {
             super.draw(batch);
     }
 
-    public void hitOnHead(Player mario) {
+    public void hitOnHead(Player player) {
 
         setToDestroy = true;
 

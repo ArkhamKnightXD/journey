@@ -25,7 +25,7 @@ public class GameContactListener implements ContactListener {
         switch (collisionDefinition) {
 
 //            Esto al final es una suma asi que no importa el orden de los valores
-            case MARIO_BIT | ENEMY_HEAD_BIT:
+            case PLAYER_BIT | ENEMY_HEAD_BIT:
 
                 if (fixtureA.getFilterData().categoryBits == ENEMY_HEAD_BIT)
                     ((Enemy) fixtureA.getUserData()).hitOnHead((Player) fixtureB.getUserData());
@@ -43,9 +43,9 @@ public class GameContactListener implements ContactListener {
                     ((InteractiveStructure) fixtureB.getUserData()).destroy((Player) fixtureA.getUserData());
                 break;
 
-            case MARIO_BIT | ENEMY_BIT:
+            case PLAYER_BIT | ENEMY_BIT:
 
-                if (fixtureA.getFilterData().categoryBits == MARIO_BIT)
+                if (fixtureA.getFilterData().categoryBits == PLAYER_BIT)
                     ((Player) fixtureA.getUserData()).getHitByEnemy();
 
                 else

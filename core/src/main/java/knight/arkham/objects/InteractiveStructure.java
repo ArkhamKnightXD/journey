@@ -28,7 +28,7 @@ public class InteractiveStructure extends GameObject {
         );
     }
 
-    public void destroy(Player mario) {
+    public void destroy(Player player) {
 
         Gdx.app.log("enter","collision");
     }

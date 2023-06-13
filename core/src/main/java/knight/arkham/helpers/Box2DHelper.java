@@ -19,13 +19,25 @@ public class Box2DHelper {
                 terrainBound.x + terrainBound.width / 2,
                 terrainBound.y + terrainBound.height / 2,
                 terrainBound.width, terrainBound.height
-            ),
-            BodyDef.BodyType.StaticBody, 0,
-            world, ContactType.FLOOR
+            ), world
         );
 
         createBody(box2DBody);
     }
+
+    private static Body createBox2DBodyByType(Box2DBody box2DBody) {
+
+        BodyDef bodyDef = new BodyDef();
+
+        bodyDef.type = box2DBody.bodyType;
+
+        bodyDef.position.set(box2DBody.bounds.x / PIXELS_PER_METER, box2DBody.bounds.y / PIXELS_PER_METER);
+
+        bodyDef.fixedRotation = true;
+
+        return box2DBody.world.createBody(bodyDef);
+    }
+
 
     public static Fixture createBody(Box2DBody box2DBody) {
 
@@ -57,7 +69,7 @@ public class Box2DHelper {
 
             fixtureDef.filter.categoryBits = GROUND_BIT;
 
-            body.createFixture(fixtureDef).setUserData(box2DBody.userData);
+            body.createFixture(fixtureDef);
         }
 
         shape.dispose();
@@ -69,7 +81,7 @@ public class Box2DHelper {
 
         fixtureDef.filter.categoryBits = ENEMY_BIT;
 
-        fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | MARIO_BIT);
+        fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | PLAYER_BIT);
 
         Fixture fixture;
 
@@ -77,12 +89,18 @@ public class Box2DHelper {
 
         fixture.setUserData(box2DBody.userData);
 
-        fixtureDef.shape = getEnemyHeadHeadCollider();
+        PolygonShape headCollider = getEnemyHeadHeadCollider();
+
+        fixtureDef.shape = headCollider;
 
         fixtureDef.restitution = 1;
         fixtureDef.filter.categoryBits = ENEMY_HEAD_BIT;
 
         body.createFixture(fixtureDef).setUserData(box2DBody.userData);
+
+//        Los shapes deben de ser dispose luego de que el fixture se ha creado, si no el programa fallara.
+        headCollider.dispose();
+
         return fixture;
     }
 
@@ -122,7 +140,7 @@ public class Box2DHelper {
 
     private static Fixture createPlayerBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
 
-        fixtureDef.filter.categoryBits = MARIO_BIT;
+        fixtureDef.filter.categoryBits = PLAYER_BIT;
 
         fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
 
@@ -141,18 +159,5 @@ public class Box2DHelper {
         headCollider.dispose();
 
         return fixture;
-    }
-
-    private static Body createBox2DBodyByType(Box2DBody box2DBody) {
-
-        BodyDef bodyDef = new BodyDef();
-
-        bodyDef.type = box2DBody.bodyType;
-
-        bodyDef.position.set(box2DBody.bounds.x / PIXELS_PER_METER, box2DBody.bounds.y / PIXELS_PER_METER);
-
-        bodyDef.fixedRotation = true;
-
-        return box2DBody.world.createBody(bodyDef);
     }
 }

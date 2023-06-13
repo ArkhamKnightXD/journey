@@ -29,8 +29,8 @@ public class TileMapHelper {
     public TileMapHelper(GameScreen gameScreen, TextureRegion enemyRegion, String mapFilePath) {
 
         this.gameScreen = gameScreen;
-        tiledMap = new TmxMapLoader().load(mapFilePath);
         this.enemyRegion = enemyRegion;
+        tiledMap = new TmxMapLoader().load(mapFilePath);
         enemies = new Array<>();
     }
 

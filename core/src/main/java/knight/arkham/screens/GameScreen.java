@@ -17,15 +17,12 @@ import knight.arkham.objects.Player;
 
 public class GameScreen extends ScreenAdapter {
     private final Journey game;
-
     private final OrthographicCamera camera;
     private final World world;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Player player;
     private final TileMapHelper tileMap;
-
     private final TextureAtlas textureAtlas;
-
 
     public GameScreen() {
         game = Journey.INSTANCE;
