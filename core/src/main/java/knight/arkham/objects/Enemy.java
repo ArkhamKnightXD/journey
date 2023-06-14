@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import knight.arkham.helpers.Box2DBody;
@@ -21,9 +22,11 @@ public class Enemy extends GameObject {
 
     public Enemy(Rectangle rectangle, GameScreen gameScreen, TextureRegion actualRegion) {
         super(
-                rectangle, gameScreen,
-                new TextureRegion(actualRegion ,0, 0, 16, 16)
+            rectangle, gameScreen,
+            new TextureRegion(actualRegion, 0, 0, 16, 16)
         );
+
+        body.setActive(false);
 
         setToDestroy = false;
         isDestroyed = false;
@@ -39,13 +42,12 @@ public class Enemy extends GameObject {
 
         return Box2DHelper.createBody(
 
-            new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody,10, gameScreen.getWorld(), this)
+            new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody, 10, gameScreen.getWorld(), this)
         );
     }
 
     private void destroyEnemy() {
 
-        // Destruyo el body
         gameScreen.getWorld().destroyBody(body);
         isDestroyed = true;
 
@@ -62,15 +64,15 @@ public class Enemy extends GameObject {
         if (setToDestroy && !isDestroyed)
             destroyEnemy();
 
-        else if (!isDestroyed) {
+        else if (!isDestroyed && body.isActive()) {
 
             setActualRegion(runningAnimation.getKeyFrame(stateTimer, true));
 
-//        if (isMovingRight && body.getLinearVelocity().x <= 3)
-//            body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
-//
-//        else if(!isMovingRight && body.getLinearVelocity().x >= -3)
-//            body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
+            if (isMovingRight && body.getLinearVelocity().x <= 3)
+                body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
+
+            else if (!isMovingRight && body.getLinearVelocity().x >= -3)
+                body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
         }
     }
 

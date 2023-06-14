@@ -56,25 +56,29 @@ public class Player extends GameObject {
 
         setActualRegion(getActualRegion(deltaTime));
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7){
-
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7)
             body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
 
-            isPlayerRunningRight = true;
-        }
-
-        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7){
-
+        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7)
             body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
-
-            isPlayerRunningRight = false;
-        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
 
         playerFallToDead();
     }
+
+
+    private void playerFallToDead(){
+
+        if (getPixelPosition().y < -100){
+
+            setPosition(500, 200);
+
+            body.setLinearVelocity(0,0);
+        }
+    }
+
 
     private PlayerAnimationState getPlayerCurrentState() {
 
@@ -89,16 +93,6 @@ public class Player extends GameObject {
 
         else
             return PlayerAnimationState.STANDING;
-    }
-
-    private void playerFallToDead(){
-
-        if (getPixelPosition().y < -100){
-
-            setPosition(500, 200);
-
-            body.setLinearVelocity(0,0);
-        }
     }
 
 
@@ -134,11 +128,11 @@ public class Player extends GameObject {
 
     private void flipPlayerOnXAxis(TextureRegion region) {
 
-        if (!isPlayerRunningRight && !region.isFlipX()) {
+        if ((body.getLinearVelocity().x < 0 || !isPlayerRunningRight) && !region.isFlipX()) {
 
             region.flip(true, false);
             isPlayerRunningRight = false;
-        } else if (isPlayerRunningRight && region.isFlipX()) {
+        } else if ((body.getLinearVelocity().x > 0 || isPlayerRunningRight) && region.isFlipX()) {
 
             region.flip(true, false);
             isPlayerRunningRight = true;
