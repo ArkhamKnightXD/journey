@@ -17,7 +17,6 @@ public abstract class GameObject {
 
     protected final GameScreen gameScreen;
     protected final Body body;
-    protected Fixture fixture;
     protected final Rectangle actualBounds;
     private TextureRegion actualRegion;
 
@@ -27,7 +26,8 @@ public abstract class GameObject {
         actualBounds = bounds;
         actualRegion = region;
 
-        fixture = createFixture();
+        Fixture fixture = createFixture();
+
         body = fixture.getBody();
     }
 
