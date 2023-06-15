@@ -73,7 +73,6 @@ public abstract class GameObject {
 
     public Vector2 getWorldPosition() {return body.getPosition();}
 
-
     public Texture getSprite() {return actualRegion.getTexture();}
 
     protected void setActualRegion(TextureRegion actualRegion) {this.actualRegion = actualRegion;}

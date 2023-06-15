@@ -37,10 +37,10 @@ public class GameContactListener implements ContactListener {
             case MARIO_HEAD_BIT | COIN_BIT:
 
                 if (fixtureA.getFilterData().categoryBits == COIN_BIT)
-                    ((InteractiveStructure) fixtureA.getUserData()).destroy((Player) fixtureB.getUserData());
+                    ((InteractiveStructure) fixtureA.getUserData()).hitByPlayer();
 
                 else
-                    ((InteractiveStructure) fixtureB.getUserData()).destroy((Player) fixtureA.getUserData());
+                    ((InteractiveStructure) fixtureB.getUserData()).hitByPlayer();
                 break;
 
             case PLAYER_BIT | ENEMY_BIT:

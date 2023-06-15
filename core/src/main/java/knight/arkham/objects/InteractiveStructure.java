@@ -1,35 +1,57 @@
 package knight.arkham.objects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
-import knight.arkham.screens.GameScreen;
 
-public class InteractiveStructure extends GameObject {
-    public InteractiveStructure(Rectangle rectangle, GameScreen gameScreen, String spritePath) {
+import static knight.arkham.helpers.Constants.DESTROYED_BIT;
+import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
-        super(
-                rectangle, gameScreen,
-                new TextureRegion(new Texture(spritePath))
+public class InteractiveStructure {
+
+    private final Fixture fixture;
+    private final Body body;
+    private final TiledMap tiledMap;
+
+    public InteractiveStructure(Rectangle rectangle, World world, TiledMap tiledMap) {
+
+        this.tiledMap = tiledMap;
+
+        fixture = Box2DHelper.createBody(
+            new Box2DBody(
+                rectangle, BodyDef.BodyType.StaticBody, 0, world, this
+            )
         );
+
+        body = fixture.getBody();
     }
 
-    @Override
-    protected Fixture createFixture() {
 
-        return Box2DHelper.createBody(
+    public void hitByPlayer() {
 
-            new Box2DBody(actualBounds, BodyDef.BodyType.StaticBody,0, gameScreen.getWorld(), this)
-        );
+        setCategoryFilterToDestroy();
+
+        getObjectCellInTheTileMap().setTile(null);
     }
 
-    public void destroy(Player player) {
+    private void setCategoryFilterToDestroy() {
 
-        Gdx.app.log("enter","collision");
+        Filter filter = new Filter();
+        filter.categoryBits = DESTROYED_BIT;
+
+        fixture.setFilterData(filter);
+    }
+
+    //Todo funciona como debe de funcionar, pero debido a que configure mi mapa mas pequeño
+    // que el tileSet que utilizo me falla. Verificar el tamaño de mi mapa para resolver problema.
+    private TiledMapTileLayer.Cell getObjectCellInTheTileMap() {
+
+        TiledMapTileLayer mapLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Terrain");
+
+        return mapLayer.getCell((int) (body.getPosition().x * PIXELS_PER_METER / 16),
+            (int) (body.getPosition().y * PIXELS_PER_METER / 16));
     }
 }
