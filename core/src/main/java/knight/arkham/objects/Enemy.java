@@ -68,11 +68,11 @@ public class Enemy extends GameObject {
 
             setActualRegion(runningAnimation.getKeyFrame(stateTimer, true));
 
-            if (isMovingRight && body.getLinearVelocity().x <= 3)
-                body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
-
-            else if (!isMovingRight && body.getLinearVelocity().x >= -3)
-                body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
+//            if (isMovingRight && body.getLinearVelocity().x <= 3)
+//                body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
+//
+//            else if (!isMovingRight && body.getLinearVelocity().x >= -3)
+//                body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
         }
     }
 
@@ -85,7 +85,5 @@ public class Enemy extends GameObject {
     public void hitOnHead(Player player) {
 
         setToDestroy = true;
-
-//        gameScreen.getAssetManager().get("sound/stomp.wav", Sound.class).play();
     }
 }

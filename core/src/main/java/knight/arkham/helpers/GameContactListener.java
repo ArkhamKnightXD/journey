@@ -19,7 +19,6 @@ public class GameContactListener implements ContactListener {
         Gdx.app.log("fixtureA", String.valueOf(fixtureA.getFilterData().categoryBits));
         Gdx.app.log("fixtureB", String.valueOf(fixtureB.getFilterData().categoryBits));
 
-
         int collisionDefinition = fixtureA.getFilterData().categoryBits | fixtureB.getFilterData().categoryBits;
 
         switch (collisionDefinition) {
@@ -34,9 +33,9 @@ public class GameContactListener implements ContactListener {
                     ((Enemy) fixtureB.getUserData()).hitOnHead((Player) fixtureA.getUserData());
                 break;
 
-            case MARIO_HEAD_BIT | COIN_BIT:
+            case MARIO_HEAD_BIT | BRICK_BIT:
 
-                if (fixtureA.getFilterData().categoryBits == COIN_BIT)
+                if (fixtureA.getFilterData().categoryBits == BRICK_BIT)
                     ((InteractiveStructure) fixtureA.getUserData()).hitByPlayer();
 
                 else

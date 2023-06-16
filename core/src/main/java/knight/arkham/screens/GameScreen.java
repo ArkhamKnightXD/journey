@@ -93,16 +93,16 @@ public class GameScreen extends ScreenAdapter {
 
         ScreenUtils.clear(0,0,0,0);
 
-        mapRenderer.render();
+//        mapRenderer.render();
 
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
 
-        player.draw(game.batch);
-
-        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
-            enemy.draw(game.batch);
+//        player.draw(game.batch);
+//
+//        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
+//            enemy.draw(game.batch);
 
         game.batch.end();
 

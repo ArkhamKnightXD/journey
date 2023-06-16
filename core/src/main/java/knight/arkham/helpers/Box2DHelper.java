@@ -11,6 +11,7 @@ import static knight.arkham.helpers.Constants.*;
 
 public class Box2DHelper {
 
+//    Todo resolver Problemas de collision con esta funciones.
     public static void createCollisionBody(Rectangle terrainBound, World world) {
 
         Box2DBody box2DBody = new Box2DBody(
@@ -62,9 +63,12 @@ public class Box2DHelper {
             fixture = createEnemyBody(box2DBody, fixtureDef, body);
 
         else if (box2DBody.userData instanceof InteractiveStructure) {
-            fixtureDef.filter.categoryBits = COIN_BIT;
 
-            body.createFixture(fixtureDef).setUserData(box2DBody.userData);
+            fixtureDef.filter.categoryBits = BRICK_BIT;
+
+            fixture = body.createFixture(fixtureDef);
+            fixture.setUserData(box2DBody.userData);
+
         } else {
 
             fixtureDef.filter.categoryBits = GROUND_BIT;
@@ -81,7 +85,7 @@ public class Box2DHelper {
 
         fixtureDef.filter.categoryBits = ENEMY_BIT;
 
-        fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | PLAYER_BIT);
+        fixtureDef.filter.maskBits = (short) (GROUND_BIT | BRICK_BIT | ENEMY_BIT | PLAYER_BIT);
 
         Fixture fixture;
 
@@ -142,7 +146,7 @@ public class Box2DHelper {
 
         fixtureDef.filter.categoryBits = PLAYER_BIT;
 
-        fixtureDef.filter.maskBits = (short) (GROUND_BIT | COIN_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
+        fixtureDef.filter.maskBits = (short) (GROUND_BIT | BRICK_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
 
         //Nota si se van a definir varios category y maskBit a varios cuerpos, tener pendiente, que se debe de crear fixture antes de agregar
         // los demás mask y category al otro cuerpo

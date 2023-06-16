@@ -1,5 +1,6 @@
 package knight.arkham.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
@@ -32,21 +33,19 @@ public class InteractiveStructure {
 
     public void hitByPlayer() {
 
-        setCategoryFilterToDestroy();
+        Filter filter = new Filter();
+
+        Gdx.app.log("Filter Before", String.valueOf(fixture.getFilterData().categoryBits));
+
+        filter.categoryBits = DESTROYED_BIT;
+
+        fixture.setFilterData(filter);
+
+        Gdx.app.log("Filter After", String.valueOf(fixture.getFilterData().categoryBits));
 
         getObjectCellInTheTileMap().setTile(null);
     }
 
-    private void setCategoryFilterToDestroy() {
-
-        Filter filter = new Filter();
-        filter.categoryBits = DESTROYED_BIT;
-
-        fixture.setFilterData(filter);
-    }
-
-    //Todo funciona como debe de funcionar, pero debido a que configure mi mapa mas pequeño
-    // que el tileSet que utilizo me falla. Verificar el tamaño de mi mapa para resolver problema.
     private TiledMapTileLayer.Cell getObjectCellInTheTileMap() {
 
         TiledMapTileLayer mapLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Terrain");
