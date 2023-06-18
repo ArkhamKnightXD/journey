@@ -58,7 +58,7 @@ public class TileMapHelper {
                 createInteractiveStructureBody(rectangle);
 
             else
-                Box2DHelper.createCollisionBody(rectangle, gameScreen.getWorld());
+                Box2DHelper.createStaticCollisionBody(rectangle, gameScreen.getWorld());
         }
     }
 
@@ -89,7 +89,7 @@ public class TileMapHelper {
         enemies.add(actualEnemy);
     }
 
-    public boolean isPlayerIsInsideMapBounds(Vector2 playerPixelPosition) {
+    public boolean isPlayerInsideMapBounds(Vector2 playerPixelPosition) {
 
         MapProperties properties = tiledMap.getProperties();
 

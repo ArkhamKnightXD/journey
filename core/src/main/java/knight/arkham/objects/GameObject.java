@@ -13,7 +13,6 @@ import knight.arkham.screens.GameScreen;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
-
     protected final GameScreen gameScreen;
     protected final Body body;
     protected final Rectangle actualBounds;

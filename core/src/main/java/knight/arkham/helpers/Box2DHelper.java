@@ -4,28 +4,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.Enemy;
-import knight.arkham.objects.InteractiveStructure;
 import knight.arkham.objects.Player;
 
 import static knight.arkham.helpers.Constants.*;
 
 public class Box2DHelper {
 
-    public static void createCollisionBody(Rectangle terrainBound, World world) {
-
-        Box2DBody box2DBody = new Box2DBody(
-
-            new Rectangle(
-                terrainBound.x + terrainBound.width / 2,
-                terrainBound.y + terrainBound.height / 2,
-                terrainBound.width, terrainBound.height
-            ), world
-        );
-
-        createStaticBody(box2DBody);
-    }
-
-    public static void createStaticBody(Box2DBody box2DBody){
+    public static Fixture createStaticFixture(Box2DBody box2DBody){
 
         Body body = createBox2DBodyByType(box2DBody);
 
@@ -37,12 +22,31 @@ public class Box2DHelper {
 
         fixtureDef.shape = shape;
 
-        fixtureDef.filter.categoryBits = GROUND_BIT;
+        fixtureDef.filter.categoryBits = BRICK_BIT;
 
-        body.createFixture(fixtureDef);
+//        En tiempo de ejecución, por alguna razón el fixture siempre tiene el categoryBit en 1, pero al
+//        final donde se usa, tiene el categoryBit correspondiente a Brick_bit, asi que al fin de cuentas funciona bien.
+        Fixture fixture = body.createFixture(fixtureDef);
+
+        fixture.setUserData(box2DBody.userData);
 
         shape.dispose();
 
+        return fixture;
+    }
+
+    public static void createStaticCollisionBody(Rectangle terrainBound, World world) {
+
+        Box2DBody box2DBody = new Box2DBody(
+
+            new Rectangle(
+                terrainBound.x + terrainBound.width / 2,
+                terrainBound.y + terrainBound.height / 2,
+                terrainBound.width, terrainBound.height
+            ), world
+        );
+
+        createBody(box2DBody);
     }
 
 
@@ -80,13 +84,7 @@ public class Box2DHelper {
         else if (box2DBody.userData instanceof Enemy)
             createEnemyBody(box2DBody, fixtureDef, body);
 
-        else if (box2DBody.userData instanceof InteractiveStructure) {
-
-            fixtureDef.filter.categoryBits = BRICK_BIT;
-
-            body.createFixture(fixtureDef).setUserData(box2DBody.userData);
-
-        } else {
+        else {
 
             fixtureDef.filter.categoryBits = GROUND_BIT;
 

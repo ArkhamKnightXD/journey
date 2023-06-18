@@ -1,5 +1,6 @@
 package knight.arkham.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
@@ -7,10 +8,12 @@ import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 
+import static knight.arkham.helpers.Constants.DESTROYED_BIT;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class InteractiveStructure {
 
+    private final Fixture fixture;
     private final Body body;
     private final TiledMap tiledMap;
 
@@ -18,26 +21,27 @@ public class InteractiveStructure {
 
         this.tiledMap = tiledMap;
 
-        body = Box2DHelper.createBody(
+        fixture = Box2DHelper.createStaticFixture(
             new Box2DBody(
                 rectangle, BodyDef.BodyType.StaticBody, 0, world, this
             )
         );
 
+        body = fixture.getBody();
     }
 
 
     public void hitByPlayer() {
 
-//        Filter filter = new Filter();
+        Filter filter = new Filter();
 
-//        Gdx.app.log("Filter Before", String.valueOf(fixture.getFilterData().categoryBits));
+        Gdx.app.log("Filter Before", String.valueOf(fixture.getFilterData().categoryBits));
 
-//        filter.categoryBits = DESTROYED_BIT;
+        filter.categoryBits = DESTROYED_BIT;
 
-//        fixture.setFilterData(filter);
+        fixture.setFilterData(filter);
 
-//        Gdx.app.log("Filter After", String.valueOf(fixture.getFilterData().categoryBits));
+        Gdx.app.log("Filter After", String.valueOf(fixture.getFilterData().categoryBits));
 
         getObjectCellInTheTileMap().setTile(null);
     }

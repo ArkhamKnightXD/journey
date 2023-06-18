@@ -143,9 +143,7 @@ public class Player extends GameObject {
 
     public void getHitByEnemy() {
 
-        Gdx.app.log("enter","Here");
-
-//        setPosition(500, 200);
+        body.applyLinearImpulse(new Vector2(500, 0), body.getWorldCenter(), true);
     }
 
     public float getDistanceInBetween(Vector2 finalPosition) {

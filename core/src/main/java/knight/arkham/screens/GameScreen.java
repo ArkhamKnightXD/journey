@@ -62,7 +62,6 @@ public class GameScreen extends ScreenAdapter {
 
         player.update(deltaTime);
 
-
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies())){
 
             if (player.getDistanceInBetween(enemy.getPixelPosition()) < 170)
@@ -76,7 +75,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        boolean isPlayerInsideMapBounds = tileMap.isPlayerIsInsideMapBounds(player.getPixelPosition());
+        boolean isPlayerInsideMapBounds = tileMap.isPlayerInsideMapBounds(player.getPixelPosition());
 
         if (isPlayerInsideMapBounds)
             camera.position.set(player.getWorldPosition().x,9.5f, 0);
@@ -101,7 +100,7 @@ public class GameScreen extends ScreenAdapter {
         game.batch.begin();
 
 //        player.draw(game.batch);
-//
+
 //        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
 //            enemy.draw(game.batch);
 
