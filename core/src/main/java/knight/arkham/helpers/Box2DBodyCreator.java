@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import static knight.arkham.helpers.Constants.*;
 
-//Agregada esta function momentáneamente en lo que resuelvo el problema de collision.
+//todo intentar implementar este a ver si el problema son mis metodos.
 public class Box2DBodyCreator {
 
     public static Fixture createPlayerBody(Box2DBody box2DBody){

@@ -41,6 +41,7 @@ public class Player extends GameObject {
         jumpingRegion = new TextureRegion(actualRegion, 80, 0, 16, 16);
 
         runningAnimation = makeAnimationByFrameRange(actualRegion, 1, 3, 0.1f);
+
     }
 
     @Override
@@ -56,11 +57,21 @@ public class Player extends GameObject {
 
         setActualRegion(getActualRegion(deltaTime));
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7)
-            body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7){
+//
+//            Gdx.app.log("velocity x:", String.valueOf(100*deltaTime));
+//            Gdx.app.log("lineal ve :", String.valueOf(body.getLinearVelocity().x));
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7)
-            body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(100*deltaTime, 0), body.getWorldCenter(), true);
+        }
+
+        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7){
+
+//            Gdx.app.log("velocity x -:", String.valueOf(100*deltaTime));
+//            Gdx.app.log("lineal ve -:", String.valueOf(body.getLinearVelocity().x));
+
+            body.applyLinearImpulse(new Vector2(-100*deltaTime, 0), body.getWorldCenter(), true);
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);

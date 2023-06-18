@@ -23,8 +23,30 @@ public class Box2DHelper {
             ), world
         );
 
-        createBody(box2DBody);
+        createStaticBody(box2DBody);
     }
+
+    public static Fixture createStaticBody(Box2DBody box2DBody){
+
+        Body body = createBox2DBodyByType(box2DBody);
+
+        PolygonShape shape = new PolygonShape();
+
+        shape.setAsBox(box2DBody.bounds.width / 2 /PIXELS_PER_METER, box2DBody.bounds.height / 2 / PIXELS_PER_METER);
+
+        FixtureDef fixtureDef = new FixtureDef();
+
+        fixtureDef.shape = shape;
+
+        fixtureDef.filter.categoryBits = OBJECT_BIT;
+
+        Fixture fixture = body.createFixture(fixtureDef);
+
+        shape.dispose();
+
+        return fixture;
+    }
+
 
     private static Body createBox2DBodyByType(Box2DBody box2DBody) {
 
