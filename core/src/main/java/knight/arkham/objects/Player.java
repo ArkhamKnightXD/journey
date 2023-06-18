@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.screens.GameScreen;
@@ -45,11 +45,14 @@ public class Player extends GameObject {
     }
 
     @Override
-    protected Fixture createFixture() {
+    protected Body createBody() {
 
         return Box2DHelper.createBody(
 
-            new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody,5, gameScreen.getWorld(), this)
+            new Box2DBody(
+                actualBounds, BodyDef.BodyType.DynamicBody,
+                10, gameScreen.getWorld(), this
+            )
         );
     }
 
@@ -57,28 +60,17 @@ public class Player extends GameObject {
 
         setActualRegion(getActualRegion(deltaTime));
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7){
-//
-//            Gdx.app.log("velocity x:", String.valueOf(100*deltaTime));
-//            Gdx.app.log("lineal ve :", String.valueOf(body.getLinearVelocity().x));
-
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7)
             body.applyLinearImpulse(new Vector2(100*deltaTime, 0), body.getWorldCenter(), true);
-        }
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7){
-
-//            Gdx.app.log("velocity x -:", String.valueOf(100*deltaTime));
-//            Gdx.app.log("lineal ve -:", String.valueOf(body.getLinearVelocity().x));
-
+        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7)
             body.applyLinearImpulse(new Vector2(-100*deltaTime, 0), body.getWorldCenter(), true);
-        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
 
         playerFallToDead();
     }
-
 
     private void playerFallToDead(){
 
@@ -89,7 +81,6 @@ public class Player extends GameObject {
             body.setLinearVelocity(0,0);
         }
     }
-
 
     private PlayerAnimationState getPlayerCurrentState() {
 
@@ -155,5 +146,11 @@ public class Player extends GameObject {
         Gdx.app.log("enter","Here");
 
 //        setPosition(500, 200);
+    }
+
+    public float getDistanceInBetween(Vector2 finalPosition) {
+
+//        .dst utiliza la fórmula de calcular la distancia entre 2 puntos.
+        return getPixelPosition().dst(finalPosition);
     }
 }

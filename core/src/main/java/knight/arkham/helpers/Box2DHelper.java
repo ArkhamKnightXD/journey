@@ -11,7 +11,6 @@ import static knight.arkham.helpers.Constants.*;
 
 public class Box2DHelper {
 
-//    Todo resolver Problemas de collision con esta funciones.
     public static void createCollisionBody(Rectangle terrainBound, World world) {
 
         Box2DBody box2DBody = new Box2DBody(
@@ -26,7 +25,7 @@ public class Box2DHelper {
         createStaticBody(box2DBody);
     }
 
-    public static Fixture createStaticBody(Box2DBody box2DBody){
+    public static void createStaticBody(Box2DBody box2DBody){
 
         Body body = createBox2DBodyByType(box2DBody);
 
@@ -38,13 +37,12 @@ public class Box2DHelper {
 
         fixtureDef.shape = shape;
 
-        fixtureDef.filter.categoryBits = OBJECT_BIT;
+        fixtureDef.filter.categoryBits = GROUND_BIT;
 
-        Fixture fixture = body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef);
 
         shape.dispose();
 
-        return fixture;
     }
 
 
@@ -62,7 +60,7 @@ public class Box2DHelper {
     }
 
 
-    public static Fixture createBody(Box2DBody box2DBody) {
+    public static Body createBody(Box2DBody box2DBody) {
 
         PolygonShape shape = new PolygonShape();
 
@@ -76,20 +74,17 @@ public class Box2DHelper {
 
         Body body = createBox2DBodyByType(box2DBody);
 
-        Fixture fixture = body.createFixture(fixtureDef);
-
         if (box2DBody.userData instanceof Player)
-            fixture = createPlayerBody(box2DBody, fixtureDef, body);
+            createPlayerBody(box2DBody, fixtureDef, body);
 
         else if (box2DBody.userData instanceof Enemy)
-            fixture = createEnemyBody(box2DBody, fixtureDef, body);
+            createEnemyBody(box2DBody, fixtureDef, body);
 
         else if (box2DBody.userData instanceof InteractiveStructure) {
 
             fixtureDef.filter.categoryBits = BRICK_BIT;
 
-            fixture = body.createFixture(fixtureDef);
-            fixture.setUserData(box2DBody.userData);
+            body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
         } else {
 
@@ -100,20 +95,16 @@ public class Box2DHelper {
 
         shape.dispose();
 
-        return fixture;
+        return body;
     }
 
-    private static Fixture createEnemyBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
+    private static void createEnemyBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
 
         fixtureDef.filter.categoryBits = ENEMY_BIT;
 
         fixtureDef.filter.maskBits = (short) (GROUND_BIT | BRICK_BIT | ENEMY_BIT | PLAYER_BIT);
 
-        Fixture fixture;
-
-        fixture = body.createFixture(fixtureDef);
-
-        fixture.setUserData(box2DBody.userData);
+        body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
         PolygonShape headCollider = getEnemyHeadHeadCollider();
 
@@ -126,8 +117,6 @@ public class Box2DHelper {
 
 //        Los shapes deben de ser dispose luego de que el fixture se ha creado, si no el programa fallara.
         headCollider.dispose();
-
-        return fixture;
     }
 
     private static PolygonShape getEnemyHeadHeadCollider() {
@@ -164,7 +153,7 @@ public class Box2DHelper {
     }
 
 
-    private static Fixture createPlayerBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
+    private static void createPlayerBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
 
         fixtureDef.filter.categoryBits = PLAYER_BIT;
 
@@ -176,14 +165,8 @@ public class Box2DHelper {
 
         EdgeShape headCollider = getPlayerHeadCollider(fixtureDef);
 
-        Fixture fixture;
-
-        fixture = body.createFixture(fixtureDef);
-
-        fixture.setUserData(box2DBody.userData);
+        body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
         headCollider.dispose();
-
-        return fixture;
     }
 }

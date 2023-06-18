@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 import knight.arkham.screens.GameScreen;
 
@@ -26,12 +25,10 @@ public abstract class GameObject {
         actualBounds = bounds;
         actualRegion = region;
 
-        Fixture fixture = createFixture();
-
-        body = fixture.getBody();
+        body = createBody();
     }
 
-    protected abstract Fixture createFixture();
+    protected abstract Body createBody();
 
     private Rectangle getBoundsWithPPMCalculation(){
 

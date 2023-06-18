@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.screens.GameScreen;
@@ -16,7 +16,6 @@ public class Enemy extends GameObject {
     private final Animation<TextureRegion> runningAnimation;
     private float stateTimer;
     public boolean isMovingRight;
-
     private boolean setToDestroy;
     private boolean isDestroyed;
 
@@ -38,7 +37,7 @@ public class Enemy extends GameObject {
     }
 
     @Override
-    protected Fixture createFixture() {
+    protected Body createBody() {
 
         return Box2DHelper.createBody(
 
@@ -68,11 +67,11 @@ public class Enemy extends GameObject {
 
             setActualRegion(runningAnimation.getKeyFrame(stateTimer, true));
 
-//            if (isMovingRight && body.getLinearVelocity().x <= 3)
-//                body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
-//
-//            else if (!isMovingRight && body.getLinearVelocity().x >= -3)
-//                body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
+            if (isMovingRight && body.getLinearVelocity().x <= 3)
+                body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
+
+            else if (!isMovingRight && body.getLinearVelocity().x >= -3)
+                body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
         }
     }
 

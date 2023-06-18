@@ -62,9 +62,10 @@ public class GameScreen extends ScreenAdapter {
 
         player.update(deltaTime);
 
+
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies())){
 
-            if (player.getPixelPosition().x < enemy.getPixelPosition().x +200)
+            if (player.getDistanceInBetween(enemy.getPixelPosition()) < 170)
                 enemy.getBody().setActive(true);
 
             enemy.update(deltaTime);
