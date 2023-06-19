@@ -12,7 +12,6 @@ public class Box2DBody {
     public World world;
     public Object userData;
 
-
     public Box2DBody(Rectangle bounds, BodyDef.BodyType bodyType, float density, World world, Object userData) {
         this.bounds = bounds;
         this.bodyType = bodyType;

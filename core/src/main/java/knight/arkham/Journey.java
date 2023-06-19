@@ -13,8 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.screens.GameScreen;
 
-import static knight.arkham.helpers.Constants.BOX2D_FULL_SCREEN_HEIGHT;
-import static knight.arkham.helpers.Constants.BOX2D_FULL_SCREEN_WIDTH;
+import static knight.arkham.helpers.Constants.*;
 
 public class Journey extends Game {
     public static Journey INSTANCE;
@@ -51,7 +50,8 @@ public class Journey extends Game {
 
         globalCamera = new OrthographicCamera();
 
-        viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, globalCamera);
+//        It is better to avoid using PPM to set up my viewport.
+        viewport = new FitViewport(FULL_SCREEN_WIDTH/32f, FULL_SCREEN_HEIGHT/32f, globalCamera);
 
         debugRenderer = new Box2DDebugRenderer();
 

@@ -1,5 +1,7 @@
 package knight.arkham.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,6 +25,7 @@ public class GameScreen extends ScreenAdapter {
     private final Player player;
     private final TileMapHelper tileMap;
     private final TextureAtlas textureAtlas;
+    private boolean isDebug;
 
     public GameScreen() {
         game = Journey.INSTANCE;
@@ -43,9 +46,12 @@ public class GameScreen extends ScreenAdapter {
 
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
-        tileMap = new TileMapHelper(this, enemyRegion, "maps/test.tmx");
+        tileMap = new TileMapHelper(this, enemyRegion, "maps/playground/test.tmx");
+//        tileMap = new TileMapHelper(this, enemyRegion, "maps/cyber/cyber.tmx");
 
         mapRenderer = tileMap.setupMap();
+
+        isDebug = true;
     }
 
     @Override
@@ -70,6 +76,9 @@ public class GameScreen extends ScreenAdapter {
             enemy.update(deltaTime);
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            isDebug = !isDebug;
+
         game.manageExitTheGame();
     }
 
@@ -79,6 +88,9 @@ public class GameScreen extends ScreenAdapter {
 
         if (isPlayerInsideMapBounds)
             camera.position.set(player.getWorldPosition().x,9.5f, 0);
+
+//        Cyber map camera.
+//        camera.position.set(player.getWorldPosition().x,player.getWorldPosition().y, 0);
 
         camera.update();
 
@@ -93,20 +105,23 @@ public class GameScreen extends ScreenAdapter {
 
         ScreenUtils.clear(0,0,0,0);
 
-//        mapRenderer.render();
+        if (!isDebug){
+            mapRenderer.render();
 
-        game.batch.setProjectionMatrix(camera.combined);
+            game.batch.setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
+            game.batch.begin();
 
-//        player.draw(game.batch);
+            player.draw(game.batch);
 
-//        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
-//            enemy.draw(game.batch);
+            for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
+                enemy.draw(game.batch);
 
-        game.batch.end();
+            game.batch.end();
+        }
 
-       game.debugRenderer.render(world, camera.combined);
+       else
+            game.debugRenderer.render(world, camera.combined);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package knight.arkham.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
@@ -35,13 +34,9 @@ public class InteractiveStructure {
 
         Filter filter = new Filter();
 
-        Gdx.app.log("Filter Before", String.valueOf(fixture.getFilterData().categoryBits));
-
         filter.categoryBits = DESTROYED_BIT;
 
         fixture.setFilterData(filter);
-
-        Gdx.app.log("Filter After", String.valueOf(fixture.getFilterData().categoryBits));
 
         getObjectCellInTheTileMap().setTile(null);
     }

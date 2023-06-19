@@ -45,6 +45,7 @@ public class Enemy extends GameObject {
         );
     }
 
+//    todo destroy enemy when they fall.
     private void destroyEnemy() {
 
         gameScreen.getWorld().destroyBody(body);
