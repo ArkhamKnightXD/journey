@@ -18,11 +18,8 @@ public class Player extends GameObject {
     private final TextureRegion standingRegion;
     private PlayerAnimationState currentState;
     private PlayerAnimationState previousState;
-
     private final Animation<TextureRegion> runningAnimation;
-
     private float animationTimer;
-
     private boolean isPlayerRunningRight;
 
 

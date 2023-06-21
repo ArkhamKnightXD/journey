@@ -26,10 +26,10 @@ public class TileMapHelper {
     private final Array<Enemy> enemies;
 
 
-    public TileMapHelper(GameScreen gameScreen, TextureRegion enemyRegion, String mapFilePath) {
+    public TileMapHelper(GameScreen gameScreen, String mapFilePath) {
 
         this.gameScreen = gameScreen;
-        this.enemyRegion = enemyRegion;
+        this.enemyRegion = gameScreen.getTextureAtlas().findRegion("goomba");
         tiledMap = new TmxMapLoader().load(mapFilePath);
         enemies = new Array<>();
     }
@@ -73,7 +73,6 @@ public class TileMapHelper {
             gameScreen.getWorld(), tiledMap
         );
     }
-
 
     private void createEnemyBody(Rectangle rectangle) {
 

@@ -44,9 +44,7 @@ public class GameScreen extends ScreenAdapter {
 
         player = new Player(new Rectangle(500, 200, 32, 32), this, playerRegion);
 
-        TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
-
-        tileMap = new TileMapHelper(this, enemyRegion, "maps/playground/test.tmx");
+        tileMap = new TileMapHelper(this, "maps/playground/test.tmx");
 //        tileMap = new TileMapHelper(this, enemyRegion, "maps/cyber/cyber.tmx");
 
         mapRenderer = tileMap.setupMap();

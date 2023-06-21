@@ -18,12 +18,15 @@ public class Enemy extends GameObject {
     public boolean isMovingRight;
     private boolean setToDestroy;
     private boolean isDestroyed;
+    private final TextureRegion region;
 
     public Enemy(Rectangle rectangle, GameScreen gameScreen, TextureRegion actualRegion) {
         super(
             rectangle, gameScreen,
             new TextureRegion(actualRegion, 0, 0, 16, 16)
         );
+
+        this.region = actualRegion;
 
         body.setActive(false);
 
@@ -45,14 +48,12 @@ public class Enemy extends GameObject {
         );
     }
 
-//    todo destroy enemy when they fall.
     private void destroyEnemy() {
 
         gameScreen.getWorld().destroyBody(body);
         isDestroyed = true;
 
-        setActualRegion(new TextureRegion(gameScreen.getTextureAtlas()
-            .findRegion("goomba"), 32, 0, 16, 16));
+        setActualRegion(new TextureRegion(region, 32, 0, 16, 16));
 
         stateTimer = 0;
     }
@@ -73,6 +74,9 @@ public class Enemy extends GameObject {
 
             else if (!isMovingRight && body.getLinearVelocity().x >= -2)
                 body.applyLinearImpulse(new Vector2(-100*deltaTime, 0), body.getWorldCenter(), true);
+
+            if (getPixelPosition().y < -50)
+                setToDestroy = true;
         }
     }
 
@@ -82,7 +86,7 @@ public class Enemy extends GameObject {
             super.draw(batch);
     }
 
-    public void hitOnHead(Player player) {
+    public void hitOnHead() {
 
         setToDestroy = true;
     }
