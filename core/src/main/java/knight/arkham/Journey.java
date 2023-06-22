@@ -40,7 +40,7 @@ public class Journey extends Game {
     @Override
     public void create() {
 
-        globalWorld = new World(new Vector2(0, -10), true);
+        globalWorld = new World(new Vector2(0, -40), true);
 
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
