@@ -2,6 +2,8 @@ package knight.arkham.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -22,6 +24,9 @@ public class Player extends GameObject {
     private float animationTimer;
     private boolean isPlayerRunningRight;
 
+    private final Controller controller;
+
+
 
     public Player(Rectangle bounds, GameScreen gameScreen, TextureRegion actualRegion) {
         super(
@@ -38,6 +43,8 @@ public class Player extends GameObject {
         jumpingRegion = new TextureRegion(actualRegion, 80, 0, 16, 16);
 
         runningAnimation = makeAnimationByFrameRange(actualRegion, 1, 3, 0.1f);
+
+        controller = Controllers.getCurrent();
 
     }
 
@@ -57,13 +64,13 @@ public class Player extends GameObject {
 
         setActualRegion(getActualRegion(deltaTime));
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 13)
+        if ((controller.getButton(controller.getMapping().buttonDpadRight) ||  Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x <= 13)
             body.applyLinearImpulse(new Vector2(300*deltaTime, 0), body.getWorldCenter(), true);
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -13)
+        else if ((controller.getButton(controller.getMapping().buttonDpadLeft) ||  Gdx.input.isKeyPressed(Input.Keys.A)) && body.getLinearVelocity().x >= -13)
             body.applyLinearImpulse(new Vector2(-300*deltaTime, 0), body.getWorldCenter(), true);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
+        if ((controller.getButton(controller.getMapping().buttonA) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 170), body.getWorldCenter(), true);
 
         playerFallToDead();
