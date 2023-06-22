@@ -69,11 +69,11 @@ public class Enemy extends GameObject {
 
             setActualRegion(runningAnimation.getKeyFrame(stateTimer, true));
 
-            if (isMovingRight && body.getLinearVelocity().x <= 4)
-                body.applyLinearImpulse(new Vector2(300*deltaTime, 0), body.getWorldCenter(), true);
+            if (isMovingRight && body.getLinearVelocity().x <= 2)
+                body.applyLinearImpulse(new Vector2(100*deltaTime, 0), body.getWorldCenter(), true);
 
-            else if (!isMovingRight && body.getLinearVelocity().x >= -4)
-                body.applyLinearImpulse(new Vector2(-300*deltaTime, 0), body.getWorldCenter(), true);
+            else if (!isMovingRight && body.getLinearVelocity().x >= -2)
+                body.applyLinearImpulse(new Vector2(-100*deltaTime, 0), body.getWorldCenter(), true);
 
             if (getPixelPosition().y < -50)
                 setToDestroy = true;

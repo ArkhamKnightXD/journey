@@ -57,14 +57,14 @@ public class Player extends GameObject {
 
         setActualRegion(getActualRegion(deltaTime));
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 13)
-            body.applyLinearImpulse(new Vector2(300*deltaTime, 0), body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7)
+            body.applyLinearImpulse(new Vector2(100*deltaTime, 0), body.getWorldCenter(), true);
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -13)
-            body.applyLinearImpulse(new Vector2(-300*deltaTime, 0), body.getWorldCenter(), true);
+        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7)
+            body.applyLinearImpulse(new Vector2(-100*deltaTime, 0), body.getWorldCenter(), true);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
-            body.applyLinearImpulse(new Vector2(0, 170), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
 
         playerFallToDead();
     }
