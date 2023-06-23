@@ -23,10 +23,8 @@ public class Player extends GameObject {
     private final Animation<TextureRegion> runningAnimation;
     private float animationTimer;
     private boolean isPlayerRunningRight;
-
     private final Controller controller;
-
-
+    private final boolean isControllerConnected;
 
     public Player(Rectangle bounds, GameScreen gameScreen, TextureRegion actualRegion) {
         super(
@@ -45,7 +43,7 @@ public class Player extends GameObject {
         runningAnimation = makeAnimationByFrameRange(actualRegion, 1, 3, 0.1f);
 
         controller = Controllers.getCurrent();
-
+        isControllerConnected = false;
     }
 
     @Override
@@ -63,14 +61,14 @@ public class Player extends GameObject {
     public void update(float deltaTime) {
 
         setActualRegion(getActualRegion(deltaTime));
-
-        if ((controller.getButton(controller.getMapping().buttonDpadRight) ||  Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x <= 13)
+        //Todo try to organize this conditions better.
+        if ((isControllerConnected && (controller.getButton(controller.getMapping().buttonDpadRight)) ||  Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x <= 10)
             body.applyLinearImpulse(new Vector2(300*deltaTime, 0), body.getWorldCenter(), true);
 
-        else if ((controller.getButton(controller.getMapping().buttonDpadLeft) ||  Gdx.input.isKeyPressed(Input.Keys.A)) && body.getLinearVelocity().x >= -13)
+        else if ((isControllerConnected && (controller.getButton(controller.getMapping().buttonDpadLeft)) ||  Gdx.input.isKeyPressed(Input.Keys.A)) && body.getLinearVelocity().x >= -10)
             body.applyLinearImpulse(new Vector2(-300*deltaTime, 0), body.getWorldCenter(), true);
 
-        if ((controller.getButton(controller.getMapping().buttonA) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && body.getLinearVelocity().y == 0)
+        if ((isControllerConnected && (controller.getButton(controller.getMapping().buttonA)) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 170), body.getWorldCenter(), true);
 
         playerFallToDead();

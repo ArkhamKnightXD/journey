@@ -12,17 +12,13 @@ public class Box2DHelper {
 
     public static Fixture createStaticFixture(Box2DBody box2DBody){
 
-        Body body = createBox2DBodyByType(box2DBody);
-
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(box2DBody.bounds.width / 2 /PIXELS_PER_METER, box2DBody.bounds.height / 2 / PIXELS_PER_METER);
-
-        FixtureDef fixtureDef = new FixtureDef();
-
-        fixtureDef.shape = shape;
+        FixtureDef fixtureDef = createStandardFixtureDef(box2DBody, shape);
 
         fixtureDef.filter.categoryBits = BRICK_BIT;
+
+        Body body = createBox2DBodyByType(box2DBody);
 
 //        En tiempo de ejecución, por alguna razón el fixture siempre tiene el categoryBit en 1, pero al
 //        final donde se usa, tiene el categoryBit correspondiente a Brick_bit, asi que al fin de cuentas funciona bien.
@@ -68,13 +64,7 @@ public class Box2DHelper {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(box2DBody.bounds.width / 2 / PIXELS_PER_METER, box2DBody.bounds.height / 2 / PIXELS_PER_METER);
-
-        FixtureDef fixtureDef = new FixtureDef();
-
-        fixtureDef.shape = shape;
-
-        fixtureDef.density = box2DBody.density;
+        FixtureDef fixtureDef = createStandardFixtureDef(box2DBody, shape);
 
         Body body = createBox2DBodyByType(box2DBody);
 
@@ -94,6 +84,17 @@ public class Box2DHelper {
         shape.dispose();
 
         return body;
+    }
+
+    private static FixtureDef createStandardFixtureDef(Box2DBody box2DBody, PolygonShape shape) {
+        shape.setAsBox(box2DBody.bounds.width / 2 / PIXELS_PER_METER, box2DBody.bounds.height / 2 / PIXELS_PER_METER);
+
+        FixtureDef fixtureDef = new FixtureDef();
+
+        fixtureDef.shape = shape;
+
+        fixtureDef.density = box2DBody.density;
+        return fixtureDef;
     }
 
     private static void createEnemyBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
