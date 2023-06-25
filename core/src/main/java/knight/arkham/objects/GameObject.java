@@ -58,6 +58,10 @@ public abstract class GameObject {
 
     public Body getBody() {return body;}
 
+    protected void applyLinealImpulse(Vector2 impulseDirection) {
+        body.applyLinearImpulse(impulseDirection, body.getWorldCenter(), true);
+    }
+
     public void setPosition(float positionX, float positionY) {
         body.setTransform(positionX / PIXELS_PER_METER, positionY / PIXELS_PER_METER, 0);
     }

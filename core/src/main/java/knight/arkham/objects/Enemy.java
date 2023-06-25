@@ -69,11 +69,11 @@ public class Enemy extends GameObject {
 
             setActualRegion(runningAnimation.getKeyFrame(stateTimer, true));
 
-            if (isMovingRight && body.getLinearVelocity().x <= 4)
-                body.applyLinearImpulse(new Vector2(300*deltaTime, 0), body.getWorldCenter(), true);
+            if (isMovingRight && body.getLinearVelocity().x <= 6)
+                applyLinealImpulse(new Vector2(3, 0));
 
-            else if (!isMovingRight && body.getLinearVelocity().x >= -4)
-                body.applyLinearImpulse(new Vector2(-300*deltaTime, 0), body.getWorldCenter(), true);
+            else if (!isMovingRight && body.getLinearVelocity().x >= -6)
+                applyLinealImpulse(new Vector2(-3, 0));
 
             if (getPixelPosition().y < -50)
                 setToDestroy = true;
@@ -87,7 +87,6 @@ public class Enemy extends GameObject {
     }
 
     public void hitOnHead() {
-
         setToDestroy = true;
     }
 }

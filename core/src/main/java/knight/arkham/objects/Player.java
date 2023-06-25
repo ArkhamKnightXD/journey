@@ -24,12 +24,11 @@ public class Player extends GameObject {
     private float animationTimer;
     private boolean isPlayerRunningRight;
     private final Controller controller;
-    private final boolean isControllerConnected;
 
     public Player(Rectangle bounds, GameScreen gameScreen, TextureRegion actualRegion) {
         super(
-                bounds, gameScreen,
-                new TextureRegion(actualRegion ,0, 0, 16, 16)
+            bounds, gameScreen,
+            new TextureRegion(actualRegion, 0, 0, 16, 16)
         );
 
         previousState = PlayerAnimationState.STANDING;
@@ -43,7 +42,6 @@ public class Player extends GameObject {
         runningAnimation = makeAnimationByFrameRange(actualRegion, 1, 3, 0.1f);
 
         controller = Controllers.getCurrent();
-        isControllerConnected = false;
     }
 
     @Override
@@ -62,25 +60,25 @@ public class Player extends GameObject {
 
         setActualRegion(getActualRegion(deltaTime));
         //Todo try to organize this conditions better.
-        if ((isControllerConnected && (controller.getButton(controller.getMapping().buttonDpadRight)) ||  Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x <= 10)
-            body.applyLinearImpulse(new Vector2(300*deltaTime, 0), body.getWorldCenter(), true);
+        if ((controller != null && (controller.getButton(controller.getMapping().buttonDpadRight)) || Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x <= 10)
+            applyLinealImpulse(new Vector2(5, 0));
 
-        else if ((isControllerConnected && (controller.getButton(controller.getMapping().buttonDpadLeft)) ||  Gdx.input.isKeyPressed(Input.Keys.A)) && body.getLinearVelocity().x >= -10)
-            body.applyLinearImpulse(new Vector2(-300*deltaTime, 0), body.getWorldCenter(), true);
+        else if ((controller != null && (controller.getButton(controller.getMapping().buttonDpadLeft)) || Gdx.input.isKeyPressed(Input.Keys.A)) && body.getLinearVelocity().x >= -10)
+            applyLinealImpulse(new Vector2(-5, 0));
 
-        if ((isControllerConnected && (controller.getButton(controller.getMapping().buttonA)) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && body.getLinearVelocity().y == 0)
-            body.applyLinearImpulse(new Vector2(0, 170), body.getWorldCenter(), true);
+        if ((controller != null && (controller.getButton(controller.getMapping().buttonA)) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && body.getLinearVelocity().y == 0)
+            applyLinealImpulse(new Vector2(0, 170));
 
         playerFallToDead();
     }
 
-    private void playerFallToDead(){
+    private void playerFallToDead() {
 
-        if (getPixelPosition().y < -100){
+        if (getPixelPosition().y < -100) {
 
             setPosition(500, 200);
 
-            body.setLinearVelocity(0,0);
+            body.setLinearVelocity(0, 0);
         }
     }
 
@@ -145,7 +143,7 @@ public class Player extends GameObject {
 
     public void getHitByEnemy() {
 
-        body.applyLinearImpulse(new Vector2(500, 0), body.getWorldCenter(), true);
+        applyLinealImpulse(new Vector2(500, 0));
     }
 
     public float getDistanceInBetween(Vector2 finalPosition) {
