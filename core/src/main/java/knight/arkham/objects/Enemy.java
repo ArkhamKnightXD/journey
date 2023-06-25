@@ -1,5 +1,6 @@
 package knight.arkham.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -13,7 +14,6 @@ import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.screens.GameScreen;
 
 public class Enemy extends GameObject {
-
     private final Animation<TextureRegion> runningAnimation;
     private float stateTimer;
     public boolean isMovingRight;
@@ -93,7 +93,7 @@ public class Enemy extends GameObject {
     public void hitOnHead() {
         setToDestroy = true;
 
-        Sound sound = gameScreen.getAssetManager().get("sound/stomp.wav");
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/stomp.wav"));
 
         sound.play();
     }

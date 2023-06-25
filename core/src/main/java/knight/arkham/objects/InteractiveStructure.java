@@ -1,5 +1,6 @@
 package knight.arkham.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -13,8 +14,6 @@ import static knight.arkham.helpers.Constants.DESTROYED_BIT;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class InteractiveStructure {
-
-    private final GameScreen gameScreen;
     private final Fixture fixture;
     private final Body body;
     private final TiledMap tiledMap;
@@ -28,8 +27,6 @@ public class InteractiveStructure {
                 rectangle, BodyDef.BodyType.StaticBody, 0, gameScreen.getWorld(), this
             )
         );
-
-        this.gameScreen = gameScreen;
 
         body = fixture.getBody();
     }
@@ -45,7 +42,7 @@ public class InteractiveStructure {
 
         getObjectCellInTheTileMap().setTile(null);
 
-        Sound sound = gameScreen.getAssetManager().get("sound/bump.wav");
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/breakBlock.wav"));
 
         sound.play();
     }

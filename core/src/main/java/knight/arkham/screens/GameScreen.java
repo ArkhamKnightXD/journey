@@ -3,7 +3,6 @@ package knight.arkham.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -28,7 +27,6 @@ public class GameScreen extends ScreenAdapter {
     private final TileMapHelper tileMap;
     private final TextureAtlas textureAtlas;
     private boolean isDebug;
-    private final AssetManager assetManager;
     private final Music music;
 
     public GameScreen() {
@@ -53,13 +51,15 @@ public class GameScreen extends ScreenAdapter {
 
         mapRenderer = tileMap.setupMap();
 
-        assetManager = game.globalAssetManager;
+        music = Gdx.audio.newMusic(Gdx.files.internal("music/mario_music.ogg"));
 
-        music = assetManager.get("music/mario_music.ogg");
+        //Todo assetManager fails when I build a jar. It works normally using Gdx.Audio.
+        // I need to find another way to implement assetManager
+//        music = assetManager.get("music/mario_music.ogg");
 
         music.play();
         music.setLooping(true);
-        music.setVolume(0.1f);
+        music.setVolume(0.3f);
 
         isDebug = true;
     }
@@ -154,6 +154,4 @@ public class GameScreen extends ScreenAdapter {
     public World getWorld() {return world;}
 
     public TextureAtlas getTextureAtlas() {return textureAtlas;}
-
-    public AssetManager getAssetManager() {return assetManager;}
 }
