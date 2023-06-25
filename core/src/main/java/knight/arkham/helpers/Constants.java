@@ -8,10 +8,10 @@ public class Constants {
     //PPM For Playground 32f and for Cyber 16f
     public static final float PIXELS_PER_METER = 32f;
 
-    public static final int FULL_SCREEN_HEIGHT = Journey.INSTANCE.getScreenHeight();
-    public static final int FULL_SCREEN_WIDTH = Journey.INSTANCE.getScreenWidth();
-    public static final int MID_SCREEN_HEIGHT = Journey.INSTANCE.getScreenHeight() / 2;
-    public static final int MID_SCREEN_WIDTH = Journey.INSTANCE.getScreenWidth() / 2;
+    public static final int FULL_SCREEN_HEIGHT = Journey.INSTANCE.screenHeight;
+    public static final int FULL_SCREEN_WIDTH = Journey.INSTANCE.screenWidth;
+    public static final int MID_SCREEN_HEIGHT = Journey.INSTANCE.screenHeight / 2;
+    public static final int MID_SCREEN_WIDTH = Journey.INSTANCE.screenWidth / 2;
 
     public static final short NOTHING_BIT = 0;
 

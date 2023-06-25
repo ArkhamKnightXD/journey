@@ -3,6 +3,7 @@ package knight.arkham;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import knight.arkham.helpers.AssetsLoaderHelper;
 import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.*;
@@ -29,8 +31,10 @@ public class Journey extends Game {
 
     public World globalWorld;
 
-    private int screenWidth;
-    private int screenHeight;
+    public AssetManager globalAssetManager;
+
+    public int screenWidth;
+    public int screenHeight;
 
     public Journey() {
 
@@ -55,20 +59,25 @@ public class Journey extends Game {
 
         debugRenderer = new Box2DDebugRenderer();
 
+        loadAllAssets();
+
         setScreen(new GameScreen());
+    }
+
+    private void loadAllAssets() {
+        AssetsLoaderHelper assetsLoader = new AssetsLoaderHelper();
+
+        globalAssetManager = assetsLoader.getGlobalAssetsManager();
+
+        assetsLoader.loadAllAssetsByFolder("music");
+        assetsLoader.loadAllAssetsByFolder("sound");
+
+        globalAssetManager.finishLoading();
     }
 
     public void manageExitTheGame() {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
-    }
-
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
-    public int getScreenHeight() {
-        return screenHeight;
     }
 }

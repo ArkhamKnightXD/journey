@@ -3,6 +3,8 @@ package knight.arkham.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -26,6 +28,8 @@ public class GameScreen extends ScreenAdapter {
     private final TileMapHelper tileMap;
     private final TextureAtlas textureAtlas;
     private boolean isDebug;
+    private final AssetManager assetManager;
+    private final Music music;
 
     public GameScreen() {
         game = Journey.INSTANCE;
@@ -48,6 +52,14 @@ public class GameScreen extends ScreenAdapter {
 //        tileMap = new TileMapHelper(this, enemyRegion, "maps/cyber/cyber.tmx");
 
         mapRenderer = tileMap.setupMap();
+
+        assetManager = game.globalAssetManager;
+
+        music = assetManager.get("music/mario_music.ogg");
+
+        music.play();
+        music.setLooping(true);
+        music.setVolume(0.1f);
 
         isDebug = true;
     }
@@ -131,6 +143,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
+        music.dispose();
         mapRenderer.dispose();
         player.getSprite().dispose();
 
@@ -141,4 +154,6 @@ public class GameScreen extends ScreenAdapter {
     public World getWorld() {return world;}
 
     public TextureAtlas getTextureAtlas() {return textureAtlas;}
+
+    public AssetManager getAssetManager() {return assetManager;}
 }

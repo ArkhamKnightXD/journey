@@ -21,7 +21,7 @@ public class Player extends GameObject {
     private PlayerAnimationState currentState;
     private PlayerAnimationState previousState;
     private final Animation<TextureRegion> runningAnimation;
-    private float animationTimer;
+    private float stateTimer;
     private boolean isPlayerRunningRight;
     private final Controller controller;
 
@@ -34,7 +34,7 @@ public class Player extends GameObject {
         previousState = PlayerAnimationState.STANDING;
         currentState = PlayerAnimationState.STANDING;
 
-        animationTimer = 0;
+        stateTimer = 0;
 
         standingRegion = new TextureRegion(actualRegion, 0, 0, 16, 16);
         jumpingRegion = new TextureRegion(actualRegion, 80, 0, 16, 16);
@@ -111,7 +111,7 @@ public class Player extends GameObject {
                 break;
 
             case RUNNING:
-                region = runningAnimation.getKeyFrame(animationTimer, true);
+                region = runningAnimation.getKeyFrame(stateTimer, true);
                 break;
 
             case FALLING:
@@ -122,7 +122,7 @@ public class Player extends GameObject {
 
         flipPlayerOnXAxis(region);
 
-        animationTimer = currentState == previousState ? animationTimer + deltaTime : 0;
+        stateTimer = currentState == previousState ? stateTimer + deltaTime : 0;
         previousState = currentState;
 
         return region;

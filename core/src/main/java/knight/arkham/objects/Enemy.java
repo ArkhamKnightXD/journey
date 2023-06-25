@@ -1,5 +1,6 @@
 package knight.arkham.objects;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,13 +21,13 @@ public class Enemy extends GameObject {
     private boolean isDestroyed;
     private final TextureRegion region;
 
-    public Enemy(Rectangle rectangle, GameScreen gameScreen, TextureRegion actualRegion) {
+    public Enemy(Rectangle rectangle, GameScreen gameScreen, TextureRegion region) {
         super(
             rectangle, gameScreen,
-            new TextureRegion(actualRegion, 0, 0, 16, 16)
+            new TextureRegion(region, 0, 0, 16, 16)
         );
 
-        this.region = actualRegion;
+        this.region = region;
 
         body.setActive(false);
 
@@ -36,7 +37,7 @@ public class Enemy extends GameObject {
 
         stateTimer = 0;
 
-        runningAnimation = makeAnimationByFrameRange(actualRegion, 0, 1, 0.4f);
+        runningAnimation = makeAnimationByFrameRange(region, 0, 1, 0.4f);
     }
 
     @Override
@@ -44,7 +45,8 @@ public class Enemy extends GameObject {
 
         return Box2DHelper.createBody(
 
-            new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody, 10, gameScreen.getWorld(), this)
+            new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody,
+                10, gameScreen.getWorld(), this)
         );
     }
 
@@ -60,6 +62,8 @@ public class Enemy extends GameObject {
 
     public void update(float deltaTime) {
 
+        //Debido a que estoy haciendo += con mi deltaTime, esta variable ira guardando
+        // los segundos que han pasado, desde que empezó mi gameLoop. Esta variable es básicamente un contador.
         stateTimer += deltaTime;
 
         if (setToDestroy && !isDestroyed)
@@ -69,10 +73,10 @@ public class Enemy extends GameObject {
 
             setActualRegion(runningAnimation.getKeyFrame(stateTimer, true));
 
-            if (isMovingRight && body.getLinearVelocity().x <= 6)
+            if (isMovingRight && body.getLinearVelocity().x <= 5)
                 applyLinealImpulse(new Vector2(3, 0));
 
-            else if (!isMovingRight && body.getLinearVelocity().x >= -6)
+            else if (!isMovingRight && body.getLinearVelocity().x >= -5)
                 applyLinealImpulse(new Vector2(-3, 0));
 
             if (getPixelPosition().y < -50)
@@ -88,5 +92,9 @@ public class Enemy extends GameObject {
 
     public void hitOnHead() {
         setToDestroy = true;
+
+        Sound sound = gameScreen.getAssetManager().get("sound/stomp.wav");
+
+        sound.play();
     }
 }

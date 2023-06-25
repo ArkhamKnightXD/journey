@@ -20,8 +20,8 @@ public abstract class GameObject {
 
     protected GameObject(Rectangle bounds, GameScreen gameScreen, TextureRegion region) {
 
-        this.gameScreen = gameScreen;
         actualBounds = bounds;
+        this.gameScreen = gameScreen;
         actualRegion = region;
 
         body = createBody();
@@ -41,9 +41,9 @@ public abstract class GameObject {
 
     public void draw(Batch batch) {
 
-        Rectangle actualBounds = getBoundsWithPPMCalculation();
+        Rectangle bounds = getBoundsWithPPMCalculation();
 
-        batch.draw(actualRegion, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
+        batch.draw(actualRegion, bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     protected Animation<TextureRegion> makeAnimationByFrameRange(TextureRegion characterRegion, int initialFrame, int finalFrame, float frameDuration) {
