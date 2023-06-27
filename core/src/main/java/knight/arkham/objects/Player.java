@@ -15,7 +15,6 @@ import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.screens.GameScreen;
 
 public class Player extends GameObject {
-
     private final TextureRegion jumpingRegion;
     private final TextureRegion standingRegion;
     private PlayerAnimationState currentState;
