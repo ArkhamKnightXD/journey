@@ -12,7 +12,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
+import knight.arkham.helpers.GameDataPreferencesHelper;
 import knight.arkham.screens.GameScreen;
+
+import static knight.arkham.screens.GameScreen.GAME_DATA_FILENAME;
 
 public class Player extends GameObject {
     private final TextureRegion jumpingRegion;
@@ -78,6 +81,10 @@ public class Player extends GameObject {
             setPosition(500, 200);
 
             body.setLinearVelocity(0, 0);
+
+            Vector2 position = GameDataPreferencesHelper.loadGameData(GAME_DATA_FILENAME).position;
+
+            body.setTransform(position, 0);
         }
     }
 

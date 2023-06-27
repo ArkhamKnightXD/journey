@@ -3,6 +3,7 @@ package knight.arkham.helpers;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import knight.arkham.objects.Checkpoint;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
 
@@ -16,7 +17,12 @@ public class Box2DHelper {
 
         FixtureDef fixtureDef = createStandardFixtureDef(box2DBody, shape);
 
-        fixtureDef.filter.categoryBits = BRICK_BIT;
+
+        if (box2DBody.userData instanceof Checkpoint)
+            fixtureDef.filter.categoryBits = CHECKPOINT_BIT;
+
+        else
+            fixtureDef.filter.categoryBits = BRICK_BIT;
 
         Body body = createBox2DBodyByType(box2DBody);
 
@@ -156,7 +162,7 @@ public class Box2DHelper {
 
         fixtureDef.filter.categoryBits = PLAYER_BIT;
 
-        fixtureDef.filter.maskBits = (short) (GROUND_BIT | BRICK_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
+        fixtureDef.filter.maskBits = (short) (GROUND_BIT | BRICK_BIT | CHECKPOINT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
 
         //Nota si se van a definir varios category y maskBit a varios cuerpos, tener pendiente, que se debe de crear fixture antes de agregar
         // los demás mask y category al otro cuerpo

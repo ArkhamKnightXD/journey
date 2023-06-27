@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import knight.arkham.objects.Checkpoint;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.InteractiveStructure;
 import knight.arkham.screens.GameScreen;
@@ -39,6 +40,7 @@ public class TileMapHelper {
         parseMapObjectsToBox2DBodies(tiledMap, "Collisions");
         parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
         parseMapObjectsToBox2DBodies(tiledMap, "Blocks");
+        parseMapObjectsToBox2DBodies(tiledMap, "Checkpoints");
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
@@ -57,6 +59,9 @@ public class TileMapHelper {
             else if (objectsName.equals("Blocks"))
                 createInteractiveStructureBody(rectangle);
 
+            else if (objectsName.equals("Checkpoints"))
+                createCheckpointBody(rectangle);
+
             else
                 Box2DHelper.createStaticCollisionBody(rectangle, gameScreen.getWorld());
         }
@@ -65,6 +70,18 @@ public class TileMapHelper {
     private void createInteractiveStructureBody(Rectangle rectangle) {
 
         new InteractiveStructure(
+            new Rectangle(
+                rectangle.x + rectangle.width / 2,
+                rectangle.y + rectangle.height / 2,
+                rectangle.width, rectangle.height
+            ),
+            gameScreen, tiledMap
+        );
+    }
+
+    private void createCheckpointBody(Rectangle rectangle) {
+
+        new Checkpoint(
             new Rectangle(
                 rectangle.x + rectangle.width / 2,
                 rectangle.y + rectangle.height / 2,

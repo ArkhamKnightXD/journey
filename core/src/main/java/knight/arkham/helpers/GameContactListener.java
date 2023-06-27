@@ -1,6 +1,7 @@
 package knight.arkham.helpers;
 
 import com.badlogic.gdx.physics.box2d.*;
+import knight.arkham.objects.Checkpoint;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.InteractiveStructure;
 import knight.arkham.objects.Player;
@@ -48,6 +49,16 @@ public class GameContactListener implements ContactListener {
 
                 else
                     ((Player) fixtureB.getUserData()).getHitByEnemy();
+                break;
+
+
+            case PLAYER_BIT | CHECKPOINT_BIT:
+
+                if (fixtureA.getFilterData().categoryBits == CHECKPOINT_BIT)
+                    ((Checkpoint) fixtureA.getUserData()).createCheckpoint();
+
+                else
+                    ((Checkpoint) fixtureB.getUserData()).createCheckpoint();
                 break;
 
         }
