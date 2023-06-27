@@ -1,53 +1,36 @@
 package knight.arkham.objects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import knight.arkham.helpers.Box2DBody;
-import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.screens.GameScreen;
 
-import static knight.arkham.helpers.Constants.DESTROYED_BIT;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
-public class InteractiveStructure {
-    private final Fixture fixture;
+public abstract class InteractiveStructure {
+
+    protected final GameScreen gameScreen;
+    protected final Rectangle bounds;
+    protected final Fixture fixture;
     private final Body body;
     private final TiledMap tiledMap;
 
     public InteractiveStructure(Rectangle rectangle, GameScreen gameScreen, TiledMap tiledMap) {
 
+        this.bounds = rectangle;
+        this.gameScreen = gameScreen;
         this.tiledMap = tiledMap;
 
-        fixture = Box2DHelper.createStaticFixture(
-            new Box2DBody(
-                rectangle, BodyDef.BodyType.StaticBody, 0, gameScreen.getWorld(), this
-            )
-        );
+        fixture = createFixture();
 
         body = fixture.getBody();
     }
 
+    protected abstract Fixture createFixture();
 
-    public void hitByPlayer() {
 
-        Filter filter = new Filter();
-
-        filter.categoryBits = DESTROYED_BIT;
-
-        fixture.setFilterData(filter);
-
-        getObjectCellInTheTileMap().setTile(null);
-
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/breakBlock.wav"));
-
-        sound.play();
-    }
-
-    private TiledMapTileLayer.Cell getObjectCellInTheTileMap() {
+    protected TiledMapTileLayer.Cell getObjectCellInTheTileMap() {
 
         TiledMapTileLayer mapLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Terrain");
 

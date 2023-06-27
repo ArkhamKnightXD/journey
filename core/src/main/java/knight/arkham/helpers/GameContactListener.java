@@ -1,10 +1,7 @@
 package knight.arkham.helpers;
 
 import com.badlogic.gdx.physics.box2d.*;
-import knight.arkham.objects.Checkpoint;
-import knight.arkham.objects.Enemy;
-import knight.arkham.objects.InteractiveStructure;
-import knight.arkham.objects.Player;
+import knight.arkham.objects.*;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -36,10 +33,10 @@ public class GameContactListener implements ContactListener {
             case MARIO_HEAD_BIT | BRICK_BIT:
 
                 if (fixtureA.getFilterData().categoryBits == BRICK_BIT)
-                    ((InteractiveStructure) fixtureA.getUserData()).hitByPlayer();
+                    ((Block) fixtureA.getUserData()).hitByPlayer();
 
                 else
-                    ((InteractiveStructure) fixtureB.getUserData()).hitByPlayer();
+                    ((Block) fixtureB.getUserData()).hitByPlayer();
                 break;
 
             case PLAYER_BIT | ENEMY_BIT:

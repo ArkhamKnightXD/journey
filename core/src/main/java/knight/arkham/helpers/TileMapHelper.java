@@ -11,9 +11,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import knight.arkham.objects.Block;
 import knight.arkham.objects.Checkpoint;
 import knight.arkham.objects.Enemy;
-import knight.arkham.objects.InteractiveStructure;
 import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
@@ -57,7 +57,7 @@ public class TileMapHelper {
                 createEnemyBody(rectangle);
 
             else if (objectsName.equals("Blocks"))
-                createInteractiveStructureBody(rectangle);
+                createBlockBody(rectangle);
 
             else if (objectsName.equals("Checkpoints"))
                 createCheckpointBody(rectangle);
@@ -67,9 +67,9 @@ public class TileMapHelper {
         }
     }
 
-    private void createInteractiveStructureBody(Rectangle rectangle) {
+    private void createBlockBody(Rectangle rectangle) {
 
-        new InteractiveStructure(
+        new Block(
             new Rectangle(
                 rectangle.x + rectangle.width / 2,
                 rectangle.y + rectangle.height / 2,
