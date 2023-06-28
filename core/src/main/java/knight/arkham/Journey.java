@@ -19,8 +19,6 @@ public class Journey extends Game {
     public Viewport viewport;
     public World globalWorld;
     public Box2DDebugRenderer debugRenderer;
-    public int screenWidth;
-    public int screenHeight;
 
     public Journey() {
 
@@ -33,15 +31,15 @@ public class Journey extends Game {
         globalWorld = new World(new Vector2(0, -40), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
-
         batch = new SpriteBatch();
 
         globalCamera = new OrthographicCamera();
 
+        int screenWidth = Gdx.graphics.getWidth();
+        int screenHeight = Gdx.graphics.getHeight();
+
 //        It is better to avoid using PPM to set up my viewport.
-        viewport = new FitViewport(screenWidth/32f, screenHeight/32f, globalCamera);
+        viewport = new FitViewport(screenWidth / 32f, screenHeight / 32f, globalCamera);
 
         setScreen(new GameScreen());
     }

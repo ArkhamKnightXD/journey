@@ -1,17 +1,16 @@
 package knight.arkham.helpers;
 
-
-import knight.arkham.Journey;
+import com.badlogic.gdx.Gdx;
 
 public class Constants {
 
     //PPM For Playground 32f and for Cyber 16f
     public static final float PIXELS_PER_METER = 32f;
 
-    public static final int FULL_SCREEN_HEIGHT = Journey.INSTANCE.screenHeight;
-    public static final int FULL_SCREEN_WIDTH = Journey.INSTANCE.screenWidth;
-    public static final int MID_SCREEN_HEIGHT = Journey.INSTANCE.screenHeight / 2;
-    public static final int MID_SCREEN_WIDTH = Journey.INSTANCE.screenWidth / 2;
+    public static final int FULL_SCREEN_HEIGHT = Gdx.graphics.getWidth();
+    public static final int FULL_SCREEN_WIDTH = Gdx.graphics.getHeight();
+    public static final int MID_SCREEN_HEIGHT = Gdx.graphics.getHeight() / 2;
+    public static final int MID_SCREEN_WIDTH = Gdx.graphics.getWidth()/ 2;
 
     public static final short NOTHING_BIT = 0;
 

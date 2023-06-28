@@ -1,6 +1,5 @@
 package knight.arkham.helpers;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.structures.Checkpoint;
@@ -35,21 +34,6 @@ public class Box2DHelper {
 
         return fixture;
     }
-
-    public static void createStaticCollisionBody(Rectangle terrainBound, World world) {
-
-        Box2DBody box2DBody = new Box2DBody(
-
-            new Rectangle(
-                terrainBound.x + terrainBound.width / 2,
-                terrainBound.y + terrainBound.height / 2,
-                terrainBound.width, terrainBound.height
-            ), world
-        );
-
-        createBody(box2DBody);
-    }
-
 
     private static Body createBox2DBodyByType(Box2DBody box2DBody) {
 

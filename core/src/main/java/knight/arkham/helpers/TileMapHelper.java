@@ -1,9 +1,7 @@
 package knight.arkham.helpers;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -26,7 +24,6 @@ public class TileMapHelper {
     private final TextureRegion enemyRegion;
     private final Array<Enemy> enemies;
 
-
     public TileMapHelper(GameScreen gameScreen, String mapFilePath) {
 
         this.gameScreen = gameScreen;
@@ -37,77 +34,56 @@ public class TileMapHelper {
 
     public OrthogonalTiledMapRenderer setupMap() {
 
-        parseMapObjectsToBox2DBodies(tiledMap, "Collisions");
-        parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
-        parseMapObjectsToBox2DBodies(tiledMap, "Blocks");
-        parseMapObjectsToBox2DBodies(tiledMap, "Checkpoints");
+        MapLayers mapLayers = tiledMap.getLayers();
+
+        for (MapLayer mapLayer : mapLayers){
+
+            parseMapObjectsToBox2DBodies(mapLayer.getObjects(), mapLayer.getName());
+        }
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
 
-    private void parseMapObjectsToBox2DBodies(TiledMap tiledMap, String objectsName) {
-
-        MapObjects mapObjects = tiledMap.getLayers().get(objectsName).getObjects();
+    private void parseMapObjectsToBox2DBodies(MapObjects mapObjects, String objectsName) {
 
         for (MapObject mapObject : mapObjects) {
 
             Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 
+            Rectangle parsedRectangle = parseRectangle(rectangle);
+
             switch (objectsName) {
 
                 case "Enemies":
-                    createEnemyBody(rectangle);
+                    createEnemyBody(parsedRectangle);
                     break;
 
                 case "Blocks":
-                    createBlockBody(rectangle);
+                    new Block(parsedRectangle, gameScreen, tiledMap);
                     break;
 
                 case "Checkpoints":
-                    createCheckpointBody(rectangle);
+                    new Checkpoint(parsedRectangle, gameScreen, tiledMap);
                     break;
 
                 default:
-                    Box2DHelper.createStaticCollisionBody(rectangle, gameScreen.getWorld());
+                    Box2DHelper.createBody(new Box2DBody(parsedRectangle, gameScreen.getWorld()));
                     break;
             }
         }
     }
 
-    private void createBlockBody(Rectangle rectangle) {
-
-        new Block(
-            new Rectangle(
-                rectangle.x + rectangle.width / 2,
-                rectangle.y + rectangle.height / 2,
-                rectangle.width, rectangle.height
-            ),
-            gameScreen, tiledMap
-        );
-    }
-
-    private void createCheckpointBody(Rectangle rectangle) {
-
-        new Checkpoint(
-            new Rectangle(
-                rectangle.x + rectangle.width / 2,
-                rectangle.y + rectangle.height / 2,
-                rectangle.width, rectangle.height
-            ),
-            gameScreen, tiledMap
+    private Rectangle parseRectangle(Rectangle rectangle){
+        return new Rectangle(
+            rectangle.x + rectangle.width / 2,
+            rectangle.y + rectangle.height / 2,
+            rectangle.width, rectangle.height
         );
     }
 
     private void createEnemyBody(Rectangle rectangle) {
 
-        Enemy actualEnemy = new Enemy(
-            new Rectangle(
-                rectangle.x + rectangle.width / 2,
-                rectangle.y + rectangle.height / 2,
-                rectangle.width, rectangle.height
-            ),
-            gameScreen, enemyRegion
-        );
+        Enemy actualEnemy = new Enemy(rectangle, gameScreen, enemyRegion);
 
         enemies.add(actualEnemy);
     }

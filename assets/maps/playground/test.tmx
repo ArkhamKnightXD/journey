@@ -102,8 +102,6 @@
  </objectgroup>
  <objectgroup id="5" name="Traps">
   <object id="10" x="1347.83" y="432.5" width="41.5" height="12"/>
-  <object id="11" x="114.833" y="574.667" width="41.5" height="13"/>
-  <object id="12" x="228.167" y="573.333" width="41.5" height="13.5"/>
  </objectgroup>
  <objectgroup id="4" name="Collisions">
   <object id="3" x="0" y="591.5" width="336" height="48"/>
