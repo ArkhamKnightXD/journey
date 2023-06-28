@@ -50,20 +50,24 @@ public class GameScreen extends ScreenAdapter {
 
         player = new Player(new Rectangle(500, 200, 32, 32), this, playerRegion);
 
+        GameData gameDataToSave = new GameData("GameScreen", player.getWorldPosition());
+
+        GameDataPreferencesHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
+
         tileMap = new TileMapHelper(this, "maps/playground/test.tmx");
-//        tileMap = new TileMapHelper(this, enemyRegion, "maps/cyber/cyber.tmx");
+//        tileMap = new TileMapHelper(this, "maps/cyber/cyber.tmx");
 
         mapRenderer = tileMap.setupMap();
 
         music = Gdx.audio.newMusic(Gdx.files.internal("music/mario_music.ogg"));
 
+//        music.play();
+//        music.setLooping(true);
+//        music.setVolume(0.3f);
+
         //Todo assetManager fails when I build a jar. It works normally using Gdx.Audio.
         // I need to find another way to implement assetManager
 //        music = assetManager.get("music/mario_music.ogg");
-
-        music.play();
-        music.setLooping(true);
-        music.setVolume(0.3f);
 
         isDebug = true;
     }
@@ -87,10 +91,9 @@ public class GameScreen extends ScreenAdapter {
 
             Vector2 position = GameDataPreferencesHelper.loadGameData(GAME_DATA_FILENAME).position;
 
-            player.getBody().setTransform(position, 0);
+            player.setPosition(position.x, position.y);
         }
     }
-
 
     private void update(float deltaTime){
 

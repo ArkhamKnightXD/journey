@@ -1,4 +1,4 @@
-package knight.arkham.objects;
+package knight.arkham.objects.structures;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -13,7 +13,7 @@ import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.DESTROYED_BIT;
 
-public class Block extends InteractiveStructure{
+public class Block extends InteractiveStructure {
 
     public Block(Rectangle rectangle, GameScreen gameScreen, TiledMap tiledMap) {
         super(rectangle, gameScreen, tiledMap);
@@ -21,11 +21,12 @@ public class Block extends InteractiveStructure{
 
     @Override
     protected Fixture createFixture() {
+
         return Box2DHelper.createStaticFixture(
-           new Box2DBody(
-               bounds, BodyDef.BodyType.StaticBody, 0, gameScreen.getWorld(), this
-           )
-       );
+            new Box2DBody(
+                actualBounds, BodyDef.BodyType.StaticBody, 0, gameScreen.getWorld(), this
+            )
+        );
     }
 
     public void hitByPlayer() {
@@ -33,13 +34,11 @@ public class Block extends InteractiveStructure{
         Filter filter = new Filter();
 
         filter.categoryBits = DESTROYED_BIT;
-
         fixture.setFilterData(filter);
 
-        getObjectCellInTheTileMap().setTile(null);
-
         Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/breakBlock.wav"));
-
         sound.play();
+
+        getObjectCellInTheTileMap().setTile(null);
     }
 }

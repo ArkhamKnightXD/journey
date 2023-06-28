@@ -1,4 +1,4 @@
-package knight.arkham.objects;
+package knight.arkham.objects.structures;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -9,16 +9,15 @@ import knight.arkham.screens.GameScreen;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class InteractiveStructure {
-
     protected final GameScreen gameScreen;
-    protected final Rectangle bounds;
+    protected final Rectangle actualBounds;
     protected final Fixture fixture;
-    private final Body body;
+    protected final Body body;
     private final TiledMap tiledMap;
 
     public InteractiveStructure(Rectangle rectangle, GameScreen gameScreen, TiledMap tiledMap) {
 
-        this.bounds = rectangle;
+        actualBounds = rectangle;
         this.gameScreen = gameScreen;
         this.tiledMap = tiledMap;
 
@@ -28,7 +27,6 @@ public abstract class InteractiveStructure {
     }
 
     protected abstract Fixture createFixture();
-
 
     protected TiledMapTileLayer.Cell getObjectCellInTheTileMap() {
 

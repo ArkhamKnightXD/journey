@@ -2,6 +2,8 @@ package knight.arkham.helpers;
 
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.*;
+import knight.arkham.objects.structures.Block;
+import knight.arkham.objects.structures.Checkpoint;
 
 import static knight.arkham.helpers.Constants.*;
 

@@ -3,7 +3,7 @@ package knight.arkham.helpers;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import knight.arkham.objects.Checkpoint;
+import knight.arkham.objects.structures.Checkpoint;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
 
@@ -16,7 +16,6 @@ public class Box2DHelper {
         PolygonShape shape = new PolygonShape();
 
         FixtureDef fixtureDef = createStandardFixtureDef(box2DBody, shape);
-
 
         if (box2DBody.userData instanceof Checkpoint)
             fixtureDef.filter.categoryBits = CHECKPOINT_BIT;

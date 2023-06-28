@@ -11,8 +11,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import knight.arkham.objects.Block;
-import knight.arkham.objects.Checkpoint;
+import knight.arkham.objects.structures.Block;
+import knight.arkham.objects.structures.Checkpoint;
 import knight.arkham.objects.Enemy;
 import knight.arkham.screens.GameScreen;
 
@@ -53,17 +53,24 @@ public class TileMapHelper {
 
             Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 
-            if (objectsName.equals("Enemies"))
-                createEnemyBody(rectangle);
+            switch (objectsName) {
 
-            else if (objectsName.equals("Blocks"))
-                createBlockBody(rectangle);
+                case "Enemies":
+                    createEnemyBody(rectangle);
+                    break;
 
-            else if (objectsName.equals("Checkpoints"))
-                createCheckpointBody(rectangle);
+                case "Blocks":
+                    createBlockBody(rectangle);
+                    break;
 
-            else
-                Box2DHelper.createStaticCollisionBody(rectangle, gameScreen.getWorld());
+                case "Checkpoints":
+                    createCheckpointBody(rectangle);
+                    break;
+
+                default:
+                    Box2DHelper.createStaticCollisionBody(rectangle, gameScreen.getWorld());
+                    break;
+            }
         }
     }
 
