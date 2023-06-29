@@ -39,7 +39,7 @@ public class Checkpoint extends InteractiveStructure {
         filter.categoryBits = DESTROYED_BIT;
         fixture.setFilterData(filter);
 
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/breakBlock.wav"));
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/coin.wav"));
         sound.play();
 
         GameData gameDataToSave = new GameData("GameScreen", body.getPosition());

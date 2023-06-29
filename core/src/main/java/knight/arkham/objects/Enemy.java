@@ -46,13 +46,13 @@ public class Enemy extends GameObject {
         return Box2DHelper.createBody(
 
             new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody,
-                10, gameScreen.getWorld(), this)
+                10, actualGameScreen.getWorld(), this)
         );
     }
 
     private void destroyEnemy() {
 
-        gameScreen.getWorld().destroyBody(body);
+        actualGameScreen.getWorld().destroyBody(body);
         isDestroyed = true;
 
         setActualRegion(new TextureRegion(region, 32, 0, 16, 16));

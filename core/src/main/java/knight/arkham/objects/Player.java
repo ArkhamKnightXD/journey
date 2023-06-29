@@ -53,7 +53,7 @@ public class Player extends GameObject {
 
             new Box2DBody(
                 actualBounds, BodyDef.BodyType.DynamicBody,
-                10, gameScreen.getWorld(), this
+                10, actualGameScreen.getWorld(), this
             )
         );
     }
@@ -70,6 +70,12 @@ public class Player extends GameObject {
 
         if ((controller != null && (controller.getButton(controller.getMapping().buttonA)) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && body.getLinearVelocity().y == 0)
             applyLinealImpulse(new Vector2(0, 170));
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)){
+
+//            body.setGravityScale(0);
+            applyLinealImpulse(new Vector2(200, 0));
+        }
 
         playerFallToDead();
     }

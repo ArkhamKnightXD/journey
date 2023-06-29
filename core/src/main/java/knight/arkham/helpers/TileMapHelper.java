@@ -50,42 +50,35 @@ public class TileMapHelper {
 
             Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 
-            Rectangle parsedRectangle = parseRectangle(rectangle);
+            Rectangle box2dRectangle = createBox2dRectangle(rectangle);
 
             switch (objectsName) {
 
                 case "Enemies":
-                    createEnemyBody(parsedRectangle);
+                    enemies.add(new Enemy(box2dRectangle, gameScreen, enemyRegion));
                     break;
 
                 case "Blocks":
-                    new Block(parsedRectangle, gameScreen, tiledMap);
+                    new Block(box2dRectangle, gameScreen, tiledMap);
                     break;
 
                 case "Checkpoints":
-                    new Checkpoint(parsedRectangle, gameScreen, tiledMap);
+                    new Checkpoint(box2dRectangle, gameScreen, tiledMap);
                     break;
 
                 default:
-                    Box2DHelper.createBody(new Box2DBody(parsedRectangle, gameScreen.getWorld()));
+                    Box2DHelper.createBody(new Box2DBody(box2dRectangle, gameScreen.getWorld()));
                     break;
             }
         }
     }
 
-    private Rectangle parseRectangle(Rectangle rectangle){
+    private Rectangle createBox2dRectangle(Rectangle rectangle){
         return new Rectangle(
             rectangle.x + rectangle.width / 2,
             rectangle.y + rectangle.height / 2,
             rectangle.width, rectangle.height
         );
-    }
-
-    private void createEnemyBody(Rectangle rectangle) {
-
-        Enemy actualEnemy = new Enemy(rectangle, gameScreen, enemyRegion);
-
-        enemies.add(actualEnemy);
     }
 
     public boolean isPlayerInsideMapBounds(Vector2 playerPixelPosition) {

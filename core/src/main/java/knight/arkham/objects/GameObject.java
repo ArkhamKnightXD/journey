@@ -13,37 +13,38 @@ import knight.arkham.screens.GameScreen;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
-    protected final GameScreen gameScreen;
+    protected final GameScreen actualGameScreen;
     protected final Body body;
     protected final Rectangle actualBounds;
+    private final Rectangle drawBounds;
     private TextureRegion actualRegion;
 
     protected GameObject(Rectangle bounds, GameScreen gameScreen, TextureRegion region) {
 
         actualBounds = bounds;
-        this.gameScreen = gameScreen;
+        actualGameScreen = gameScreen;
         actualRegion = region;
 
         body = createBody();
+
+        drawBounds = new Rectangle(0,0,bounds.width / PIXELS_PER_METER,
+            bounds.height / PIXELS_PER_METER);
     }
 
     protected abstract Body createBody();
 
-    private Rectangle getBoundsWithPPMCalculation(){
+    private Vector2 getDrawSpritePosition(){
 
-        return new Rectangle(
-                body.getPosition().x - (actualBounds.width / 2 / PIXELS_PER_METER),
-                body.getPosition().y - (actualBounds.height / 2 / PIXELS_PER_METER),
-                actualBounds.width / PIXELS_PER_METER,
-                actualBounds.height / PIXELS_PER_METER
+        return new Vector2(body.getPosition().x - (drawBounds.width / 2),
+                body.getPosition().y - (drawBounds.height / 2)
         );
     }
 
     public void draw(Batch batch) {
 
-        Rectangle bounds = getBoundsWithPPMCalculation();
+        Vector2 drawPosition = getDrawSpritePosition();
 
-        batch.draw(actualRegion, bounds.x, bounds.y, bounds.width, bounds.height);
+        batch.draw(actualRegion, drawPosition.x, drawPosition.y, drawBounds.width, drawBounds.height);
     }
 
     protected Animation<TextureRegion> makeAnimationByFrameRange(TextureRegion characterRegion, int initialFrame, int finalFrame, float frameDuration) {
