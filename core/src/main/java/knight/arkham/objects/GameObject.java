@@ -27,16 +27,18 @@ public abstract class GameObject {
 
         body = createBody();
 
-        drawBounds = new Rectangle(0,0,bounds.width / PIXELS_PER_METER,
-            bounds.height / PIXELS_PER_METER);
+        drawBounds = new Rectangle(
+            bounds.width / 2 / PIXELS_PER_METER, bounds.height / 2 / PIXELS_PER_METER,
+            bounds.width / PIXELS_PER_METER, bounds.height / PIXELS_PER_METER
+        );
     }
 
     protected abstract Body createBody();
 
     private Vector2 getDrawSpritePosition(){
 
-        return new Vector2(body.getPosition().x - (drawBounds.width / 2),
-                body.getPosition().y - (drawBounds.height / 2)
+        return new Vector2(body.getPosition().x - drawBounds.x,
+            body.getPosition().y - drawBounds.y
         );
     }
 
