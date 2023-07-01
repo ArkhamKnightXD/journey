@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
@@ -23,9 +22,7 @@ public class Block extends InteractiveStructure {
     protected Fixture createFixture() {
 
         return Box2DHelper.createStaticFixture(
-            new Box2DBody(
-                actualBounds, BodyDef.BodyType.StaticBody, 0, actualWorld, this
-            )
+            new Box2DBody(actualBounds, actualWorld, this)
         );
     }
 

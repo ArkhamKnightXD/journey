@@ -13,9 +13,10 @@ import com.badlogic.gdx.utils.Array;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
+
+    protected final Rectangle actualBounds;
     protected final World actualWorld;
     protected final Body body;
-    protected final Rectangle actualBounds;
     private final Rectangle drawBounds;
     private TextureRegion actualRegion;
 

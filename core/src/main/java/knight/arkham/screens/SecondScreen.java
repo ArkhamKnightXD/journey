@@ -64,8 +64,6 @@ public class SecondScreen extends ScreenAdapter {
         music.play();
         music.setLooping(true);
         music.setVolume(0.3f);
-
-        isDebug = true;
     }
 
     @Override

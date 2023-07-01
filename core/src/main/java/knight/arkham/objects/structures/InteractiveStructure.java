@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class InteractiveStructure {
-    protected final World actualWorld;
     protected final Rectangle actualBounds;
+    protected final World actualWorld;
     protected final Fixture fixture;
     protected final Body body;
     private final TiledMap tiledMap;
