@@ -61,10 +61,9 @@ public class SecondScreen extends ScreenAdapter {
 
         music = Gdx.audio.newMusic(Gdx.files.internal("music/mario_music.ogg"));
 
-//        music.play();
-//        music.setLooping(true);
-//        music.setVolume(0.3f);
-
+        music.play();
+        music.setLooping(true);
+        music.setVolume(0.3f);
 
         isDebug = true;
     }
@@ -115,6 +114,11 @@ public class SecondScreen extends ScreenAdapter {
     public void render(float delta) {
 
         update(delta);
+
+        draw();
+    }
+
+    private void draw() {
 
         ScreenUtils.clear(0,0,0,0);
 

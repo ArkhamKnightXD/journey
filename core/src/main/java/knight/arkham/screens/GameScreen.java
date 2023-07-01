@@ -31,10 +31,11 @@ public class GameScreen extends ScreenAdapter {
     private final Player player;
     private final TileMapHelper tileMap;
     private final TextureAtlas textureAtlas;
-    private boolean isDebug;
     private final Music music;
+    private boolean isDebug;
+    private boolean setToDispose;
+    private boolean isDisposed;
 
-//    private boolean toDestroyWorld;
 
     public GameScreen() {
         game = Journey.INSTANCE;
@@ -54,11 +55,9 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(new Rectangle(500, 200, 32, 32), world, playerRegion);
 
         GameData gameDataToSave = new GameData("GameScreen", player.getWorldPosition());
-
         GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
 
         tileMap = new TileMapHelper(world, textureAtlas, "maps/playground/test.tmx");
-//        tileMap = new TileMapHelper(this, "maps/cyber/cyber.tmx");
 
         mapRenderer = tileMap.setupMap();
 
@@ -73,6 +72,9 @@ public class GameScreen extends ScreenAdapter {
 //        music = assetManager.get("music/mario_music.ogg");
 
         isDebug = true;
+
+        setToDispose = false;
+        isDisposed = false;
     }
 
     @Override
@@ -102,9 +104,17 @@ public class GameScreen extends ScreenAdapter {
             isDebug = !isDebug;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
-            game.setScreen(new SecondScreen());
+            setToDispose = true;
 
         game.manageExitTheGame();
+    }
+
+    private void disposeWorld() {
+
+        world.dispose();
+        mapRenderer.dispose();
+
+        isDisposed = true;
     }
 
     private void updateCameraPosition(){
@@ -123,11 +133,26 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        update(delta);
+        if (isDisposed)
+            game.setScreen(new SecondScreen());
+
+        if (setToDispose && !isDisposed)
+            disposeWorld();
+
+        else if (!isDisposed){
+
+            update(delta);
+
+            draw();
+        }
+    }
+
+    private void draw() {
 
         ScreenUtils.clear(0,0,0,0);
 
         if (!isDebug){
+
             mapRenderer.render();
 
             game.batch.setProjectionMatrix(camera.combined);
@@ -142,7 +167,7 @@ public class GameScreen extends ScreenAdapter {
             game.batch.end();
         }
 
-       else
+        else
             game.debugRenderer.render(world, camera.combined);
     }
 
@@ -156,10 +181,8 @@ public class GameScreen extends ScreenAdapter {
     public void dispose() {
 
         music.dispose();
-//        mapRenderer.dispose();
         player.getSprite().dispose();
         textureAtlas.dispose();
-//        world.dispose();
 
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
             enemy.getSprite().dispose();
