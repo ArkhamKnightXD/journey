@@ -33,7 +33,7 @@ public class Enemy extends GameObject {
 
         setToDestroy = false;
         isDestroyed = false;
-        isMovingRight = true;
+        isMovingRight = false;
 
         stateTimer = 0;
 

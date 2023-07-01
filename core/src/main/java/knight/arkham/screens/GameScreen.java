@@ -9,20 +9,20 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Journey;
 import knight.arkham.helpers.GameContactListener;
 import knight.arkham.helpers.GameData;
-import knight.arkham.helpers.GameDataPreferencesHelper;
+import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
 
+import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
+
 public class GameScreen extends ScreenAdapter {
-    public static final String GAME_DATA_FILENAME = "journey";
     private final Journey game;
     private final OrthographicCamera camera;
     private final World world;
@@ -52,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
 
         GameData gameDataToSave = new GameData("GameScreen", player.getWorldPosition());
 
-        GameDataPreferencesHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
+        GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
 
         tileMap = new TileMapHelper(this, "maps/playground/test.tmx");
 //        tileMap = new TileMapHelper(this, "maps/cyber/cyber.tmx");
@@ -78,28 +78,10 @@ public class GameScreen extends ScreenAdapter {
         game.viewport.update(width, height);
     }
 
-    private void manageGameData() {
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F3)){
-
-            GameData gameDataToSave = new GameData("GameScreen", player.getWorldPosition());
-
-            GameDataPreferencesHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
-        }
-
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.F4)){
-
-            Vector2 position = GameDataPreferencesHelper.loadGameData(GAME_DATA_FILENAME).position;
-
-            player.setPosition(position.x, position.y);
-        }
-    }
 
     private void update(float deltaTime){
 
         world.step(1 / 60f, 6, 2);
-
-        manageGameData();
 
         updateCameraPosition();
 

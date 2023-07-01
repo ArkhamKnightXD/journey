@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
 
-public class GameDataPreferencesHelper {
+public class GameDataHelper {
 
     public static void saveGameData(String filename, GameData gameData){
 

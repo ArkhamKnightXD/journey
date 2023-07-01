@@ -10,11 +10,11 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.GameData;
-import knight.arkham.helpers.GameDataPreferencesHelper;
+import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.DESTROYED_BIT;
-import static knight.arkham.screens.GameScreen.GAME_DATA_FILENAME;
+import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
 public class Checkpoint extends InteractiveStructure {
 
@@ -43,7 +43,7 @@ public class Checkpoint extends InteractiveStructure {
         sound.play();
 
         GameData gameDataToSave = new GameData("GameScreen", body.getPosition());
-        GameDataPreferencesHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
+        GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
 
         getObjectCellInTheTileMap().setTile(null);
     }

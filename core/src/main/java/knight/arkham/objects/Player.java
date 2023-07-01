@@ -12,10 +12,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
-import knight.arkham.helpers.GameDataPreferencesHelper;
+import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.screens.GameScreen;
 
-import static knight.arkham.screens.GameScreen.GAME_DATA_FILENAME;
+import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
+
 
 public class Player extends GameObject {
     private final TextureRegion jumpingRegion;
@@ -60,7 +61,7 @@ public class Player extends GameObject {
 
     public void update(float deltaTime) {
 
-        setActualRegion(getActualRegion(deltaTime));
+        setActualRegion(getAnimationRegion(deltaTime));
         //Todo try to organize this conditions better.
         if ((controller != null && (controller.getButton(controller.getMapping().buttonDpadRight)) || Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x <= 10)
             applyLinealImpulse(new Vector2(5, 0));
@@ -84,11 +85,9 @@ public class Player extends GameObject {
 
         if (getPixelPosition().y < -100) {
 
-            setPosition(500, 200);
-
             body.setLinearVelocity(0, 0);
 
-            Vector2 position = GameDataPreferencesHelper.loadGameData(GAME_DATA_FILENAME).position;
+            Vector2 position = GameDataHelper.loadGameData(GAME_DATA_FILENAME).position;
 
             body.setTransform(position, 0);
         }
@@ -110,7 +109,7 @@ public class Player extends GameObject {
     }
 
 
-    private TextureRegion getActualRegion(float deltaTime) {
+    private TextureRegion getAnimationRegion(float deltaTime) {
 
         currentState = getPlayerCurrentState();
 

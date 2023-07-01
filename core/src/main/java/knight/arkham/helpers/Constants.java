@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 
 public class Constants {
 
+    public static final String GAME_DATA_FILENAME = "journey";
+
     //PPM For Playground 32f and for Cyber 16f
     public static final float PIXELS_PER_METER = 32f;
 
