@@ -7,22 +7,22 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
-    protected final GameScreen actualGameScreen;
+    protected final World actualWorld;
     protected final Body body;
     protected final Rectangle actualBounds;
     private final Rectangle drawBounds;
     private TextureRegion actualRegion;
 
-    protected GameObject(Rectangle bounds, GameScreen gameScreen, TextureRegion region) {
+    protected GameObject(Rectangle bounds, World world, TextureRegion region) {
 
         actualBounds = bounds;
-        actualGameScreen = gameScreen;
+        actualWorld = world;
         actualRegion = region;
 
         body = createBody();

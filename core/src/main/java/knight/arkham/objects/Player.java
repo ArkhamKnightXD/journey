@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.GameDataHelper;
-import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
@@ -28,9 +28,9 @@ public class Player extends GameObject {
     private boolean isPlayerRunningRight;
     private final Controller controller;
 
-    public Player(Rectangle bounds, GameScreen gameScreen, TextureRegion actualRegion) {
+    public Player(Rectangle bounds, World world, TextureRegion actualRegion) {
         super(
-            bounds, gameScreen,
+            bounds, world,
             new TextureRegion(actualRegion, 0, 0, 16, 16)
         );
 
@@ -54,7 +54,7 @@ public class Player extends GameObject {
 
             new Box2DBody(
                 actualBounds, BodyDef.BodyType.DynamicBody,
-                10, actualGameScreen.getWorld(), this
+                10, actualWorld, this
             )
         );
     }

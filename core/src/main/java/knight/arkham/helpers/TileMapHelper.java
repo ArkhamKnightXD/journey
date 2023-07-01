@@ -1,5 +1,6 @@
 package knight.arkham.helpers;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -8,26 +9,26 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import knight.arkham.objects.structures.Block;
 import knight.arkham.objects.structures.Checkpoint;
 import knight.arkham.objects.Enemy;
-import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class TileMapHelper {
 
-    private final GameScreen gameScreen;
+    private final World world;
     private final TiledMap tiledMap;
     private final TextureRegion enemyRegion;
     private final Array<Enemy> enemies;
 
-    public TileMapHelper(GameScreen gameScreen, String mapFilePath) {
+    public TileMapHelper(World world, TextureAtlas textureAtlas, String mapFilePath) {
 
-        this.gameScreen = gameScreen;
-        this.enemyRegion = gameScreen.getTextureAtlas().findRegion("goomba");
+        this.world = world;
+        enemyRegion = textureAtlas.findRegion("goomba");
         tiledMap = new TmxMapLoader().load(mapFilePath);
         enemies = new Array<>();
     }
@@ -55,19 +56,19 @@ public class TileMapHelper {
             switch (objectsName) {
 
                 case "Enemies":
-                    enemies.add(new Enemy(box2dRectangle, gameScreen, enemyRegion));
+                    enemies.add(new Enemy(box2dRectangle, world, enemyRegion));
                     break;
 
                 case "Blocks":
-                    new Block(box2dRectangle, gameScreen, tiledMap);
+                    new Block(box2dRectangle, world, tiledMap);
                     break;
 
                 case "Checkpoints":
-                    new Checkpoint(box2dRectangle, gameScreen, tiledMap);
+                    new Checkpoint(box2dRectangle, world, tiledMap);
                     break;
 
                 default:
-                    Box2DHelper.createBody(new Box2DBody(box2dRectangle, gameScreen.getWorld()));
+                    Box2DHelper.createBody(new Box2DBody(box2dRectangle, world));
                     break;
             }
         }

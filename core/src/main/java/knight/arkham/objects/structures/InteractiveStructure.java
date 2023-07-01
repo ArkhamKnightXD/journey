@@ -4,21 +4,20 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class InteractiveStructure {
-    protected final GameScreen gameScreen;
+    protected final World actualWorld;
     protected final Rectangle actualBounds;
     protected final Fixture fixture;
     protected final Body body;
     private final TiledMap tiledMap;
 
-    public InteractiveStructure(Rectangle rectangle, GameScreen gameScreen, TiledMap tiledMap) {
+    public InteractiveStructure(Rectangle rectangle, World world, TiledMap tiledMap) {
 
         actualBounds = rectangle;
-        this.gameScreen = gameScreen;
+        actualWorld = world;
         this.tiledMap = tiledMap;
 
         fixture = createFixture();

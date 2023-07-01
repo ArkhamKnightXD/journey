@@ -7,19 +7,19 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.GameData;
 import knight.arkham.helpers.GameDataHelper;
-import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.DESTROYED_BIT;
 import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
 public class Checkpoint extends InteractiveStructure {
 
-    public Checkpoint(Rectangle rectangle, GameScreen gameScreen, TiledMap tiledMap) {
-        super(rectangle, gameScreen, tiledMap);
+    public Checkpoint(Rectangle rectangle, World world, TiledMap tiledMap) {
+        super(rectangle, world, tiledMap);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Checkpoint extends InteractiveStructure {
 
         return Box2DHelper.createStaticFixture(
             new Box2DBody(
-                actualBounds, BodyDef.BodyType.StaticBody, 0, gameScreen.getWorld(), this
+                actualBounds, BodyDef.BodyType.StaticBody, 0, actualWorld, this
             )
         );
     }

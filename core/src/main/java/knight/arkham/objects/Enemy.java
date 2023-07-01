@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
-import knight.arkham.screens.GameScreen;
 
 public class Enemy extends GameObject {
     private final Animation<TextureRegion> runningAnimation;
@@ -21,9 +21,9 @@ public class Enemy extends GameObject {
     private boolean isDestroyed;
     private final TextureRegion region;
 
-    public Enemy(Rectangle rectangle, GameScreen gameScreen, TextureRegion region) {
+    public Enemy(Rectangle rectangle, World world, TextureRegion region) {
         super(
-            rectangle, gameScreen,
+            rectangle, world,
             new TextureRegion(region, 0, 0, 16, 16)
         );
 
@@ -46,13 +46,13 @@ public class Enemy extends GameObject {
         return Box2DHelper.createBody(
 
             new Box2DBody(actualBounds, BodyDef.BodyType.DynamicBody,
-                10, actualGameScreen.getWorld(), this)
+                10, actualWorld, this)
         );
     }
 
     private void destroyEnemy() {
 
-        actualGameScreen.getWorld().destroyBody(body);
+        actualWorld.destroyBody(body);
         isDestroyed = true;
 
         setActualRegion(new TextureRegion(region, 32, 0, 16, 16));

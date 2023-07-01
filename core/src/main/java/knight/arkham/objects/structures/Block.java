@@ -7,16 +7,16 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
-import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.DESTROYED_BIT;
 
 public class Block extends InteractiveStructure {
 
-    public Block(Rectangle rectangle, GameScreen gameScreen, TiledMap tiledMap) {
-        super(rectangle, gameScreen, tiledMap);
+    public Block(Rectangle rectangle, World world, TiledMap tiledMap) {
+        super(rectangle, world, tiledMap);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Block extends InteractiveStructure {
 
         return Box2DHelper.createStaticFixture(
             new Box2DBody(
-                actualBounds, BodyDef.BodyType.StaticBody, 0, gameScreen.getWorld(), this
+                actualBounds, BodyDef.BodyType.StaticBody, 0, actualWorld, this
             )
         );
     }

@@ -23,7 +23,7 @@ import knight.arkham.objects.Player;
 
 import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
-public class GameScreen extends ScreenAdapter {
+public class SecondScreen extends ScreenAdapter {
     private final Journey game;
     private final OrthographicCamera camera;
     private final World world;
@@ -34,9 +34,7 @@ public class GameScreen extends ScreenAdapter {
     private boolean isDebug;
     private final Music music;
 
-//    private boolean toDestroyWorld;
-
-    public GameScreen() {
+    public SecondScreen() {
         game = Journey.INSTANCE;
 
         camera = game.globalCamera;
@@ -51,14 +49,13 @@ public class GameScreen extends ScreenAdapter {
 
         TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
 
-        player = new Player(new Rectangle(500, 200, 32, 32), world, playerRegion);
+        player = new Player(new Rectangle(450, 200, 32, 32), world, playerRegion);
 
-        GameData gameDataToSave = new GameData("GameScreen", player.getWorldPosition());
+        GameData gameDataToSave = new GameData("TestScreen", player.getWorldPosition());
 
         GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
 
-        tileMap = new TileMapHelper(world, textureAtlas, "maps/playground/test.tmx");
-//        tileMap = new TileMapHelper(this, "maps/cyber/cyber.tmx");
+        tileMap = new TileMapHelper(world, textureAtlas, "maps/playground/test2.tmx");
 
         mapRenderer = tileMap.setupMap();
 
@@ -68,9 +65,6 @@ public class GameScreen extends ScreenAdapter {
 //        music.setLooping(true);
 //        music.setVolume(0.3f);
 
-        //Todo assetManager fails when I build a jar. It works normally using Gdx.Audio.
-        // I need to find another way to implement assetManager
-//        music = assetManager.get("music/mario_music.ogg");
 
         isDebug = true;
     }
@@ -100,9 +94,6 @@ public class GameScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
             isDebug = !isDebug;
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
-            game.setScreen(new SecondScreen());
 
         game.manageExitTheGame();
     }
@@ -156,10 +147,10 @@ public class GameScreen extends ScreenAdapter {
     public void dispose() {
 
         music.dispose();
-//        mapRenderer.dispose();
+        mapRenderer.dispose();
         player.getSprite().dispose();
         textureAtlas.dispose();
-//        world.dispose();
+        world.dispose();
 
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
             enemy.getSprite().dispose();
