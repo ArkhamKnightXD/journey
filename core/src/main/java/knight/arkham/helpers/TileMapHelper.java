@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import knight.arkham.objects.structures.Block;
 import knight.arkham.objects.structures.Checkpoint;
 import knight.arkham.objects.Enemy;
+import knight.arkham.objects.structures.MovingStructure;
 
 import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
@@ -24,6 +25,7 @@ public class TileMapHelper {
     private final TiledMap tiledMap;
     private final TextureRegion enemyRegion;
     private final Array<Enemy> enemies;
+    private final Array<MovingStructure> structures;
 
     public TileMapHelper(World world, TextureAtlas textureAtlas, String mapFilePath) {
 
@@ -31,6 +33,7 @@ public class TileMapHelper {
         enemyRegion = textureAtlas.findRegion("goomba");
         tiledMap = new TmxMapLoader().load(mapFilePath);
         enemies = new Array<>();
+        structures = new Array<>();
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
@@ -67,6 +70,10 @@ public class TileMapHelper {
                     new Checkpoint(box2dRectangle, world, tiledMap);
                     break;
 
+                case "MovingStructure":
+                    structures.add(new MovingStructure(box2dRectangle, world));
+                    break;
+
                 default:
                     Box2DHelper.createBody(new Box2DBody(box2dRectangle, world));
                     break;
@@ -97,4 +104,6 @@ public class TileMapHelper {
     public Array<Enemy> getEnemies() {
         return enemies;
     }
+
+    public Array<MovingStructure> getStructures() {return structures;}
 }

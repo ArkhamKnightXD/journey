@@ -20,6 +20,7 @@ import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
+import knight.arkham.objects.structures.MovingStructure;
 
 import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
@@ -89,6 +90,11 @@ public class SecondScreen extends ScreenAdapter {
             enemy.update(deltaTime);
         }
 
+        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getStructures())){
+
+            structure.update(deltaTime);
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
             isDebug = !isDebug;
 
@@ -131,6 +137,11 @@ public class SecondScreen extends ScreenAdapter {
 
             for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
                 enemy.draw(game.batch);
+
+            for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getStructures())){
+
+                structure.draw(game.batch);
+            }
 
             game.batch.end();
         }
