@@ -62,14 +62,24 @@ public class Player extends GameObject {
     public void update(float deltaTime) {
 
         setActualRegion(getAnimationRegion(deltaTime));
-        //Todo try to organize this conditions better.
-        if ((controller != null && (controller.getButton(controller.getMapping().buttonDpadRight)) || Gdx.input.isKeyPressed(Input.Keys.D)) && body.getLinearVelocity().x <= 10)
+
+        if (controller != null)
+            joystickControllers();
+
+        keyboardControllers();
+
+        playerFallToDead();
+    }
+
+    private void keyboardControllers() {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 10)
             applyLinealImpulse(new Vector2(5, 0));
 
-        else if ((controller != null && (controller.getButton(controller.getMapping().buttonDpadLeft)) || Gdx.input.isKeyPressed(Input.Keys.A)) && body.getLinearVelocity().x >= -10)
+        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -10)
             applyLinealImpulse(new Vector2(-5, 0));
 
-        if ((controller != null && (controller.getButton(controller.getMapping().buttonA)) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && body.getLinearVelocity().y == 0)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             applyLinealImpulse(new Vector2(0, 170));
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.X)){
@@ -77,8 +87,23 @@ public class Player extends GameObject {
 //            body.setGravityScale(0);
             applyLinealImpulse(new Vector2(200, 0));
         }
+    }
 
-        playerFallToDead();
+    private void joystickControllers(){
+
+        if (controller.getButton(controller.getMapping().buttonDpadRight) && body.getLinearVelocity().x <= 10)
+            applyLinealImpulse(new Vector2(5, 0));
+
+        else if (controller.getButton(controller.getMapping().buttonDpadLeft) && body.getLinearVelocity().x >= -10)
+            applyLinealImpulse(new Vector2(-5, 0));
+
+        if (controller.getButton(controller.getMapping().buttonA) && body.getLinearVelocity().y == 0)
+            applyLinealImpulse(new Vector2(0, 170));
+
+        if (controller.getButton(controller.getMapping().buttonX)){
+
+            applyLinealImpulse(new Vector2(200, 0));
+        }
     }
 
     private void playerFallToDead() {
