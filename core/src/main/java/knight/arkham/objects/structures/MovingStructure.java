@@ -55,11 +55,11 @@ public class MovingStructure {
 
         stateTimer += deltaTime;
 
-        if (stateTimer < 3)
-            body.setLinearVelocity(0,1);
+        if (stateTimer < 5)
+            body.setLinearVelocity(2,0);
 
-        else if(stateTimer > 3 && stateTimer < 10)
-            body.setLinearVelocity(1,0);
+        else if(stateTimer > 5 && stateTimer < 10)
+            body.setLinearVelocity(-2,0);
 
         else
             stateTimer = 0;

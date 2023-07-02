@@ -20,6 +20,7 @@ import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
+import knight.arkham.objects.structures.MovingStructure;
 
 import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
@@ -52,7 +53,7 @@ public class GameScreen extends ScreenAdapter {
 
         TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
 
-        player = new Player(new Rectangle(500, 200, 32, 32), world, playerRegion);
+        player = new Player(new Rectangle(1650, 300, 32, 32), world, playerRegion);
 
         GameData gameDataToSave = new GameData("GameScreen", player.getWorldPosition());
         GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
@@ -100,6 +101,11 @@ public class GameScreen extends ScreenAdapter {
             enemy.update(deltaTime);
         }
 
+        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getStructures())){
+
+            structure.update(deltaTime);
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
             isDebug = !isDebug;
 
@@ -118,6 +124,12 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void updateCameraPosition(){
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F3))
+            camera.zoom += 0.2f;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F4))
+            camera.zoom -= 0.2f;
 
         boolean isPlayerInsideMapBounds = tileMap.isPlayerInsideMapBounds(player.getPixelPosition());
 
@@ -163,6 +175,9 @@ public class GameScreen extends ScreenAdapter {
 
             for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
                 enemy.draw(game.batch);
+
+            for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getStructures()))
+                structure.draw(game.batch);
 
             game.batch.end();
         }

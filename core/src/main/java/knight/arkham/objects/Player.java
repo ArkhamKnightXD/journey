@@ -120,10 +120,12 @@ public class Player extends GameObject {
 
     private PlayerAnimationState getPlayerCurrentState() {
 
+        boolean isPlayerMoving = Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D);
+
         if (body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && previousState == PlayerAnimationState.JUMPING))
             return PlayerAnimationState.JUMPING;
 
-        else if (body.getLinearVelocity().x != 0)
+        else if (isPlayerMoving)
             return PlayerAnimationState.RUNNING;
 
         else if (body.getLinearVelocity().y < 0)
