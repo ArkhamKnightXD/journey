@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.*;
 import knight.arkham.objects.structures.Block;
 import knight.arkham.objects.structures.Checkpoint;
+import knight.arkham.objects.structures.FinishFlag;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -55,6 +56,15 @@ public class GameContactListener implements ContactListener {
 
                 else
                     ((Checkpoint) fixtureB.getUserData()).createCheckpoint();
+                break;
+
+            case PLAYER_BIT | FINISH_BIT:
+
+                if (fixtureA.getFilterData().categoryBits == FINISH_BIT)
+                    ((FinishFlag) fixtureA.getUserData()).finishLevel();
+
+                else
+                    ((FinishFlag) fixtureB.getUserData()).finishLevel();
                 break;
 
         }

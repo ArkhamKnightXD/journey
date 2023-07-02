@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="150" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="34">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="150" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="37">
  <tileset firstgid="1" source="tileset/environment.tsx"/>
  <layer id="2" name="Background" width="150" height="40">
   <data encoding="csv">
@@ -97,13 +97,15 @@
 </data>
  </layer>
  <objectgroup id="8" name="MovingStructure">
-  <object id="30" x="1745" y="351.5" width="47.5" height="47.5"/>
+  <object id="30" name="left-right" x="1745" y="351.5" width="47.5" height="47.5"/>
  </objectgroup>
  <objectgroup id="3" name="Enemies">
   <object id="1" x="1222" y="447" width="32" height="32"/>
   <object id="23" x="166.667" y="558" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="5" name="Traps"/>
+ <objectgroup id="5" name="FinishFlag">
+  <object id="36" x="2321.25" y="318.75" width="33" height="31.25"/>
+ </objectgroup>
  <objectgroup id="4" name="Collisions">
   <object id="3" x="0" y="591.5" width="336" height="48"/>
   <object id="4" x="433" y="591.5" width="94" height="48"/>

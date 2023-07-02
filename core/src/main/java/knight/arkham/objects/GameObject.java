@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import knight.arkham.helpers.Box2DHelper;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
@@ -17,7 +18,6 @@ public abstract class GameObject {
     protected final Rectangle actualBounds;
     protected final World actualWorld;
     protected final Body body;
-    private final Rectangle drawBounds;
     private TextureRegion actualRegion;
 
     protected GameObject(Rectangle bounds, World world, TextureRegion region) {
@@ -27,27 +27,15 @@ public abstract class GameObject {
         actualRegion = region;
 
         body = createBody();
-
-        drawBounds = new Rectangle(
-            bounds.width / 2 / PIXELS_PER_METER, bounds.height / 2 / PIXELS_PER_METER,
-            bounds.width / PIXELS_PER_METER, bounds.height / PIXELS_PER_METER
-        );
     }
 
     protected abstract Body createBody();
 
-    private Vector2 getDrawSpritePosition(){
-
-        return new Vector2(body.getPosition().x - drawBounds.x,
-            body.getPosition().y - drawBounds.y
-        );
-    }
-
     public void draw(Batch batch) {
 
-        Vector2 drawPosition = getDrawSpritePosition();
+        Rectangle drawBounds = Box2DHelper.getDrawBounds(actualBounds, body);
 
-        batch.draw(actualRegion, drawPosition.x, drawPosition.y, drawBounds.width, drawBounds.height);
+        batch.draw(actualRegion, drawBounds.x, drawBounds.y, drawBounds.width, drawBounds.height);
     }
 
     protected Animation<TextureRegion> makeAnimationByFrameRange(TextureRegion characterRegion, int initialFrame, int finalFrame, float frameDuration) {

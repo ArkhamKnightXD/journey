@@ -52,7 +52,7 @@ public class SecondScreen extends ScreenAdapter {
 
         player = new Player(new Rectangle(450, 200, 32, 32), world, playerRegion);
 
-        GameData gameDataToSave = new GameData("TestScreen", player.getWorldPosition());
+        GameData gameDataToSave = new GameData("SecondScreen", player.getWorldPosition());
 
         GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
 
@@ -90,10 +90,8 @@ public class SecondScreen extends ScreenAdapter {
             enemy.update(deltaTime);
         }
 
-        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getStructures())){
-
+        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
             structure.update(deltaTime);
-        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
             isDebug = !isDebug;
@@ -127,6 +125,7 @@ public class SecondScreen extends ScreenAdapter {
         ScreenUtils.clear(0,0,0,0);
 
         if (!isDebug){
+
             mapRenderer.render();
 
             game.batch.setProjectionMatrix(camera.combined);
@@ -138,10 +137,8 @@ public class SecondScreen extends ScreenAdapter {
             for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
                 enemy.draw(game.batch);
 
-            for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getStructures())){
-
+            for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
                 structure.draw(game.batch);
-            }
 
             game.batch.end();
         }

@@ -1,10 +1,12 @@
 package knight.arkham.helpers;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.structures.Checkpoint;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
+import knight.arkham.objects.structures.FinishFlag;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -18,6 +20,9 @@ public class Box2DHelper {
 
         if (box2DBody.userData instanceof Checkpoint)
             fixtureDef.filter.categoryBits = CHECKPOINT_BIT;
+
+        else if (box2DBody.userData instanceof FinishFlag)
+            fixtureDef.filter.categoryBits = FINISH_BIT;
 
         else
             fixtureDef.filter.categoryBits = BRICK_BIT;
@@ -140,12 +145,11 @@ public class Box2DHelper {
         return headCollider;
     }
 
-
     private static void createPlayerBody(Box2DBody box2DBody, FixtureDef fixtureDef, Body body) {
 
         fixtureDef.filter.categoryBits = PLAYER_BIT;
 
-        fixtureDef.filter.maskBits = (short) (GROUND_BIT | BRICK_BIT | CHECKPOINT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
+        fixtureDef.filter.maskBits = (short) (GROUND_BIT | BRICK_BIT | CHECKPOINT_BIT | FINISH_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
 
         //Nota si se van a definir varios category y maskBit a varios cuerpos, tener pendiente, que se debe de crear fixture antes de agregar
         // los demás mask y category al otro cuerpo
@@ -156,5 +160,15 @@ public class Box2DHelper {
         body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
         headCollider.dispose();
+    }
+
+    public static Rectangle getDrawBounds(Rectangle bounds, Body body){
+
+        return new Rectangle(
+            body.getPosition().x - bounds.width / 2 / PIXELS_PER_METER,
+            body.getPosition().y - bounds.height / 2 / PIXELS_PER_METER,
+            bounds.width / PIXELS_PER_METER,
+            bounds.height / PIXELS_PER_METER
+        );
     }
 }

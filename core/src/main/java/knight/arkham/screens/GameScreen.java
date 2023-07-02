@@ -101,10 +101,8 @@ public class GameScreen extends ScreenAdapter {
             enemy.update(deltaTime);
         }
 
-        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getStructures())){
-
+        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
             structure.update(deltaTime);
-        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
             isDebug = !isDebug;
@@ -176,8 +174,10 @@ public class GameScreen extends ScreenAdapter {
             for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
                 enemy.draw(game.batch);
 
-            for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getStructures()))
+            for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
                 structure.draw(game.batch);
+
+            tileMap.getFinishFlag().draw(game.batch);
 
             game.batch.end();
         }
@@ -198,6 +198,8 @@ public class GameScreen extends ScreenAdapter {
         music.dispose();
         player.getSprite().dispose();
         textureAtlas.dispose();
+
+        setToDispose = true;
 
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
             enemy.getSprite().dispose();

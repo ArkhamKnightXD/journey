@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import knight.arkham.objects.structures.Block;
 import knight.arkham.objects.structures.Checkpoint;
 import knight.arkham.objects.Enemy;
+import knight.arkham.objects.structures.FinishFlag;
 import knight.arkham.objects.structures.MovingStructure;
 
 import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
@@ -26,6 +27,7 @@ public class TileMapHelper {
     private final TextureRegion enemyRegion;
     private final Array<Enemy> enemies;
     private final Array<MovingStructure> structures;
+    private FinishFlag finishFlag;
 
     public TileMapHelper(World world, TextureAtlas textureAtlas, String mapFilePath) {
 
@@ -70,8 +72,16 @@ public class TileMapHelper {
                     new Checkpoint(box2dRectangle, world, tiledMap);
                     break;
 
+                case "FinishFlag":
+                    finishFlag = new FinishFlag(box2dRectangle, world, tiledMap);
+                    break;
+
                 case "MovingStructure":
-                    structures.add(new MovingStructure(box2dRectangle, world));
+                    if (mapObject.getName().equals("left-right"))
+                        structures.add(new MovingStructure(box2dRectangle, world, new Vector2(2,0)));
+                    else
+                        structures.add(new MovingStructure(box2dRectangle, world, new Vector2(0,2)));
+
                     break;
 
                 default:
@@ -105,5 +115,7 @@ public class TileMapHelper {
         return enemies;
     }
 
-    public Array<MovingStructure> getStructures() {return structures;}
+    public Array<MovingStructure> getMovingStructures() {return structures;}
+
+    public FinishFlag getFinishFlag() {return finishFlag;}
 }
