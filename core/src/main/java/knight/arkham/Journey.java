@@ -16,6 +16,7 @@ public class Journey extends Game {
     public OrthographicCamera globalCamera;
     public Viewport viewport;
     public Box2DDebugRenderer debugRenderer;
+    public boolean setToDispose;
 
     public Journey() {
 

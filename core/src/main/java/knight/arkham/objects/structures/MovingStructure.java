@@ -59,4 +59,6 @@ public class MovingStructure {
             stateTimer = 0;
         }
     }
+
+    public Texture getSprite() {return sprite;}
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.Journey;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
+import knight.arkham.screens.GameScreen;
 import knight.arkham.screens.SecondScreen;
 
 import static knight.arkham.helpers.Constants.DESTROYED_BIT;
@@ -47,7 +48,7 @@ public class FinishFlag extends InteractiveStructure {
         Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/powerup.wav"));
         sound.play();
 
-        Journey.INSTANCE.setScreen(new SecondScreen());
+        Journey.INSTANCE.setToDispose = true;
     }
 
     public void draw(Batch batch) {

@@ -3,7 +3,6 @@ package knight.arkham.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,9 +31,7 @@ public class GameScreen extends ScreenAdapter {
     private final Player player;
     private final TileMapHelper tileMap;
     private final TextureAtlas textureAtlas;
-    private final Music music;
     private boolean isDebug;
-    private boolean setToDispose;
     private boolean isDisposed;
 
 
@@ -62,20 +59,11 @@ public class GameScreen extends ScreenAdapter {
 
         mapRenderer = tileMap.setupMap();
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("music/mario_music.ogg"));
-
-//        music.play();
-//        music.setLooping(true);
-//        music.setVolume(0.3f);
-
-        //Todo assetManager fails when I build a jar. It works normally using Gdx.Audio.
-        // I need to find another way to implement assetManager
-//        music = assetManager.get("music/mario_music.ogg");
-
         isDebug = true;
 
-        setToDispose = false;
-        isDisposed = false;
+        //bolean variables by default initialize on false. If I want the variable to start on false,
+        // I don't have to initialized on false.
+        Journey.INSTANCE.setToDispose = false;
     }
 
     @Override
@@ -108,7 +96,7 @@ public class GameScreen extends ScreenAdapter {
             isDebug = !isDebug;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
-            setToDispose = true;
+            Journey.INSTANCE.setToDispose = true;
 
         game.manageExitTheGame();
     }
@@ -146,7 +134,7 @@ public class GameScreen extends ScreenAdapter {
         if (isDisposed)
             game.setScreen(new SecondScreen());
 
-        if (setToDispose && !isDisposed)
+        if (Journey.INSTANCE.setToDispose && !isDisposed)
             disposeWorld();
 
         else if (!isDisposed){
@@ -195,14 +183,14 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
-        music.dispose();
         player.getSprite().dispose();
         textureAtlas.dispose();
 
-        setToDispose = true;
-
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
             enemy.getSprite().dispose();
+
+        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
+            structure.getSprite().dispose();
     }
 
     public World getWorld() {return world;}
