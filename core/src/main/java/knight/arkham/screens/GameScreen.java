@@ -192,6 +192,4 @@ public class GameScreen extends ScreenAdapter {
         for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
             structure.getSprite().dispose();
     }
-
-    public World getWorld() {return world;}
 }

@@ -165,6 +165,4 @@ public class SecondScreen extends ScreenAdapter {
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
             enemy.getSprite().dispose();
     }
-
-    public World getWorld() {return world;}
 }
