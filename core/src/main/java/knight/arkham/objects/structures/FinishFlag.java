@@ -27,6 +27,11 @@ public class FinishFlag extends InteractiveStructure {
         drawBounds = Box2DHelper.getDrawBounds(rectangle, body);
     }
 
+    public void draw(Batch batch) {
+
+        batch.draw(sprite, drawBounds.x, drawBounds.y, drawBounds.width, drawBounds.height);
+    }
+
     @Override
     protected Fixture createFixture() {
 
@@ -46,10 +51,5 @@ public class FinishFlag extends InteractiveStructure {
         sound.play();
 
         Journey.INSTANCE.setToDispose = true;
-    }
-
-    public void draw(Batch batch) {
-
-        batch.draw(sprite, drawBounds.x, drawBounds.y, drawBounds.width, drawBounds.height);
     }
 }
