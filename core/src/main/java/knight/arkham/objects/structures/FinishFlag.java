@@ -12,22 +12,19 @@ import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.Journey;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
-import knight.arkham.screens.GameScreen;
-import knight.arkham.screens.SecondScreen;
 
 import static knight.arkham.helpers.Constants.DESTROYED_BIT;
 
 public class FinishFlag extends InteractiveStructure {
-
-    private final Rectangle bounds;
-
+    private final Rectangle drawBounds;
     private final Texture sprite;
 
     public FinishFlag(Rectangle rectangle, World world, TiledMap tiledMap) {
         super(rectangle, world, tiledMap);
 
-        bounds = rectangle;
         sprite = new Texture("images/flag.png");
+
+        drawBounds = Box2DHelper.getDrawBounds(rectangle, body);
     }
 
     @Override
@@ -52,8 +49,6 @@ public class FinishFlag extends InteractiveStructure {
     }
 
     public void draw(Batch batch) {
-
-        Rectangle drawBounds = Box2DHelper.getDrawBounds(bounds, body);
 
         batch.draw(sprite, drawBounds.x, drawBounds.y, drawBounds.width, drawBounds.height);
     }

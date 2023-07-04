@@ -31,9 +31,11 @@ public class Enemy extends GameObject {
 
         body.setActive(false);
 
-        setToDestroy = false;
-        isDestroyed = false;
-        isMovingRight = false;
+        //bolean variables by default initialize on false. If I want the variable to start on false,
+        // I don't have to initialized on false.
+//        setToDestroy = false;
+//        isDestroyed = false;
+//        isMovingRight = false;
 
         stateTimer = 0;
 

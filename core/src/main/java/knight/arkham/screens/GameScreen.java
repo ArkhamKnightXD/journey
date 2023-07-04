@@ -61,8 +61,6 @@ public class GameScreen extends ScreenAdapter {
 
         isDebug = true;
 
-        //bolean variables by default initialize on false. If I want the variable to start on false,
-        // I don't have to initialized on false.
         Journey.INSTANCE.setToDispose = false;
     }
 
@@ -183,13 +181,13 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
-        player.getSprite().dispose();
+        player.dispose();
         textureAtlas.dispose();
 
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
-            enemy.getSprite().dispose();
+            enemy.dispose();
 
         for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
-            structure.getSprite().dispose();
+            structure.dispose();
     }
 }

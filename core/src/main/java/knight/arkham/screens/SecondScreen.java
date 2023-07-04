@@ -157,12 +157,16 @@ public class SecondScreen extends ScreenAdapter {
     public void dispose() {
 
         music.dispose();
-        mapRenderer.dispose();
-        player.getSprite().dispose();
+        player.dispose();
         textureAtlas.dispose();
+
         world.dispose();
+        mapRenderer.dispose();
 
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
-            enemy.getSprite().dispose();
+            enemy.dispose();
+
+        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
+            structure.dispose();
     }
 }

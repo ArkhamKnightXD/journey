@@ -60,5 +60,5 @@ public class MovingStructure {
         }
     }
 
-    public Texture getSprite() {return sprite;}
+    public void dispose() {sprite.dispose();}
 }

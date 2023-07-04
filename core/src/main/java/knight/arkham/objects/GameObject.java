@@ -1,6 +1,5 @@
 package knight.arkham.objects;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,7 +13,6 @@ import knight.arkham.helpers.Box2DHelper;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
-
     protected final Rectangle actualBounds;
     protected final World actualWorld;
     protected final Body body;
@@ -61,7 +59,7 @@ public abstract class GameObject {
 
     public Vector2 getWorldPosition() {return body.getPosition();}
 
-    public Texture getSprite() {return actualRegion.getTexture();}
-
     protected void setActualRegion(TextureRegion actualRegion) {this.actualRegion = actualRegion;}
+
+    public void dispose() {actualRegion.getTexture().dispose();}
 }
