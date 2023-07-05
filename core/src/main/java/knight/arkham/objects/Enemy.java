@@ -1,6 +1,5 @@
 package knight.arkham.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,12 +9,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 
 public class Enemy extends GameObject {
     private final Animation<TextureRegion> runningAnimation;
     private float stateTimer;
+
+    //bolean variables by default initialize on false. If I want the variable to start on false,
+    // I don't have to initialized on false.
     public boolean isMovingRight;
     private boolean setToDestroy;
     private boolean isDestroyed;
@@ -30,12 +33,6 @@ public class Enemy extends GameObject {
         this.region = region;
 
         body.setActive(false);
-
-        //bolean variables by default initialize on false. If I want the variable to start on false,
-        // I don't have to initialized on false.
-//        setToDestroy = false;
-//        isDestroyed = false;
-//        isMovingRight = false;
 
         stateTimer = 0;
 
@@ -95,7 +92,7 @@ public class Enemy extends GameObject {
     public void hitOnHead() {
         setToDestroy = true;
 
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/stomp.wav"));
+        Sound sound = AssetsHelper.loadSound("stomp.wav");
 
         sound.play();
     }

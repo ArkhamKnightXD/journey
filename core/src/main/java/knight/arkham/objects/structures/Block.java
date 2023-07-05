@@ -1,12 +1,12 @@
 package knight.arkham.objects.structures;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 
@@ -33,7 +33,8 @@ public class Block extends InteractiveStructure {
         filter.categoryBits = DESTROYED_BIT;
         fixture.setFilterData(filter);
 
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/breakBlock.wav"));
+        Sound sound = AssetsHelper.loadSound("breakBlock.wav");
+
         sound.play();
 
         getObjectCellInTheTileMap().setTile(null);

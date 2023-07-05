@@ -1,6 +1,5 @@
 package knight.arkham.objects.structures;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.Journey;
+import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 
@@ -47,9 +47,11 @@ public class FinishFlag extends InteractiveStructure {
         filter.categoryBits = DESTROYED_BIT;
         fixture.setFilterData(filter);
 
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/powerup.wav"));
+        Sound sound = AssetsHelper.loadSound("powerup.wav");
         sound.play();
 
         Journey.INSTANCE.setToDispose = true;
     }
+
+    public void dispose() {sprite.dispose();}
 }

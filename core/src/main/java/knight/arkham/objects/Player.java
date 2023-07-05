@@ -81,12 +81,6 @@ public class Player extends GameObject {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             applyLinealImpulse(new Vector2(0, 170));
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.X)){
-
-//            body.setGravityScale(0);
-            applyLinealImpulse(new Vector2(200, 0));
-        }
     }
 
     private void joystickControllers(){
@@ -99,11 +93,6 @@ public class Player extends GameObject {
 
         if (controller.getButton(controller.getMapping().buttonA) && body.getLinearVelocity().y == 0)
             applyLinealImpulse(new Vector2(0, 170));
-
-        if (controller.getButton(controller.getMapping().buttonX)){
-
-            applyLinealImpulse(new Vector2(200, 0));
-        }
     }
 
     private void playerFallToDead() {

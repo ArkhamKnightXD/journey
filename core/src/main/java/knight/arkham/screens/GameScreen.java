@@ -183,6 +183,7 @@ public class GameScreen extends ScreenAdapter {
 
         player.dispose();
         textureAtlas.dispose();
+        tileMap.getFinishFlag().dispose();
 
         for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
             enemy.dispose();

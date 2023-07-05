@@ -1,7 +1,5 @@
 package knight.arkham.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,10 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Journey;
-import knight.arkham.helpers.GameContactListener;
-import knight.arkham.helpers.GameData;
-import knight.arkham.helpers.GameDataHelper;
-import knight.arkham.helpers.TileMapHelper;
+import knight.arkham.helpers.*;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.structures.MovingStructure;
@@ -32,7 +27,6 @@ public class SecondScreen extends ScreenAdapter {
     private final Player player;
     private final TileMapHelper tileMap;
     private final TextureAtlas textureAtlas;
-    private boolean isDebug;
     private final Music music;
 
     public SecondScreen() {
@@ -53,14 +47,13 @@ public class SecondScreen extends ScreenAdapter {
         player = new Player(new Rectangle(450, 200, 32, 32), world, playerRegion);
 
         GameData gameDataToSave = new GameData("SecondScreen", player.getWorldPosition());
-
         GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
 
         tileMap = new TileMapHelper(world, textureAtlas, "maps/playground/test2.tmx");
 
         mapRenderer = tileMap.setupMap();
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("music/mario_music.ogg"));
+        music = AssetsHelper.loadMusic("mario_music.ogg");
 
         music.play();
         music.setLooping(true);
@@ -74,7 +67,7 @@ public class SecondScreen extends ScreenAdapter {
     }
 
 
-    private void update(float deltaTime){
+    private void update(float deltaTime) {
 
         world.step(1 / 60f, 6, 2);
 
@@ -82,7 +75,7 @@ public class SecondScreen extends ScreenAdapter {
 
         player.update(deltaTime);
 
-        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies())){
+        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies())) {
 
             if (player.getDistanceInBetween(enemy.getPixelPosition()) < 170)
                 enemy.getBody().setActive(true);
@@ -93,18 +86,15 @@ public class SecondScreen extends ScreenAdapter {
         for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
             structure.update(deltaTime);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            isDebug = !isDebug;
-
         game.manageExitTheGame();
     }
 
-    private void updateCameraPosition(){
+    private void updateCameraPosition() {
 
         boolean isPlayerInsideMapBounds = tileMap.isPlayerInsideMapBounds(player.getPixelPosition());
 
         if (isPlayerInsideMapBounds)
-            camera.position.set(player.getWorldPosition().x,9.5f, 0);
+            camera.position.set(player.getWorldPosition().x, 9.5f, 0);
 
         camera.update();
 
@@ -122,29 +112,24 @@ public class SecondScreen extends ScreenAdapter {
 
     private void draw() {
 
-        ScreenUtils.clear(0,0,0,0);
+        ScreenUtils.clear(0, 0, 0, 0);
 
-        if (!isDebug){
+        mapRenderer.render();
 
-            mapRenderer.render();
+        game.batch.setProjectionMatrix(camera.combined);
 
-            game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
 
-            game.batch.begin();
+        player.draw(game.batch);
 
-            player.draw(game.batch);
+        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
+            enemy.draw(game.batch);
 
-            for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
-                enemy.draw(game.batch);
+        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
+            structure.draw(game.batch);
 
-            for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
-                structure.draw(game.batch);
+        game.batch.end();
 
-            game.batch.end();
-        }
-
-       else
-            game.debugRenderer.render(world, camera.combined);
     }
 
     @Override
