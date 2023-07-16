@@ -28,6 +28,9 @@ public class Player extends GameObject {
     private boolean isPlayerRunningRight;
     private final Controller controller;
 
+    private int jumpCounter;
+
+
     public Player(Rectangle bounds, World world, TextureRegion actualRegion) {
         super(
             bounds, world,
@@ -79,8 +82,17 @@ public class Player extends GameObject {
         else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -10)
             applyLinealImpulse(new Vector2(-5, 0));
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
-            applyLinealImpulse(new Vector2(0, 170));
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
+//            applyLinealImpulse(new Vector2(0, 170));
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && jumpCounter < 2){
+            applyLinealImpulse(new Vector2(0, 140));
+
+            jumpCounter++;
+        }
+
+        if (body.getLinearVelocity().y == 0)
+            jumpCounter = 0;
     }
 
     private void joystickControllers(){
