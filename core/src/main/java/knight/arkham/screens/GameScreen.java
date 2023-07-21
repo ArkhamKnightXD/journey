@@ -121,8 +121,6 @@ public class GameScreen extends ScreenAdapter {
             camera.position.set(player.getWorldPosition().x,9.5f, 0);
 
         camera.update();
-
-        mapRenderer.setView(camera);
     }
 
 
@@ -148,6 +146,8 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(0,0,0,0);
 
         if (!isDebug){
+
+            mapRenderer.setView(camera);
 
             mapRenderer.render();
 

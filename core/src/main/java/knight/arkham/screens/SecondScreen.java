@@ -97,8 +97,6 @@ public class SecondScreen extends ScreenAdapter {
             camera.position.set(player.getWorldPosition().x, 9.5f, 0);
 
         camera.update();
-
-        mapRenderer.setView(camera);
     }
 
 
@@ -113,6 +111,8 @@ public class SecondScreen extends ScreenAdapter {
     private void draw() {
 
         ScreenUtils.clear(0, 0, 0, 0);
+
+        mapRenderer.setView(camera);
 
         mapRenderer.render();
 
