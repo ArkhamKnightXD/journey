@@ -9,15 +9,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Journey;
 import knight.arkham.helpers.*;
 import knight.arkham.objects.Enemy;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.structures.MovingStructure;
-
-import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
 public class SecondScreen extends ScreenAdapter {
     private final Journey game;
@@ -46,8 +43,7 @@ public class SecondScreen extends ScreenAdapter {
 
         player = new Player(new Rectangle(450, 200, 32, 32), world, playerRegion);
 
-        GameData gameDataToSave = new GameData("SecondScreen", player.getWorldPosition());
-        GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
+        game.saveGameData("SecondScreen", player.getWorldPosition());
 
         tileMap = new TileMapHelper(world, textureAtlas, "maps/playground/test2.tmx");
 
@@ -62,7 +58,6 @@ public class SecondScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-
         game.viewport.update(width, height);
     }
 
@@ -75,7 +70,7 @@ public class SecondScreen extends ScreenAdapter {
 
         player.update(deltaTime);
 
-        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies())) {
+        for (Enemy enemy : tileMap.getEnemies()) {
 
             if (player.getDistanceInBetween(enemy.getPixelPosition()) < 170)
                 enemy.getBody().setActive(true);
@@ -83,7 +78,7 @@ public class SecondScreen extends ScreenAdapter {
             enemy.update(deltaTime);
         }
 
-        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
+        for (MovingStructure structure : tileMap.getMovingStructures())
             structure.update(deltaTime);
 
         game.manageExitTheGame();
@@ -116,20 +111,19 @@ public class SecondScreen extends ScreenAdapter {
 
         mapRenderer.render();
 
-        game.batch.setProjectionMatrix(camera.combined);
+        mapRenderer.getBatch().setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
+        mapRenderer.getBatch().begin();
 
-        player.draw(game.batch);
+        player.draw(mapRenderer.getBatch());
 
-        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
-            enemy.draw(game.batch);
+        for (Enemy enemy : tileMap.getEnemies())
+            enemy.draw(mapRenderer.getBatch());
 
-        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
-            structure.draw(game.batch);
+        for (MovingStructure structure : tileMap.getMovingStructures())
+            structure.draw(mapRenderer.getBatch());
 
-        game.batch.end();
-
+        mapRenderer.getBatch().end();
     }
 
     @Override
@@ -148,10 +142,10 @@ public class SecondScreen extends ScreenAdapter {
         world.dispose();
         mapRenderer.dispose();
 
-        for (Enemy enemy : new Array.ArrayIterator<>(tileMap.getEnemies()))
+        for (Enemy enemy : tileMap.getEnemies())
             enemy.dispose();
 
-        for (MovingStructure structure : new Array.ArrayIterator<>(tileMap.getMovingStructures()))
+        for (MovingStructure structure : tileMap.getMovingStructures())
             structure.dispose();
     }
 }

@@ -6,10 +6,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import knight.arkham.Journey;
 import knight.arkham.helpers.*;
 
 import static knight.arkham.helpers.Constants.DESTROYED_BIT;
-import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
 public class Checkpoint extends InteractiveStructure {
 
@@ -35,8 +35,7 @@ public class Checkpoint extends InteractiveStructure {
         Sound sound = AssetsHelper.loadSound("coin.wav");
         sound.play();
 
-        GameData gameDataToSave = new GameData("GameScreen", body.getPosition());
-        GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
+        Journey.INSTANCE.saveGameData("GameScreen", body.getPosition());
 
         getObjectCellInTheTileMap().setTile(null);
     }
