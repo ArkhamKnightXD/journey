@@ -1,5 +1,8 @@
 package knight.arkham.helpers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.*;
@@ -11,6 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import knight.arkham.objects.Player;
 import knight.arkham.objects.structures.Block;
 import knight.arkham.objects.structures.Checkpoint;
 import knight.arkham.objects.Enemy;
@@ -21,9 +25,9 @@ import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class TileMapHelper {
-
     private final World world;
     private final TiledMap tiledMap;
+    private OrthogonalTiledMapRenderer mapRenderer;
     private final TextureRegion enemyRegion;
     private final Array<Enemy> enemies;
     private final Array<MovingStructure> structures;
@@ -38,7 +42,7 @@ public class TileMapHelper {
         structures = new Array<>();
     }
 
-    public OrthogonalTiledMapRenderer setupMap() {
+    public void setupMap() {
 
         MapLayers mapLayers = tiledMap.getLayers();
 
@@ -47,7 +51,7 @@ public class TileMapHelper {
             parseMapObjectsToBox2DBodies(mapLayer.getObjects(), mapLayer.getName());
         }
 
-        return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
 
     private void parseMapObjectsToBox2DBodies(MapObjects mapObjects, String objectsName) {
@@ -111,11 +115,81 @@ public class TileMapHelper {
         return playerPixelPosition.x > MID_SCREEN_WIDTH && playerPixelPosition.x < mapPixelWidth - MID_SCREEN_WIDTH;
     }
 
-    public Array<Enemy> getEnemies() {
-        return enemies;
+    public void updateCameraPosition(Player player, OrthographicCamera camera) {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F3))
+            camera.zoom += 0.2f;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F4))
+            camera.zoom -= 0.2f;
+
+        boolean isPlayerInsideMapBounds = isPlayerInsideMapBounds(player.getPixelPosition());
+
+        if (isPlayerInsideMapBounds)
+            camera.position.set(player.getWorldPosition().x, 9.5f, 0);
+
+        camera.update();
     }
 
-    public Array<MovingStructure> getMovingStructures() {return structures;}
+    public void update(float deltaTime, Player player, OrthographicCamera camera){
 
-    public FinishFlag getFinishFlag() {return finishFlag;}
+        world.step(1 / 60f, 6, 2);
+
+        player.update(deltaTime);
+
+        updateCameraPosition(player, camera);
+
+        for (Enemy enemy : enemies){
+
+            if (player.getDistanceInBetween(enemy.getPixelPosition()) < 170)
+                enemy.getBody().setActive(true);
+
+            enemy.update(deltaTime);
+        }
+
+        for (MovingStructure structure : structures)
+            structure.update(deltaTime);
+
+    }
+
+
+    public void draw(OrthographicCamera camera, Player player){
+
+        mapRenderer.setView(camera);
+
+        mapRenderer.render();
+
+        //If I'm using an OrthogonalMapRender, I may as well use the built-in spriteBatch.
+        // So this way I only have to use this instead of having the standard spriteBatch
+        mapRenderer.getBatch().setProjectionMatrix(camera.combined);
+
+        mapRenderer.getBatch().begin();
+
+        player.draw(mapRenderer.getBatch());
+
+        for (Enemy enemy : enemies)
+            enemy.draw(mapRenderer.getBatch());
+
+        for (MovingStructure structure : structures)
+            structure.draw(mapRenderer.getBatch());
+
+        finishFlag.draw(mapRenderer.getBatch());
+
+        mapRenderer.getBatch().end();
+    }
+
+    public void dispose(){
+
+        finishFlag.dispose();
+        tiledMap.dispose();
+        mapRenderer.dispose();
+        world.dispose();
+        enemyRegion.getTexture().dispose();
+
+        for (Enemy enemy : enemies)
+            enemy.dispose();
+
+        for (MovingStructure structure : structures)
+            structure.dispose();
+    }
 }
