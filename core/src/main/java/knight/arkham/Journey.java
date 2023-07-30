@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.helpers.GameData;
 import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.screens.GameScreen;
+import knight.arkham.screens.MainMenuScreen;
 import knight.arkham.screens.SecondScreen;
 
 import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
@@ -40,14 +41,16 @@ public class Journey extends Game {
 //        It is better to avoid using PPM to set up my viewport.
         viewport = new FitViewport(screenWidth / 32f, screenHeight / 32f, camera);
 
-        setScreen(new GameScreen());
+        setScreen(new MainMenuScreen());
     }
 
     public void changeScreen(int screenIndex){
         if (screenIndex == 1)
             setScreen(new GameScreen());
-        else
+        else if (screenIndex == 2)
             setScreen(new SecondScreen());
+        else
+            setScreen(new MainMenuScreen());
     }
 
     public void quitTheGame() {

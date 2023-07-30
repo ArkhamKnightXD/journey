@@ -64,7 +64,7 @@ public class SecondScreen extends ScreenAdapter {
         tileMapHelper.draw(camera, player);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
-            game.changeScreen(1);
+            game.changeScreen(3);
     }
 
     @Override
