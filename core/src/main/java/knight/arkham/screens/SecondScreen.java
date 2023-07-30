@@ -1,5 +1,7 @@
 package knight.arkham.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,13 +26,11 @@ public class SecondScreen extends ScreenAdapter {
     public SecondScreen() {
         game = Journey.INSTANCE;
 
-        camera = game.globalCamera;
+        camera = game.camera;
 
         World world = new World(new Vector2(0, -40), true);
 
-        GameContactListener contactListener = new GameContactListener();
-
-        world.setContactListener(contactListener);
+        world.setContactListener(new GameContactListener());
 
         textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
@@ -41,8 +41,6 @@ public class SecondScreen extends ScreenAdapter {
         game.saveGameData("SecondScreen", player.getWorldPosition());
 
         tileMapHelper = new TileMapHelper(world, textureAtlas, "maps/playground/test2.tmx");
-
-        tileMapHelper.setupMap();
 
         music = AssetsHelper.loadMusic("mario_music.ogg");
 
@@ -59,21 +57,18 @@ public class SecondScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        tileMapHelper.update(delta, player, camera);
-
-        draw();
-    }
-
-    private void draw() {
-
         ScreenUtils.clear(0, 0, 0, 0);
 
+        tileMapHelper.update(delta, player, camera);
+
         tileMapHelper.draw(camera, player);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
+            game.changeScreen(1);
     }
 
     @Override
     public void hide() {
-
         dispose();
     }
 

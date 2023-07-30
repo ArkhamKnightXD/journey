@@ -27,7 +27,7 @@ import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 public class TileMapHelper {
     private final World world;
     private final TiledMap tiledMap;
-    private OrthogonalTiledMapRenderer mapRenderer;
+    private final OrthogonalTiledMapRenderer mapRenderer;
     private final TextureRegion enemyRegion;
     private final Array<Enemy> enemies;
     private final Array<MovingStructure> structures;
@@ -37,12 +37,13 @@ public class TileMapHelper {
 
         this.world = world;
         enemyRegion = textureAtlas.findRegion("goomba");
-        tiledMap = new TmxMapLoader().load(mapFilePath);
         enemies = new Array<>();
         structures = new Array<>();
+        tiledMap = new TmxMapLoader().load(mapFilePath);
+        mapRenderer = setupMap();
     }
 
-    public void setupMap() {
+    public OrthogonalTiledMapRenderer setupMap() {
 
         MapLayers mapLayers = tiledMap.getLayers();
 
@@ -51,7 +52,7 @@ public class TileMapHelper {
             parseMapObjectsToBox2DBodies(mapLayer.getObjects(), mapLayer.getName());
         }
 
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
+        return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
 
     private void parseMapObjectsToBox2DBodies(MapObjects mapObjects, String objectsName) {
@@ -149,7 +150,6 @@ public class TileMapHelper {
 
         for (MovingStructure structure : structures)
             structure.update(deltaTime);
-
     }
 
 

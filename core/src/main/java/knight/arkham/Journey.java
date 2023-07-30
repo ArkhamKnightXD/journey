@@ -11,12 +11,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.helpers.GameData;
 import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.screens.GameScreen;
+import knight.arkham.screens.SecondScreen;
 
 import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
 
 public class Journey extends Game {
     public static Journey INSTANCE;
-    public OrthographicCamera globalCamera;
+    public OrthographicCamera camera;
     public Viewport viewport;
     public Box2DDebugRenderer debugRenderer;
     public boolean setToDispose;
@@ -31,18 +32,25 @@ public class Journey extends Game {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        globalCamera = new OrthographicCamera();
+        camera = new OrthographicCamera();
 
         int screenWidth = Gdx.graphics.getWidth();
         int screenHeight = Gdx.graphics.getHeight();
 
 //        It is better to avoid using PPM to set up my viewport.
-        viewport = new FitViewport(screenWidth / 32f, screenHeight / 32f, globalCamera);
+        viewport = new FitViewport(screenWidth / 32f, screenHeight / 32f, camera);
 
         setScreen(new GameScreen());
     }
 
-    public void manageExitTheGame() {
+    public void changeScreen(int screenIndex){
+        if (screenIndex == 1)
+            setScreen(new GameScreen());
+        else
+            setScreen(new SecondScreen());
+    }
+
+    public void quitTheGame() {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();

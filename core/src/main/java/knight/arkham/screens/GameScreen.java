@@ -18,22 +18,22 @@ import knight.arkham.objects.Player;
 public class GameScreen extends ScreenAdapter {
     private final Journey game;
     private final OrthographicCamera camera;
-    private final World world;
-    private final Player player;
     private final TileMapHelper tileMapHelper;
+    private final World world;
     private final TextureAtlas textureAtlas;
+    private final Player player;
     private boolean isDebug;
 
     public GameScreen() {
         game = Journey.INSTANCE;
 
-        camera = game.globalCamera;
+        game.setToDispose = false;
+
+        camera = game.camera;
 
         world = new World(new Vector2(0, -40), true);
 
-        GameContactListener contactListener = new GameContactListener();
-
-        world.setContactListener(contactListener);
+        world.setContactListener(new GameContactListener());
 
         textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
@@ -44,12 +44,6 @@ public class GameScreen extends ScreenAdapter {
         game.saveGameData("GameScreen", player.getWorldPosition());
 
         tileMapHelper = new TileMapHelper(world, textureAtlas, "maps/playground/test.tmx");
-
-        tileMapHelper.setupMap();
-
-        isDebug = false;
-
-        Journey.INSTANCE.setToDispose = false;
     }
 
     @Override
@@ -57,12 +51,11 @@ public class GameScreen extends ScreenAdapter {
         game.viewport.update(width, height);
     }
 
-
     @Override
     public void render(float delta) {
 
         if (game.setToDispose)
-            game.setScreen(new SecondScreen());
+            game.changeScreen(2);
 
         else {
 
@@ -77,7 +70,7 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
             game.setToDispose = true;
 
-        game.manageExitTheGame();
+        game.quitTheGame();
     }
 
     private void draw() {
@@ -93,7 +86,6 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void hide() {
-
         dispose();
     }
 
