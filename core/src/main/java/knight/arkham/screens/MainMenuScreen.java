@@ -5,8 +5,11 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -47,6 +50,11 @@ public class MainMenuScreen extends ScreenAdapter {
         table = new Table();
 
         table.setFillParent(true);
+
+        Label pauseLabel = new Label("Main Menu", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+        table.add(pauseLabel).expandX().padBottom(15);
+        table.row();
 
         stage.addActor(table);
 
