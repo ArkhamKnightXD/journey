@@ -1,20 +1,16 @@
 package knight.arkham.objects.structures;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.Journey;
 import knight.arkham.helpers.*;
 
-import static knight.arkham.helpers.Constants.DESTROYED_BIT;
-
 public class Checkpoint extends InteractiveStructure {
 
     public Checkpoint(Rectangle rectangle, World world, TiledMap tiledMap) {
-        super(rectangle, world, tiledMap);
+        super(rectangle, world, tiledMap, "coin.wav");
     }
 
     @Override
@@ -27,13 +23,7 @@ public class Checkpoint extends InteractiveStructure {
 
     public void createCheckpoint() {
 
-        Filter filter = new Filter();
-
-        filter.categoryBits = DESTROYED_BIT;
-        fixture.setFilterData(filter);
-
-        Sound sound = AssetsHelper.loadSound("coin.wav");
-        sound.play();
+        collisionWithPlayer();
 
         Journey.INSTANCE.saveGameData("GameScreen", body.getPosition());
 
