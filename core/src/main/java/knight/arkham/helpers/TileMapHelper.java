@@ -33,6 +33,9 @@ public class TileMapHelper {
     private final Array<MovingStructure> structures;
     private FinishFlag finishFlag;
 
+    private float accumulator;
+    private final float TIME_STEP;
+
     public TileMapHelper(World world, TextureAtlas textureAtlas, String mapFilePath) {
 
         this.world = world;
@@ -41,6 +44,7 @@ public class TileMapHelper {
         structures = new Array<>();
         tiledMap = new TmxMapLoader().load(mapFilePath);
         mapRenderer = setupMap();
+        TIME_STEP = 1/240f;
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
@@ -134,8 +138,6 @@ public class TileMapHelper {
 
     public void update(float deltaTime, Player player, OrthographicCamera camera){
 
-        world.step(1 / 60f, 6, 2);
-
         player.update(deltaTime);
 
         updateCameraPosition(player, camera);
@@ -150,6 +152,20 @@ public class TileMapHelper {
 
         for (MovingStructure structure : structures)
             structure.update(deltaTime);
+
+        doPhysicsTimeStep(deltaTime);
+    }
+
+    private void doPhysicsTimeStep(float deltaTime) {
+
+        float frameTime = Math.min(deltaTime, 0.25f);
+
+        accumulator += frameTime;
+
+        while(accumulator >= TIME_STEP) {
+            world.step(TIME_STEP, 6,2);
+            accumulator -= TIME_STEP;
+        }
     }
 
 
