@@ -6,11 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameDataHelper {
 
-    public static void saveGameData(String filename, GameData gameData){
+    private static final String dataFilename = "journey";
+
+    public static void saveGameData(GameData gameData){
 
 // This method creates a xml file if the file doesn't exist it will be created, if the file does exist it will
 // be overwritten, default path user/.pref/filename.xml
-        Preferences preferences = Gdx.app.getPreferences(filename);
+        Preferences preferences = Gdx.app.getPreferences(dataFilename);
 
         preferences.putString("screenName", gameData.screenName);
 
@@ -20,9 +22,9 @@ public class GameDataHelper {
         preferences.flush();
     }
 
-    public static GameData loadGameData(String filename){
+    public static GameData loadGameData(){
 
-        Preferences preferences = Gdx.app.getPreferences(filename);
+        Preferences preferences = Gdx.app.getPreferences(dataFilename);
 
         float positionX = preferences.getFloat("positionX");
         float positionY = preferences.getFloat("positionY");

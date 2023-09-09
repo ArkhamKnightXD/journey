@@ -15,9 +15,6 @@ import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.GameDataHelper;
 
-import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
-
-
 public class Player extends GameObject {
     private final TextureRegion jumpingRegion;
     private final TextureRegion standingRegion;
@@ -113,7 +110,7 @@ public class Player extends GameObject {
 
             body.setLinearVelocity(0, 0);
 
-            Vector2 position = GameDataHelper.loadGameData(GAME_DATA_FILENAME).position;
+            Vector2 position = GameDataHelper.loadGameData().position;
 
             body.setTransform(position, 0);
         }

@@ -14,8 +14,6 @@ import knight.arkham.screens.GameScreen;
 import knight.arkham.screens.MainMenuScreen;
 import knight.arkham.screens.SecondScreen;
 
-import static knight.arkham.helpers.Constants.GAME_DATA_FILENAME;
-
 public class Journey extends Game {
     public static Journey INSTANCE;
     public OrthographicCamera camera;
@@ -61,7 +59,6 @@ public class Journey extends Game {
 
     public void saveGameData(String screenName, Vector2 playerWorldPosition) {
 
-        GameData gameDataToSave = new GameData(screenName, playerWorldPosition);
-        GameDataHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
+        GameDataHelper.saveGameData(new GameData(screenName, playerWorldPosition));
     }
 }
