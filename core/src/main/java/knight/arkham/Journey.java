@@ -12,6 +12,7 @@ import knight.arkham.helpers.GameData;
 import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.screens.GameScreen;
 import knight.arkham.screens.MainMenuScreen;
+import knight.arkham.screens.GameScreenNoBox2D;
 import knight.arkham.screens.SecondScreen;
 
 public class Journey extends Game {
@@ -39,7 +40,7 @@ public class Journey extends Game {
 //        It is better to avoid using PPM to set up my viewport.
         viewport = new FitViewport(screenWidth / 32f, screenHeight / 32f, camera);
 
-        setScreen(new MainMenuScreen());
+        setScreen(new GameScreenNoBox2D());
     }
 
     public void changeScreen(int screenIndex){
