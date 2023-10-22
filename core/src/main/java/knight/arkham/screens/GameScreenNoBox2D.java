@@ -19,6 +19,7 @@ public class GameScreenNoBox2D extends ScreenAdapter {
     private final TileMapHelperNoBox2D tileMapHelper;
     private final FitViewport viewport;
     private final SimplePlayer player;
+    private boolean isDebugCamera;
 
     public GameScreenNoBox2D() {
         game = Journey.INSTANCE;
@@ -44,13 +45,13 @@ public class GameScreenNoBox2D extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F3))
-            camera.zoom += 0.2f;
+        if (Gdx.input.isKeyPressed(Input.Keys.F2))
+            isDebugCamera = true;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F4))
-            camera.zoom -= 0.2f;
-
-        camera.position.set(player.getBounds().x, player.getBounds().y, 0);
+        if (isDebugCamera)
+            cameraController();
+        else
+            camera.position.set(player.getPosition(), 0);
 
         camera.update();
 
@@ -59,6 +60,30 @@ public class GameScreenNoBox2D extends ScreenAdapter {
         draw();
 
         game.quitTheGame();
+    }
+
+    private void cameraController() {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+            camera.position.x += 5;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            camera.position.x -= 5;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.UP))
+            camera.position.y += 5;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+            camera.position.y -= 5;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F3))
+            camera.zoom += 0.2f;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F4))
+            camera.zoom -= 0.2f;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.F5))
+            camera.rotate(1);
     }
 
     private void draw() {
