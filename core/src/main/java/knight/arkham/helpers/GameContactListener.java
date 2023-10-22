@@ -67,6 +67,15 @@ public class GameContactListener implements ContactListener {
                     ((FinishFlag) fixtureB.getUserData()).finishLevel();
                 break;
 
+            case ENEMY_BIT | BRICK_BIT:
+
+                if (fixtureA.getFilterData().categoryBits == ENEMY_BIT)
+                    ((Enemy) fixtureA.getUserData()).changeDirection();
+
+                else
+                    ((Enemy) fixtureB.getUserData()).changeDirection();
+                break;
+
         }
 
 

@@ -32,6 +32,8 @@ public class Enemy extends GameObject {
 
         this.region = region;
 
+        isMovingRight = true;
+
         body.setActive(false);
 
         stateTimer = 0;
@@ -87,6 +89,10 @@ public class Enemy extends GameObject {
     public void draw(Batch batch) {
         if (!isDestroyed || stateTimer < 1)
             super.draw(batch);
+    }
+
+    public void changeDirection(){
+        isMovingRight = !isMovingRight;
     }
 
     public void hitOnHead() {

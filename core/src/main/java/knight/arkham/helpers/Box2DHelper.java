@@ -149,10 +149,13 @@ public class Box2DHelper {
 
         fixtureDef.filter.categoryBits = PLAYER_BIT;
 
-        fixtureDef.filter.maskBits = (short) (GROUND_BIT | BRICK_BIT | CHECKPOINT_BIT | FINISH_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
+        fixtureDef.filter.maskBits = (short) (GROUND_BIT | CHECKPOINT_BIT | FINISH_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
 
         //Nota si se van a definir varios category y maskBit a varios cuerpos, tener pendiente, que se debe de crear fixture antes de agregar
         // los demás mask y category al otro cuerpo
+
+        fixtureDef.friction = 1;
+
         body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
         EdgeShape headCollider = getPlayerHeadCollider(fixtureDef);

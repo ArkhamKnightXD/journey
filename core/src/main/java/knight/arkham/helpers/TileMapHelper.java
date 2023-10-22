@@ -144,7 +144,7 @@ public class TileMapHelper {
 
         for (Enemy enemy : enemies){
 
-            if (player.getDistanceInBetween(enemy.getPixelPosition()) < 170)
+            if (player.getDistanceInBetween(enemy.getPixelPosition()) < 300)
                 enemy.getBody().setActive(true);
 
             enemy.update(deltaTime);
