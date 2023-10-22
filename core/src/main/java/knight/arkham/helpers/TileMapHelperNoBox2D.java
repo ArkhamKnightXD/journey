@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import knight.arkham.objects.SimplePlayer;
 
 public class TileMapHelperNoBox2D {
     private final TiledMap tiledMap;
@@ -39,21 +40,17 @@ public class TileMapHelperNoBox2D {
 
             Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 
-            Rectangle box2dRectangle = createBox2dRectangle(rectangle);
-
-            collisionRectangles.add(box2dRectangle);
+            collisionRectangles.add(rectangle);
         }
     }
 
-    private Rectangle createBox2dRectangle(Rectangle rectangle){
-        return new Rectangle(
-            rectangle.x + rectangle.width / 2,
-            rectangle.y + rectangle.height / 2,
-            rectangle.width, rectangle.height
-        );
-    }
+    public void draw(OrthographicCamera camera, SimplePlayer player){
 
-    public void draw(OrthographicCamera camera){
+        for (Rectangle collision : collisionRectangles) {
+
+            if (player.getBounds().overlaps(collision))
+                player.hasCollision = true;
+        }
 
         mapRenderer.setView(camera);
 
@@ -62,6 +59,8 @@ public class TileMapHelperNoBox2D {
         mapRenderer.getBatch().setProjectionMatrix(camera.combined);
 
         mapRenderer.getBatch().begin();
+
+            player.draw(mapRenderer.getBatch());
 
         mapRenderer.getBatch().end();
     }

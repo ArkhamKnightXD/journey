@@ -8,6 +8,7 @@ public class Constants {
     public static final int FULL_SCREEN_HEIGHT = Gdx.graphics.getHeight();
     public static final int FULL_SCREEN_WIDTH = Gdx.graphics.getWidth();
     public static final int MID_SCREEN_WIDTH = Gdx.graphics.getWidth()/ 2;
+    public static final int MID_SCREEN_HEIGHT = Gdx.graphics.getHeight()/ 2;
 
     public static final short NOTHING_BIT = 0;
 
