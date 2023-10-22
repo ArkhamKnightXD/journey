@@ -28,13 +28,13 @@ public class TileMapHelperNoBox2D {
 
         for (MapLayer mapLayer : mapLayers){
 
-            parseMapObjectsToBox2DBodies(mapLayer.getObjects(), mapLayer.getName());
+            parseMapObjectsToBox2DBodies(mapLayer.getObjects());
         }
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1);
     }
 
-    private void parseMapObjectsToBox2DBodies(MapObjects mapObjects, String objectsName) {
+    private void parseMapObjectsToBox2DBodies(MapObjects mapObjects) {
 
         for (MapObject mapObject : mapObjects) {
 
