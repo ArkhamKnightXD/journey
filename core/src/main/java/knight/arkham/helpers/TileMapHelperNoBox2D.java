@@ -26,10 +26,8 @@ public class TileMapHelperNoBox2D {
 
         MapLayers mapLayers = tiledMap.getLayers();
 
-        for (MapLayer mapLayer : mapLayers){
-
+        for (MapLayer mapLayer : mapLayers)
             parseMapObjectsToBox2DBodies(mapLayer.getObjects());
-        }
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1);
     }
@@ -66,7 +64,7 @@ public class TileMapHelperNoBox2D {
 
         mapRenderer.getBatch().begin();
 
-            player.draw(mapRenderer.getBatch());
+        player.draw(mapRenderer.getBatch());
 
         mapRenderer.getBatch().end();
     }

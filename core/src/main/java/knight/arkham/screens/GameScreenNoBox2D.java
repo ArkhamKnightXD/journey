@@ -34,7 +34,7 @@ public class GameScreenNoBox2D extends ScreenAdapter {
 
         tileMapHelper = new TileMapHelperNoBox2D( "maps/playground/test3.tmx");
 
-        player = new SimplePlayer(new Rectangle(200, 50, 32, 32));
+        player = new SimplePlayer(new Rectangle(300, 500, 32, 32));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GameScreenNoBox2D extends ScreenAdapter {
         if (isDebugCamera)
             cameraController();
         else
-            camera.position.set(player.getPosition(), 0);
+            camera.position.set(player.getPosition().x, 300, 0);
 
         camera.update();
 
@@ -96,10 +96,5 @@ public class GameScreenNoBox2D extends ScreenAdapter {
     @Override
     public void hide() {
         dispose();
-    }
-
-    @Override
-    public void dispose() {
-
     }
 }

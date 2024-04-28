@@ -13,6 +13,11 @@ public class SimplePlayer extends GameObjectNoBox2D {
 
     public void update(float deltaTime) {
 
+        int gravity = 500;
+
+        if (!hasCollision)
+            actualBounds.y -= gravity * deltaTime;
+
         if (Gdx.input.isKeyPressed(Input.Keys.D))
             actualBounds.x += actualSpeed * deltaTime;
 
@@ -22,7 +27,7 @@ public class SimplePlayer extends GameObjectNoBox2D {
         else if (Gdx.input.isKeyPressed(Input.Keys.W))
             actualBounds.y += actualSpeed * deltaTime;
 
-        else if (!hasCollision && Gdx.input.isKeyPressed(Input.Keys.S))
-            actualBounds.y -= actualSpeed * deltaTime;
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+            actualBounds.y += gravity * 2 * deltaTime;
     }
 }
