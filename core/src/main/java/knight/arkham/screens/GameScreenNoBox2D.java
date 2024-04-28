@@ -90,6 +90,7 @@ public class GameScreenNoBox2D extends ScreenAdapter {
 
         ScreenUtils.clear(0,0,0,0);
 
+        tileMapHelper.update(player);
         tileMapHelper.draw(camera, player);
     }
 

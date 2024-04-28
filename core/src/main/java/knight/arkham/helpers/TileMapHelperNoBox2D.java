@@ -1,6 +1,10 @@
 package knight.arkham.helpers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -11,18 +15,20 @@ import com.badlogic.gdx.utils.Array;
 import knight.arkham.objects.SimplePlayer;
 
 public class TileMapHelperNoBox2D {
-    private final TiledMap tiledMap;
+
     private final OrthogonalTiledMapRenderer mapRenderer;
-    private final Array<Rectangle> collisionRectangles;
+    private final Array<Rectangle> collisionRectangles = new Array<>();
+    ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private boolean isDebugRenderer;
 
     public TileMapHelperNoBox2D(String mapFilePath) {
 
-        tiledMap = new TmxMapLoader().load(mapFilePath);
-        collisionRectangles = new Array<>();
-        mapRenderer = setupMap();
+        TiledMap tiledMap = new TmxMapLoader().load(mapFilePath);
+
+        mapRenderer = setupMap(tiledMap);
     }
 
-    public OrthogonalTiledMapRenderer setupMap() {
+    public OrthogonalTiledMapRenderer setupMap(TiledMap tiledMap) {
 
         MapLayers mapLayers = tiledMap.getLayers();
 
@@ -42,7 +48,7 @@ public class TileMapHelperNoBox2D {
         }
     }
 
-    public void draw(OrthographicCamera camera, SimplePlayer player){
+    public void update(SimplePlayer player) {
 
         for (Rectangle collision : collisionRectangles) {
 
@@ -55,6 +61,9 @@ public class TileMapHelperNoBox2D {
             else
                 player.hasCollision = false;
         }
+    }
+
+    public void draw(OrthographicCamera camera, SimplePlayer player){
 
         mapRenderer.setView(camera);
 
@@ -67,5 +76,25 @@ public class TileMapHelperNoBox2D {
         player.draw(mapRenderer.getBatch());
 
         mapRenderer.getBatch().end();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            isDebugRenderer = !isDebugRenderer;
+
+        if (isDebugRenderer) {
+
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // Set the ShapeType to Line for drawing outlines
+
+// Set the color for drawing the rectangles
+            shapeRenderer.setColor(Color.GREEN); // You can
+            // choose any color you prefer
+
+            player.debugDraw(shapeRenderer);
+
+            for (Rectangle rectangle : collisionRectangles)
+                shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+
+            shapeRenderer.end();
+        }
     }
 }
