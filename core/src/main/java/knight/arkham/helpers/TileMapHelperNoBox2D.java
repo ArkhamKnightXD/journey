@@ -48,8 +48,14 @@ public class TileMapHelperNoBox2D {
 
         for (Rectangle collision : collisionRectangles) {
 
-            if (player.getBounds().overlaps(collision))
+            if (player.getBounds().overlaps(collision)) {
+
                 player.hasCollision = true;
+                //This break its extremely necessary for this code to work
+                break;
+            }
+            else
+                player.hasCollision = false;
         }
 
         mapRenderer.setView(camera);
