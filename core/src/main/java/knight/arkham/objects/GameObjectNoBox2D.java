@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class GameObjectNoBox2D {
-    protected float actualSpeed;
-    protected final Rectangle actualBounds;
 
+    protected float actualSpeed;
+    public final Rectangle actualBounds;
     private final Texture sprite;
 
     protected GameObjectNoBox2D(Rectangle rectangle, float speed) {

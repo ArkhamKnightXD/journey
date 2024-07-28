@@ -48,19 +48,23 @@ public class TileMapHelperNoBox2D {
         }
     }
 
-    public void update(SimplePlayer player) {
+    public void update(SimplePlayer player, float deltaTime) {
 
         for (Rectangle collision : collisionRectangles) {
 
             if (player.getBounds().overlaps(collision)) {
 
-                player.hasCollision = true;
+                player.isPlayerGrounded = true;
+                player.actualBounds.y = collision.y + player.actualBounds.height;
+                player.velocity.y = 0;
                 //This break its extremely necessary for this code to work
                 break;
             }
             else
-                player.hasCollision = false;
+                player.isPlayerGrounded = false;
         }
+
+        player.update(deltaTime);
     }
 
     public void draw(OrthographicCamera camera, SimplePlayer player){

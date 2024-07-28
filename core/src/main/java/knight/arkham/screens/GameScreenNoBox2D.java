@@ -22,6 +22,7 @@ public class GameScreenNoBox2D extends ScreenAdapter {
     private boolean isDebugCamera;
 
     public GameScreenNoBox2D() {
+
         game = Journey.INSTANCE;
 
         game.setToDispose = false;
@@ -55,9 +56,10 @@ public class GameScreenNoBox2D extends ScreenAdapter {
 
         camera.update();
 
-        player.update(delta);
+        ScreenUtils.clear(0,0,0,0);
 
-        draw();
+        tileMapHelper.update(player, delta);
+        tileMapHelper.draw(camera, player);
 
         game.quitTheGame();
     }
@@ -84,14 +86,6 @@ public class GameScreenNoBox2D extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.F5))
             camera.rotate(1);
-    }
-
-    private void draw() {
-
-        ScreenUtils.clear(0,0,0,0);
-
-        tileMapHelper.update(player);
-        tileMapHelper.draw(camera, player);
     }
 
     @Override
