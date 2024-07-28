@@ -52,6 +52,7 @@ public class TileMapHelperNoBox2D {
 
         for (Rectangle collision : collisionRectangles) {
 
+
             if (player.getBounds().overlaps(collision)) {
 
                 player.isPlayerGrounded = true;
