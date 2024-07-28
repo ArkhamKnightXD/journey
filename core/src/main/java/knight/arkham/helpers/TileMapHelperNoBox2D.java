@@ -90,10 +90,12 @@ public class TileMapHelperNoBox2D {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // Set the ShapeType to Line for drawing outlines
 
 // Set the color for drawing the rectangles
-            shapeRenderer.setColor(Color.GREEN); // You can
+            shapeRenderer.setColor(Color.RED); // You can
             // choose any color you prefer
 
             player.debugDraw(shapeRenderer);
+
+            shapeRenderer.setColor(Color.GREEN);
 
             for (Rectangle rectangle : collisionRectangles)
                 shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
